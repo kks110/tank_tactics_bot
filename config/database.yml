@@ -1,0 +1,6 @@
+
+adapter: postgresql
+encoding: unicode
+database: tank_tactics_dev
+username: tank_tactics
+password: tank_tactics

@@ -24,7 +24,7 @@ GEM
       unf (>= 0.0.5, < 1.0.0)
     dotenv (2.8.1)
     event_emitter (0.2.6)
-    ffi (1.15.5)
+    ffi (1.15.5-x64-mingw-ucrt)
     http-accept (1.7.0)
     http-cookie (1.0.5)
       domain_name (~> 0.5)
@@ -37,18 +37,18 @@ GEM
     netrc (0.11.0)
     opus-ruby (1.0.1)
       ffi
+    pg (1.4.3-x64-mingw-ucrt)
     rake (13.0.6)
     rest-client (2.1.0)
       http-accept (>= 1.7.0, < 2.0)
       http-cookie (>= 1.0.2, < 2.0)
       mime-types (>= 1.16, < 4.0)
       netrc (~> 0.8)
-    sqlite3 (1.6.3-x64-mingw-ucrt)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
     unf (0.1.4)
       unf_ext
-    unf_ext (0.0.8.2)
+    unf_ext (0.0.8.2-x64-mingw-ucrt)
     websocket (1.2.9)
     websocket-client-simple (0.6.1)
       event_emitter
@@ -61,8 +61,8 @@ DEPENDENCIES
   activerecord
   discordrb (= 3.4.2)
   dotenv
+  pg
   rake
-  sqlite3
 
 BUNDLED WITH
    2.4.10

@@ -1,25 +1,15 @@
 
 require 'active_record'
+require 'yaml'
+require 'pry'
+
+# Load database configuration from YAML file
+db_config = YAML.load_file('config/database.yml')
+ActiveRecord::Base.establish_connection(db_config)
 
 namespace :db do
-  task :connect do
-    ActiveRecord::Base.establish_connection(
-      adapter: 'sqlite3',
-      database: 'test.db'
-    )
-  end
-end
-
-namespace :migrate do
-  desc 'Run the test database migrations'
-  task :up => :'db:connect' do
-    migrations = ActiveRecord::Migration.new.migration_context.migrations
-    ActiveRecord::Migrator.new(:up, migrations, nil).migrate
-  end
-
-  desc 'Reverse the test database migrations'
-  task :down => :'db:connect' do
-    migrations = ActiveRecord::Migration.new.migration_context.migrations
-    ActiveRecord::Migrator.new(:down, migrations, nil).migrate
+  desc 'Run database migrations'
+  task :migrate do
+    ActiveRecord::MigrationContext.new('./db/migrations', ActiveRecord::SchemaMigration).migrate
   end
 end
