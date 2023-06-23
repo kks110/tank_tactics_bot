@@ -4,6 +4,7 @@ require 'discordrb'
 require './register_commands'
 require 'pry'
 require './models/player'
+require './models/game_board'
 require './commands/list'
 require './initialise'
 
