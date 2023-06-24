@@ -21,14 +21,14 @@ module Commands
       end
 
       players = Player.all
-      x_options = (0..players.count+1).to_a.shuffle!
-      y_options = (0..players.count+1).to_a.shuffle!
+      x_options = (0..players.count+2).to_a.shuffle!
+      y_options = (0..players.count+2).to_a.shuffle!
 
       players.each do |player|
         player.update(x_position: x_options.pop, y_position: y_options.pop)
       end
 
-      GameBoard.create!(max_x: players.count+1, max_y: players.count+1)
+      GameBoard.create!(max_x: players.count+2, max_y: players.count+2)
 
       Commands::Helpers::DrawGrid.send(event: event)
 

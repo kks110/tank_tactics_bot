@@ -24,7 +24,7 @@ GEM
       unf (>= 0.0.5, < 1.0.0)
     dotenv (2.8.1)
     event_emitter (0.2.6)
-    ffi (1.15.5-x64-mingw-ucrt)
+    ffi (1.15.5)
     http-accept (1.7.0)
     http-cookie (1.0.5)
       domain_name (~> 0.5)
@@ -37,7 +37,7 @@ GEM
     netrc (0.11.0)
     opus-ruby (1.0.1)
       ffi
-    pg (1.4.3-x64-mingw-ucrt)
+    pg (1.5.3-x64-mingw-ucrt)
     rake (13.0.6)
     rest-client (2.1.0)
       http-accept (>= 1.7.0, < 2.0)
@@ -48,7 +48,7 @@ GEM
       concurrent-ruby (~> 1.0)
     unf (0.1.4)
       unf_ext
-    unf_ext (0.0.8.2-x64-mingw-ucrt)
+    unf_ext (0.0.8.2)
     websocket (1.2.9)
     websocket-client-simple (0.6.1)
       event_emitter
