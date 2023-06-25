@@ -4,7 +4,6 @@ require 'discordrb'
 require './register_commands'
 require 'pry'
 require './models/player'
-require './models/game_board'
 require './commands/list'
 require './initialise'
 
@@ -15,47 +14,6 @@ Commands::LIST.each do |command|
   bot.application_command(command.name) do |event|
     command.execute(event: event)
   end
-end
-
-bot.application_command(:draw_board) do |event|
-  # board = "```
-  # ╭──────┬──────┬──────┬──────┬──────╮
-  # │1  3HP│      │      │      │      │
-  # │ Adam │      │      │      │      │
-  # ├──────┼──────┼──────┼──────┼──────┤
-  # │      │      │      │      │      │
-  # │      │      │      │      │      │
-  # ├──────┼──────┼──────┼──────┼──────┤
-  # │      │      │      │      │      │
-  # │      │      │      │      │      │
-  # ├──────┼──────┼──────┼──────┼──────┤
-  # │      │      │      │      │      │
-  # │      │      │      │      │      │
-  # ├──────┼──────┼──────┼──────┼──────┤
-  # │      │      │      │      │      │
-  # │      │      │      │      │      │
-  # ╰──────┴──────┴──────┴──────┴──────╯
-  # ```"
-  # event.respond(content: board)
-  board = "```
-  ╭──────┬──────┬──────┬──────┬──────╮
-  │1  3HP│      │      │      │      │
-  │ Adam │      │      │      │      │
-  ├──────┼──────┼──────┼──────┼──────┤
-  │      │      │      │      │      │
-  │      │      │      │      │      │
-  ├──────┼──────┼──────┼──────┼──────┤
-  │      │      │      │      │      │
-  │      │      │      │      │      │
-  ├──────┼──────┼──────┼──────┼──────┤
-  │      │      │      │      │      │
-  │      │      │      │      │      │
-  ├──────┼──────┼──────┼──────┼──────┤
-  │      │      │      │      │      │
-  │      │      │      │      │      │
-  ╰──────┴──────┴──────┴──────┴──────╯
-  ```"
-  event.respond(content: board)
 end
 
 bot.run

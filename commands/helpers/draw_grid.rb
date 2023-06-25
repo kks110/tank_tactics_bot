@@ -2,103 +2,141 @@
 module Commands
   module Helpers
     class DrawGrid
-      def self.send(event:)
-        gb = GameBoard.first
+      def send(event:)
         players = Player.all
 
-        top_row = ""
+        board_max_x = players.count + 2
+        board_max_y = players.count + 2
 
+        grid = Array.new(board_max_x) { Array.new(board_max_y) }
+        players.each do |player|
+          grid[player.y_position][player.x_position] = player
+        end
+
+        row = ""
+        grid.each_with_index do |i, i_index|
+          i.each_with_index do |j, j_index|
+            if j_index == 0
+              row << "   "
+            end
+            row << "|"
+            if j
+              row << "#{j.hp}   HP"
+            else
+              row << "      "
+            end
+            if i.length - 1 == j_index
+              row << "|\n"
+            end
+          end
+
+          i.each_with_index do |j, j_index|
+            if j_index == 0
+              row << " #{i_index} "
+            end
+            row << "|"
+            if j
+              row << "#{j.range}  RNG"
+            else
+              row << "      "
+            end
+            if i.length - 1 == j_index
+              row << "|\n"
+            end
+          end
+
+          i.each_with_index do |j, j_index|
+            if j_index == 0
+              row << "   "
+            end
+            row << "|"
+            if j
+              display_name = ""
+              if j.username.length < 6
+                display_name << j.username
+                (6 - j.username.length).times do
+                  display_name << " "
+                end
+              else
+                display_name = j.username[0...6]
+              end
+              row << display_name
+            else
+              row << "      "
+            end
+            if i.length - 1 == j_index
+              row << "|\n"
+            end
+          end
+          unless grid.length - 1 == i_index
+            row << middle_line(max_x: board_max_x)
+          end
+        end
+
+        board = "```#{top_row(max_x: board_max_x)}#{top_border(max_x: board_max_x)}#{row}#{bottom_border(max_x: board_max_x)}```"
+
+        puts board
+
+        event.respond(content: board)
+      end
+
+      def top_row(max_x:)
+        top_row = "   "
         counter = 0
-        gb.max_x.times do
+        max_x.times do
           top_row << "   #{counter}   "
           counter += 1
         end
         top_row << "\n"
+        top_row
+      end
 
-        top_border = ""
+      def top_border(max_x:)
+        top_border = "   "
         counter = 0
-        gb.max_x.times do
+        max_x.times do
           if counter == 0
             top_border << "╭──────"
-          elsif counter == gb.max_x - 1
+          elsif counter == max_x - 1
             top_border << "┬──────╮\n"
           else
             top_border << "┬──────"
           end
           counter += 1
         end
+        top_border
+      end
 
-
-        grid = Array.new(players.count + 2) { Array.new(players.count + 2) }
-        players.each do |player|
-          grid[player.x_position][player.y_position] = player
-        end
-
-        row = ""
-        x_counter = 0
-        y_counter = 0
-        row_counter = 1
+      def middle_line(max_x:)
+        mid_line = ""
         counter = 0
-        gb.max_y.times do
-          gb.max_x.times do
-            if row_counter == 1
-              row << "│"
-              if grid[x_counter-1][y_counter-1]
-                row << "#{grid[x_counter-1][y_counter-1].hp} HP"
-              else
-                row << "      "
-              end
-            elsif row_counter == 2
-              row << "│"
-              if grid[x_counter-1][y_counter-1]
-                row << "#{grid[x_counter-1][y_counter-1].range} RNG"
-              else
-                row << "      "
-              end
-            elsif row_counter == 3
-              row << "│"
-              if grid[x_counter-1][y_counter-1]
-                row << "#{grid[x_counter-1][y_counter-1].username}"
-              else
-                row << "      "
-              end
-            end
-            if x_counter == gb.max_x
-              row_counter += 1
-              row << "│\n"
-            end
-            x_counter += 1
-          end
-
-
-          if y_counter == gb.max_y
-            if counter == 1
-              top_border << "   ╰──────"
-            elsif counter == gb.max_x
-              top_border << "┴─────╯\n"
-            else
-              top_border << "┴──────"
-            end
-            counter += 1
+        max_x.times do
+          if counter == 0
+            mid_line << "   ├──────"
+          elsif counter == max_x - 1
+            mid_line << "┼──────┤\n"
           else
-            if counter == 1
-              top_border << "   ├──────"
-            elsif counter == gb.max_x
-              top_border << "┼──────┤\n"
-            else
-              top_border << "┼──────"
-            end
-            counter += 1
+            mid_line << "┼──────"
           end
-
-          y_counter += 1
-          x_counter = 1
-          row_counter = 1
+          counter += 1
         end
+        mid_line
+      end
 
-        board = "```#{top_row}#{top_border}#{row}```"
-
-        event.respond(content: board)
+      def bottom_border(max_x:)
+        bottom_border = ""
+        counter = 0
+        max_x.times do
+          if counter == 0
+            bottom_border << "   ╰──────"
+          elsif counter == max_x - 1
+            bottom_border << "┴──────╯\n"
+          else
+            bottom_border << "┴──────"
+          end
+          counter += 1
+        end
+        bottom_border
       end
     end
   end
