@@ -1,5 +1,5 @@
 require_relative './base'
-require_relative './helpers/draw_grid'
+require_relative './helpers/generate_grid'
 
 module Commands
   class StartGame < Commands::Base
@@ -28,7 +28,8 @@ module Commands
         player.update(x_position: x_options.pop, y_position: y_options.pop)
       end
 
-      Commands::Helpers::DrawGrid.new.send(event: event)
+      grid = Commands::Helpers::GenerateGrid.new.send(event: event)
+      event.respond(content: grid)
 
     rescue => e
       event.respond(content: "An error has occurred: #{e}")

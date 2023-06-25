@@ -1,7 +1,7 @@
 
 module Commands
   module Helpers
-    class DrawGrid
+    class GenerateGrid
       def send(event:)
         players = Player.all
 
@@ -21,7 +21,7 @@ module Commands
             end
             row << "|"
             if j
-              row << "#{j.hp}   HP"
+              j.hp == 0 ? row << " DEAD " : row << "#{j.hp}   HP"
             else
               row << "      "
             end
@@ -73,11 +73,7 @@ module Commands
           end
         end
 
-        board = "```#{top_row(max_x: board_max_x)}#{top_border(max_x: board_max_x)}#{row}#{bottom_border(max_x: board_max_x)}```"
-
-        puts board
-
-        event.respond(content: board)
+        "```#{top_row(max_x: board_max_x)}#{row}```"
       end
 
       def top_row(max_x:)
@@ -91,21 +87,23 @@ module Commands
         top_row
       end
 
-      def top_border(max_x:)
-        top_border = "   "
-        counter = 0
-        max_x.times do
-          if counter == 0
-            top_border << "╭──────"
-          elsif counter == max_x - 1
-            top_border << "┬──────╮\n"
-          else
-            top_border << "┬──────"
-          end
-          counter += 1
-        end
-        top_border
-      end
+      # Only 2000 lines allowed so need to remove some
+
+      # def top_border(max_x:)
+      #   top_border = "   "
+      #   counter = 0
+      #   max_x.times do
+      #     if counter == 0
+      #       top_border << "╭──────"
+      #     elsif counter == max_x - 1
+      #       top_border << "┬──────╮\n"
+      #     else
+      #       top_border << "┬──────"
+      #     end
+      #     counter += 1
+      #   end
+      #   top_border
+      # end
 
       def middle_line(max_x:)
         mid_line = ""
@@ -123,21 +121,22 @@ module Commands
         mid_line
       end
 
-      def bottom_border(max_x:)
-        bottom_border = ""
-        counter = 0
-        max_x.times do
-          if counter == 0
-            bottom_border << "   ╰──────"
-          elsif counter == max_x - 1
-            bottom_border << "┴──────╯\n"
-          else
-            bottom_border << "┴──────"
-          end
-          counter += 1
-        end
-        bottom_border
-      end
+      # Only 2000 lines allowed so need to remove some
+      # def bottom_border(max_x:)
+      #   bottom_border = ""
+      #   counter = 0
+      #   max_x.times do
+      #     if counter == 0
+      #       bottom_border << "   ╰──────"
+      #     elsif counter == max_x - 1
+      #       bottom_border << "┴──────╯\n"
+      #     else
+      #       bottom_border << "┴──────"
+      #     end
+      #     counter += 1
+      #   end
+      #   bottom_border
+      # end
     end
   end
 end

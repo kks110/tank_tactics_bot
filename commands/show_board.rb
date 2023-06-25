@@ -1,5 +1,5 @@
 require_relative './base'
-require_relative './helpers/draw_grid'
+require_relative './helpers/generate_grid'
 
 module Commands
   class ShowBoard < Commands::Base
@@ -12,7 +12,8 @@ module Commands
     end
 
     def execute(event:)
-      Commands::Helpers::DrawGrid.new.send(event: event)
+      grid = Commands::Helpers::GenerateGrid.new.send(event: event)
+      event.respond(content: grid)
 
     rescue => e
       event.respond(content: "An error has occurred: #{e}")

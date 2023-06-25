@@ -13,5 +13,7 @@ module Commands
     def execute
       raise NotImplementedError, "Must Implement the execute method for commands"
     end
+
+    def options; end
   end
 end
