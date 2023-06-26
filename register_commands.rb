@@ -8,10 +8,14 @@ class RegisterCommands
         puts "Registered command: #{command.name}"
         next if command.options.nil?
 
-        # Example of how to register options
-        # if command.options.keys.include?(:boolean)
-        #   cmd.boolean(command.options[:boolean][:name], command.options[:boolean][:explanation])
-        # end
+        command.options.each do |type, details|
+          choices = details[:choices].nil? ? {} : details[:choices]
+          required = details[:required].nil? ? false : details[:required]
+
+          if type == :string
+            cmd.string(details[:name], details[:explanation], required: required, choices: choices)
+          end
+        end
       end
     end
   end
