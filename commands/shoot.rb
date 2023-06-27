@@ -59,6 +59,7 @@ module Commands
       event.respond(content: "An error has occurred: #{e}")
     end
 
+    # TODO: Change options to be an options object rather than a hash
     def options
       [
         {
