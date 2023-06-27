@@ -8,12 +8,16 @@ class RegisterCommands
         puts "Registered command: #{command.name}"
         next if command.options.nil?
 
-        command.options.each do |type, details|
-          choices = details[:choices].nil? ? {} : details[:choices]
-          required = details[:required].nil? ? false : details[:required]
+        command.options.each do |option|
+          choices = option[:choices].nil? ? {} : option[:choices]
+          required = option[:required].nil? ? false : option[:required]
 
-          if type == :string
-            cmd.string(details[:name], details[:explanation], required: required, choices: choices)
+          if option[:type] == 'string'
+            cmd.string(option[:name], option[:explanation], required: required, choices: choices)
+          end
+
+          if option[:type] == 'integer'
+            cmd.integer(option[:name], option[:explanation], required: required, choices: choices)
           end
         end
       end

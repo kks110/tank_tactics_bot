@@ -18,7 +18,10 @@ module Commands
       player = Player.find_by(discord_id: user.id)
       grid = Commands::Helpers::GenerateGrid.new.run
 
-      raise 'Not enough energy' unless player.energy > 0
+      unless player.energy > 0
+        event.respond(content: "Not enough energy!")
+        return
+      end
 
       case direction
       when 'up'
@@ -81,14 +84,15 @@ module Commands
     end
 
     def options
-      {
-        string: {
+      [
+        {
+          type: 'string',
           name: 'direction',
           explanation: 'Pick your direction, Up, Down, Left or Right',
           required: true,
           choices: { up: 'up', down: 'down', left: 'left', right: 'right' }
         }
-      }
+      ]
     end
   end
 end
