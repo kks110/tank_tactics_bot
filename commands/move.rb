@@ -22,26 +22,55 @@ module Commands
 
       case direction
       when 'up'
-        raise 'Cant move up' if player.y_position == 0
-        raise 'Player in the way' unless grid[player.y_position - 1][player.x_position].nil?
+        if player.y_position == 0
+          event.respond(content: "You can't move up, you are on the edge of the board!")
+          return
+        end
+
+        unless grid[player.y_position - 1][player.x_position].nil?
+          event.respond(content: "You can't move up, there is a player in the way!")
+          return
+        end
 
         player.update(y_position: player.y_position - 1, energy: player.energy - 1)
         event.respond(content: "Moved!")
+
       when 'down'
-        raise 'Cant move down' if player.y_position == grid.length - 1
-        raise 'Player in the way' unless grid[player.y_position + 1][player.x_position].nil?
+        if player.y_position == grid.length - 1
+          event.respond(content: "You can't move down, you are on the edge of the board!")
+          return
+        end
+
+        unless grid[player.y_position + 1][player.x_position].nil?
+          event.respond(content: "You can't move down, there is a player in the way!")
+          return
+        end
 
         player.update(y_position: player.y_position + 1, energy: player.energy - 1)
         event.respond(content: "Moved!")
       when 'left'
-        raise 'Cant move left' if player.x_position == 0
-        raise 'Player in the way' unless grid[player.y_position][player.x_position - 1].nil?
+        if player.x_position == 0
+          event.respond(content: "You can't move left, you are on the edge of the board!")
+          return
+        end
+
+        unless grid[player.y_position][player.x_position - 1].nil?
+          event.respond(content: "You can't move left, there is a player in the way!")
+          return
+        end
 
         player.update(x_position: player.x_position - 1, energy: player.energy - 1)
         event.respond(content: "Moved!")
       when 'right'
-        raise 'Cant move right' if player.x_position == grid[0].length - 1
-        raise 'Player in the way' unless grid[player.y_position][player.x_position + 1].nil?
+        if player.x_position == grid[0].length - 1
+          event.respond(content: "You can't move right, you are on the edge of the board!")
+          return
+        end
+
+        unless grid[player.y_position][player.x_position + 1].nil?
+          event.respond(content: "You can't move right, there is a player in the way!")
+          return
+        end
 
         player.update(x_position: player.x_position + 1, energy: player.energy - 1)
         event.respond(content: "Moved!")
