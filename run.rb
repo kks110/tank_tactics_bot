@@ -19,4 +19,4 @@ end
 bot.run
 
 # TODO: Use config for board sizes
-# TODO: Use config for energy costs 
+# TODO: Use config for energy costs
