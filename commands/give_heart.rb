@@ -44,6 +44,10 @@ module Commands
       player.update(hp: player.hp - amount_to_give)
       target.update(hp: target.hp + amount_to_give)
 
+      unless target.alive
+        target.update(alive: true)
+      end
+
       event.respond(content: "#{target.username} was healed for #{amount_to_give}HP!")
 
     rescue => e

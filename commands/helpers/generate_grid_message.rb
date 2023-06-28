@@ -16,7 +16,7 @@ module Commands
             end
             row << "|"
             if j
-              j.hp == 0 ? row << " DEAD " : row << "#{j.hp}   HP"
+              j.alive ? row << "#{j.hp}   HP" : row << " DEAD "
             else
               row << "      "
             end
