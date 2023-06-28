@@ -18,5 +18,9 @@ end
 
 bot.run
 
+# TODO: Workout how to send messages to 1 person
+# TODO: See if there is a auto generated help
+# TODO: Show range
+# TODO: Reset game
 # TODO: Use config for board sizes
 # TODO: Use config for energy costs
