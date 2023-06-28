@@ -11,7 +11,7 @@ module Commands
     end
 
     def execute(event:)
-      user = event.interaction.user
+      user = event.user
       player = Player.find_by(discord_id: user.id)
 
       unless player.admin

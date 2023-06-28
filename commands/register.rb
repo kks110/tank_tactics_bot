@@ -11,7 +11,7 @@ module Commands
     end
 
     def execute(event:)
-      user = event.interaction.user
+      user = event.user
       Player.create!(discord_id: user.id, username: user.username)
       event.respond(content: "#{user.username} registered successfully!")
 

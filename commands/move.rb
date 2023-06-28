@@ -14,7 +14,7 @@ module Commands
     def execute(event:)
       direction = event.options['direction']
 
-      user = event.interaction.user
+      user = event.user
       player = Player.find_by(discord_id: user.id)
       grid = Commands::Helpers::GenerateGrid.new.run
 

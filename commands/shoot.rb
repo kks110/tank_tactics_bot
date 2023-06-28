@@ -16,7 +16,7 @@ module Commands
       x = event.options['x']
       y = event.options['y']
 
-      user = event.interaction.user
+      user = event.user
       player = Player.find_by(discord_id: user.id)
       grid = Commands::Helpers::GenerateGrid.new.run
 
@@ -59,7 +59,6 @@ module Commands
       event.respond(content: "An error has occurred: #{e}")
     end
 
-    # TODO: Change options to be an options object rather than a hash
     def options
       [
         {
