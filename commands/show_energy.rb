@@ -14,7 +14,7 @@ module Commands
       user = event.interaction.user
       player = Player.find_by(discord_id: user.id)
 
-      event.respond(content: "You have #{player.energy} energy")
+      event.respond(content: "You have #{player.energy} energy", ephemeral: true)
 
     rescue => e
       event.respond(content: "An error has occurred: #{e}")
