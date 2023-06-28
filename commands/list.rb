@@ -6,6 +6,7 @@ require_relative './move'
 require_relative './increase_hp'
 require_relative './show_energy'
 require_relative './shoot'
+require_relative './upgrade_range'
 
 module Commands
   LIST = [
@@ -16,6 +17,7 @@ module Commands
     Move.new,
     IncreaseHp.new,
     ShowEnergy.new,
-    Shoot.new
+    Shoot.new,
+    UpgradeRange.new
   ]
 end
