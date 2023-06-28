@@ -18,9 +18,18 @@ end
 
 bot.run
 
-# TODO: Workout how to send messages to 1 person
-# TODO: See if there is a auto generated help
-# TODO: Show range
+# Must haves:
+# TODO: Change options to be an options object rather than a hash
+# TODO: Create a help
+# TODO: Create a game instructions
+# TODO: Show tank range
 # TODO: Reset game
+# TODO: Create a game log
+
+# Nice to haves
+# TODO: Shoot / give to player names rather than coordinates
 # TODO: Use config for board sizes
 # TODO: Use config for energy costs
+# TODO: Run rubocop
+# TODO: Tests?
+#
