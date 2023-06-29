@@ -8,7 +8,7 @@ module Command
     end
 
     def description
-      "Last the game begin!"
+      "Let the game begin!"
     end
 
     def execute(event:)
