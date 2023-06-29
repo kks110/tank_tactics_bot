@@ -19,7 +19,6 @@ end
 bot.run
 
 # Must haves:
-# TODO: Create a help
 # TODO: Create a game instructions
 # TODO: Show tank range
 # TODO: Reset game
@@ -27,8 +26,8 @@ bot.run
 
 # Nice to haves
 # TODO: Shoot / give to player names rather than coordinates
-# TODO: Use config for board sizes
-# TODO: Use config for energy costs
+# TODO: Use config for board sizes (or make optional at game start?)
+# TODO: Use config for energy costs (or make optional at game start?)
 # TODO: Run rubocop
 # TODO: Tests?
-#
+# TODO: Option to show board just to your self?
