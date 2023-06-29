@@ -54,6 +54,8 @@ module Command
         target.update(energy: 0, alive: false, hp: 0)
       end
 
+      BattleLog.logger.info("#{player.username} shot #{target.username}! #{target.username}: HP: #{target.hp}")
+
       event.respond(content: "#{target.username} was shot! #{target.alive ? '' : 'They are dead!'}")
 
     rescue => e

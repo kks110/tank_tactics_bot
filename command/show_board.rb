@@ -12,7 +12,7 @@ module Command
     end
 
     def execute(event:)
-      grid = Command::Helpers::GenerateGridMessage.new.send(event: event)
+      grid = Command::Helpers::GenerateGridMessage.new.send
       event.respond(content: grid)
 
     rescue => e

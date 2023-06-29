@@ -27,6 +27,7 @@ GEM
     dotenv (2.8.1)
     event_emitter (0.2.6)
     ffi (1.15.5)
+    ffi (1.15.5-x64-mingw-ucrt)
     ffi (1.15.5-x64-unknown)
     http-accept (1.7.0)
     http-cookie (1.0.5)
@@ -48,6 +49,7 @@ GEM
       ast (~> 2.4.1)
       racc
     pg (1.5.3)
+    pg (1.5.3-x64-mingw-ucrt)
     pg (1.5.3-x64-unknown)
     pry (0.14.2)
       coderay (~> 1.1)
@@ -81,6 +83,7 @@ GEM
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.8.2)
+    unf_ext (0.0.8.2-x64-mingw-ucrt)
     unf_ext (0.0.8.2-x64-unknown)
     unicode-display_width (2.4.2)
     websocket (1.2.9)
@@ -91,6 +94,7 @@ GEM
 PLATFORMS
   arm64-darwin-21
   arm64-darwin-22
+  x64-mingw-ucrt
   x64-unknown
 
 DEPENDENCIES
@@ -103,4 +107,4 @@ DEPENDENCIES
   rubocop
 
 BUNDLED WITH
-   2.3.10
+   2.4.10

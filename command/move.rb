@@ -37,6 +37,13 @@ module Command
         end
 
         player.update(y_position: player.y_position - 1, energy: player.energy - 1)
+        log(
+          username: player.username,
+          old_x: player.x_position,
+          old_y: player.y_position + 1,
+          new_x: player.x_position,
+          new_y: player.y_position
+        )
         event.respond(content: "Moved!")
 
       when 'down'
@@ -51,6 +58,13 @@ module Command
         end
 
         player.update(y_position: player.y_position + 1, energy: player.energy - 1)
+        log(
+          username: player.username,
+          old_x: player.x_position,
+          old_y: player.y_position - 1,
+          new_x: player.x_position,
+          new_y: player.y_position
+        )
         event.respond(content: "Moved!")
       when 'left'
         if player.x_position == 0
@@ -64,6 +78,13 @@ module Command
         end
 
         player.update(x_position: player.x_position - 1, energy: player.energy - 1)
+        log(
+          username: player.username,
+          old_x: player.x_position + 1,
+          old_y: player.y_position,
+          new_x: player.x_position,
+          new_y: player.y_position
+        )
         event.respond(content: "Moved!")
       when 'right'
         if player.x_position == grid[0].length - 1
@@ -77,11 +98,25 @@ module Command
         end
 
         player.update(x_position: player.x_position + 1, energy: player.energy - 1)
+        log(
+          username: player.username,
+          old_x: player.x_position - 1,
+          old_y: player.y_position,
+          new_x: player.x_position,
+          new_y: player.y_position
+        )
         event.respond(content: "Moved!")
       end
 
+
     rescue => e
       event.respond(content: "An error has occurred: #{e}")
+    end
+
+    def log(username:, old_x:, old_y:, new_x:, new_y:)
+      BattleLog.logger.info("#{username} moved. X:#{old_x} Y:#{old_y} -> X:#{new_x} Y:#{new_y}")
+      grid = Command::Helpers::GenerateGridMessage.new.send
+      BattleLog.logger.info("\n#{grid}")
     end
 
     def options

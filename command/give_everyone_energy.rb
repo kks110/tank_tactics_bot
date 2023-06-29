@@ -21,9 +21,10 @@ module Command
 
       players = Player.all
       players.each do |player|
-        player.update(energy: player.energy + 1)
+        player.update(energy: player.energy + 1) if player.alive
       end
 
+      BattleLog.logger.info("Everyone got their daily energy")
       event.respond(content: "Energy successfully distributed")
 
     rescue => e

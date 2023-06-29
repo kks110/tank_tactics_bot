@@ -21,6 +21,7 @@ module Command
 
       player.update(energy: player.energy - 3, hp: player.hp + 1)
 
+      BattleLog.logger.info("#{player.username} Increased their HP to #{player.hp}")
       event.respond(content: "Health increased, you now have #{player.hp}HP")
 
     rescue => e

@@ -49,6 +49,7 @@ module Command
       player.update(energy: player.energy - amount_to_give)
       target.update(energy: target.energy + amount_to_give)
 
+      BattleLog.logger.info("#{player.username} gave #{amount_to_give} energy to #{target.username}")
       event.respond(content: "#{target.username} was given energy by #{player.username}!")
 
     rescue => e

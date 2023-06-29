@@ -48,6 +48,7 @@ module Command
         target.update(alive: true)
       end
 
+      BattleLog.logger.info("#{player.username} gave #{amount_to_give} HP to #{target.username}")
       event.respond(content: "#{target.username} was healed for #{amount_to_give}HP!")
 
     rescue => e

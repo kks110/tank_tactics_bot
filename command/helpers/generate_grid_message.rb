@@ -3,7 +3,7 @@ require_relative './generate_grid'
 module Command
   module Helpers
     class GenerateGridMessage
-      def send(event:)
+      def send()
         grid = GenerateGrid.new.run
 
         board_max_x = grid[0].length

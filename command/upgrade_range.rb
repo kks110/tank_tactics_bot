@@ -21,6 +21,7 @@ module Command
 
       player.update(energy: player.energy - 3, range: player.range + 1)
 
+      BattleLog.logger.info("#{player.username} increased their range to #{player.range}")
       event.respond(content: "Range increased, you now have #{player.range} range")
 
     rescue => e
