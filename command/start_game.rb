@@ -28,7 +28,7 @@ module Command
         player.update(x_position: x_options.pop, y_position: y_options.pop)
       end
 
-      grid = Command::Helpers::GenerateGridMessage.new.send
+      grid = Command::Helpers::GenerateGridMessage.new.standard_grid
       BattleLog.logger.info("The game has begun!\n #{grid}")
       event.respond(content: grid)
 

@@ -115,7 +115,7 @@ module Command
 
     def log(username:, old_x:, old_y:, new_x:, new_y:)
       BattleLog.logger.info("#{username} moved. X:#{old_x} Y:#{old_y} -> X:#{new_x} Y:#{new_y}")
-      grid = Command::Helpers::GenerateGridMessage.new.send
+      grid = Command::Helpers::GenerateGridMessage.new.standard_grid
       BattleLog.logger.info("\n#{grid}")
     end
 

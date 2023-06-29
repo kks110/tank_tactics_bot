@@ -21,9 +21,9 @@ end
 bot.run
 
 # Must haves:
-# TODO: Show tank range
 
 # Nice to haves
+# TODO: Show tank range
 # TODO: Have some kind of game state. Started, winner, that kind of thing
 # TODO: Have leader board, ranking by hp, kills, range
 # TODO: Come up with some kind of standard notation, and write something that can play out the the game a step at a time
