@@ -1,4 +1,4 @@
-module Commands
+module Command
   class Base
     def initialize; end
 

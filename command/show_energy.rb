@@ -1,7 +1,7 @@
 require_relative './base'
 
-module Commands
-  class ShowEnergy < Commands::Base
+module Command
+  class ShowEnergy < Command::Base
     def name
       :show_energy
     end

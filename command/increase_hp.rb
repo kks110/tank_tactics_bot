@@ -1,7 +1,7 @@
 require_relative './base'
 
-module Commands
-  class IncreaseHp < Commands::Base
+module Command
+  class IncreaseHp < Command::Base
     def name
       :increase_hp
     end

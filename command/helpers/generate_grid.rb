@@ -1,5 +1,5 @@
 
-module Commands
+module Command
   module Helpers
     class GenerateGrid
       def run

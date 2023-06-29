@@ -10,7 +10,7 @@ require_relative './upgrade_range'
 require_relative './give_heart'
 require_relative './give_energy'
 
-module Commands
+module Command
   LIST = [
     Register.new,
     GiveEveryoneEnergy.new,

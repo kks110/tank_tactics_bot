@@ -1,5 +1,5 @@
 
-module Commands
+module Command
   module Helpers
     class DetermineRange
       def build_range_list(player_x:, player_y:, player_range:)

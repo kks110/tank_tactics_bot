@@ -1,8 +1,8 @@
 require_relative './base'
 require_relative './helpers/generate_grid_message'
 
-module Commands
-  class StartGame < Commands::Base
+module Command
+  class StartGame < Command::Base
     def name
       :start_game
     end
@@ -28,7 +28,7 @@ module Commands
         player.update(x_position: x_options.pop, y_position: y_options.pop)
       end
 
-      grid = Commands::Helpers::GenerateGridMessage.new.send(event: event)
+      grid = Command::Helpers::GenerateGridMessage.new.send(event: event)
       event.respond(content: grid)
 
     rescue => e

@@ -1,8 +1,8 @@
 require_relative './base'
 require_relative './helpers/generate_grid'
 
-module Commands
-  class Move < Commands::Base
+module Command
+  class Move < Command::Base
     def name
       :move
     end
@@ -16,7 +16,7 @@ module Commands
 
       user = event.user
       player = Player.find_by(discord_id: user.id)
-      grid = Commands::Helpers::GenerateGrid.new.run
+      grid = Command::Helpers::GenerateGrid.new.run
 
       unless player.energy > 0
         event.respond(content: "Not enough energy!")

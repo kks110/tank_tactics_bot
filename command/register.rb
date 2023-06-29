@@ -1,7 +1,7 @@
 require_relative './base'
 
-module Commands
-  class Register < Commands::Base
+module Command
+  class Register < Command::Base
     def name
       :register
     end

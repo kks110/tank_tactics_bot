@@ -1,7 +1,7 @@
 require_relative './base'
 
-module Commands
-  class GiveEveryoneEnergy < Commands::Base
+module Command
+  class GiveEveryoneEnergy < Command::Base
     def name
       :give_everyone_energy
     end

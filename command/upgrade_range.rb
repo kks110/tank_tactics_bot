@@ -1,7 +1,7 @@
 require_relative './base'
 
-module Commands
-  class UpgradeRange < Commands::Base
+module Command
+  class UpgradeRange < Command::Base
     def name
       :upgrade_range
     end

@@ -2,8 +2,8 @@ require_relative './base'
 require_relative './helpers/generate_grid'
 require_relative './helpers/determine_range'
 
-module Commands
-  class GiveHeart < Commands::Base
+module Command
+  class GiveHeart < Command::Base
     def name
       :give_heart
     end
@@ -20,9 +20,9 @@ module Commands
 
       user = event.user
       player = Player.find_by(discord_id: user.id)
-      grid = Commands::Helpers::GenerateGrid.new.run
+      grid = Command::Helpers::GenerateGrid.new.run
 
-      range_list = Commands::Helpers::DetermineRange.new.build_range_list(player_x: player.x_position, player_y: player.y_position, player_range: player.range)
+      range_list = Command::Helpers::DetermineRange.new.build_range_list(player_x: player.x_position, player_y: player.y_position, player_range: player.range)
 
       unless range_list.include?([y,x])
         event.respond(content: "Not in range!")

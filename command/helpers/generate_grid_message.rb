@@ -1,6 +1,6 @@
 require_relative './generate_grid'
 
-module Commands
+module Command
   module Helpers
     class GenerateGridMessage
       def send(event:)
