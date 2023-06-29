@@ -12,6 +12,7 @@ Command::RegisterCommands.run(bot: bot)
 
 Command::LIST.each do |command|
   bot.application_command(command.name) do |event|
+    puts "Executing command: #{command.name}"
     command.execute(event: event)
   end
 end
