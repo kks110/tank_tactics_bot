@@ -10,6 +10,8 @@ class CreatePlayers < ActiveRecord::Migration[7.0]
       t.integer :range, default: 2, null: false
       t.boolean :alive, default: true
       t.boolean :admin, default: false
+      t.integer :kills, default: 0
+      t.integer :deaths, default: 0
     end
   end
 end

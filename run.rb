@@ -23,7 +23,6 @@ bot.run
 # Must haves:
 # TODO: Create a game instructions
 # TODO: Show tank range
-# TODO: Keep track of kills
 
 # Nice to haves
 # TODO: Have some kind of game state. Started, winner, that kind of thing
