@@ -1,5 +1,6 @@
 require_relative './base'
 require_relative './helpers/generate_grid'
+require_relative './options'
 
 module Command
   class Move < Command::Base
@@ -85,13 +86,13 @@ module Command
 
     def options
       [
-        {
+        Command::Options.new(
           type: 'string',
           name: 'direction',
-          explanation: 'Pick your direction, Up, Down, Left or Right',
+          description: 'Pick your direction, Up, Down, Left or Right',
           required: true,
           choices: { up: 'up', down: 'down', left: 'left', right: 'right' }
-        }
+        )
       ]
     end
   end

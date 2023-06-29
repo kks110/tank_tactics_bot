@@ -56,23 +56,23 @@ module Command
 
     def options
       [
-        {
+        Command::Options.new(
           type: 'integer',
           name: 'x',
-          explanation: 'The X coordinate',
-          required: true
-        },
-        {
+          description: 'The X coordinate',
+          required: true,
+          ),
+        Command::Options.new(
           type: 'integer',
           name: 'y',
-          explanation: 'The Y coordinate',
-          required: true
-        },
-        {
+          description: 'The Y coordinate',
+          required: true,
+        ),
+        Command::Options.new(
           type: 'integer',
           name: 'amount',
-          explanation: 'How many hearts you want to give (default is 1)'
-        }
+          description: 'How many hearts do you want to give (default is 1)',
+        )
       ]
     end
   end

@@ -19,7 +19,6 @@ end
 bot.run
 
 # Must haves:
-# TODO: Change options to be an options object rather than a hash
 # TODO: Create a help
 # TODO: Create a game instructions
 # TODO: Show tank range

@@ -11,15 +11,22 @@ module Command
           next if command.options.nil?
 
           command.options.each do |option|
-            choices = option[:choices].nil? ? {} : option[:choices]
-            required = option[:required].nil? ? false : option[:required]
-
-            if option[:type] == 'string'
-              cmd.string(option[:name], option[:explanation], required: required, choices: choices)
+            if option.type == 'string'
+              cmd.string(
+                option.name,
+                option.description,
+                required: option.required,
+                choices: option.choices
+              )
             end
 
-            if option[:type] == 'integer'
-              cmd.integer(option[:name], option[:explanation], required: required, choices: choices)
+            if option.type == 'integer'
+              cmd.integer(
+                option.name,
+                option.description,
+                required: option.required,
+                choices: option.choices
+              )
             end
           end
         end
