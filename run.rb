@@ -21,7 +21,6 @@ end
 bot.run
 
 # Must haves:
-# TODO: Create a game instructions
 # TODO: Show tank range
 
 # Nice to haves
