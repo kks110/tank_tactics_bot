@@ -3,8 +3,7 @@ require 'dotenv/load'
 require 'yaml'
 require 'active_record'
 
-binding.pry
-env = [ENV.fetch('ENVIRONMENT', 'dev')]
+env = ENV.fetch('ENVIRONMENT', 'dev')
 
 db_config_file = File.open('./config/database.yml')
 db_config = YAML.safe_load(db_config_file)[env]
