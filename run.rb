@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
 require 'discordrb'
-require './command/register_commands'
+require_relative './command/register_commands'
 require 'pry'
-require './models/player'
-require './command/list'
-require './initialise'
-require './battle_log'
+require_relative './models/player'
+require_relative './command/list'
+require_relative './initialise'
+require_relative './battle_log'
 
 bot = Discordrb::Bot.new(token: ENV.fetch('SLASH_COMMAND_BOT_TOKEN', nil), intents: [:server_messages])
 Command::RegisterCommands.run(bot: bot)
