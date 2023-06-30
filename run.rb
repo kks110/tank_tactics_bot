@@ -33,6 +33,6 @@ bot.run
 # TODO: Tests?
 
 # Updates in this patch:
-# Have leader board, ranking by hp, kills, range
-# Option to show board just to your self?
-# Make give energy ephemeral
+# Have leader board, ranking by kills (default), deaths, hp, range
+# Option to show board to everyone. will only show self by default
+# Make give energy ephemeral to keep it more secret
