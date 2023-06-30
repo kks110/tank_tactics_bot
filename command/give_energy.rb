@@ -25,24 +25,24 @@ module Command
       range_list = Command::Helpers::DetermineRange.new.build_range_list(player_x: player.x_position, player_y: player.y_position, player_range: player.range)
 
       unless range_list.include?([y,x])
-        event.respond(content: "Not in range!")
+        event.respond(content: "Not in range!", ephemeral: true)
         return
       end
 
       if grid[y][x].nil?
-        event.respond(content:"No tank at that location!")
+        event.respond(content:"No tank at that location!", ephemeral: true)
         return
       end
 
       target = grid[y][x]
 
       unless target.alive
-        event.respond(content:"You can't give energy to a dead player!")
+        event.respond(content:"You can't give energy to a dead player!", ephemeral: true)
         return
       end
 
       if player.energy < amount_to_give
-        event.respond(content: "You can't give more than you have!")
+        event.respond(content: "You can't give more than you have!", ephemeral: true)
         return
       end
 
@@ -50,10 +50,10 @@ module Command
       target.update(energy: target.energy + amount_to_give)
 
       BattleLog.logger.info("#{player.username} gave #{amount_to_give} energy to #{target.username}")
-      event.respond(content: "#{target.username} was given energy by #{player.username}!")
+      event.respond(content: "#{target.username} was given energy by #{player.username}!", ephemeral: true)
 
     rescue => e
-      event.respond(content: "An error has occurred: #{e}")
+      event.respond(content: "An error has occurred: #{e}", ephemeral: true)
     end
 
     def options

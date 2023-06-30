@@ -20,14 +20,8 @@ end
 
 bot.run
 
-# Must haves:
-
-# Nice to haves
-# TODO: Have leader board, ranking by hp, kills, range
-# TODO: Option to show board just to your self?
 # TODO: Make board 'round'
 # TODO: Show tank range
-# TODO: Make give energy private
 # TODO: Look in to better random distributions
 # TODO: Shoot / give to player names rather than coordinates
 # TODO: Have some kind of game state. Started, winner, that kind of thing
@@ -37,3 +31,8 @@ bot.run
 # TODO: Use config for energy costs (or make optional at game start?)
 # TODO: Come up with some kind of standard notation, and write something that can play out the the game a step at a time
 # TODO: Tests?
+
+# Updates in this patch:
+# Have leader board, ranking by kills (default), deaths, hp, range
+# Option to show board to everyone. will only show self by default
+# Make give energy ephemeral to keep it more secret
