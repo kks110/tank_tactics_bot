@@ -20,7 +20,6 @@ end
 
 bot.run
 
-# TODO: Option to show board just to your self?
 # TODO: Make board 'round'
 # TODO: Show tank range
 # TODO: Make give energy private
@@ -35,4 +34,5 @@ bot.run
 # TODO: Tests?
 
 # Updates in this patch:
-# TODO: Have leader board, ranking by hp, kills, range
+# Have leader board, ranking by hp, kills, range
+# Option to show board just to your self?

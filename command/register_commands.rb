@@ -28,6 +28,14 @@ module Command
                 choices: option.choices
               )
             end
+
+            if option.type == 'boolean'
+              cmd.boolean(
+                option.name,
+                option.description,
+                required: option.required
+              )
+            end
           end
         end
       end
