@@ -20,6 +20,7 @@ end
 
 bot.run
 
+# TODO: Have random heart spawn when daily energy is given
 # TODO: Make board 'round'
 # TODO: Show tank range
 # TODO: Look in to better random distributions
