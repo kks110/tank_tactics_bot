@@ -22,7 +22,6 @@ bot.run
 
 # TODO: Make board 'round'
 # TODO: Show tank range
-# TODO: Make give energy private
 # TODO: Look in to better random distributions
 # TODO: Shoot / give to player names rather than coordinates
 # TODO: Have some kind of game state. Started, winner, that kind of thing
@@ -36,3 +35,4 @@ bot.run
 # Updates in this patch:
 # Have leader board, ranking by hp, kills, range
 # Option to show board just to your self?
+# Make give energy ephemeral
