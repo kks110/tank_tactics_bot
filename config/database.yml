@@ -11,4 +11,3 @@ prod:
   adapter: postgresql
   encoding: unicode
   pool: 5
-  url: <%= ENV["TT_DATABASE_URL"] %>

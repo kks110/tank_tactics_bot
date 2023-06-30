@@ -2,10 +2,7 @@
 require 'active_record'
 require 'yaml'
 require 'pry'
-
-# Load database configuration from YAML file
-db_config = YAML.load_file('config/database.yml')[ENV.fetch('ENVIRONMENT', 'dev')]
-ActiveRecord::Base.establish_connection(db_config)
+require_relative './initialise'
 
 namespace :db do
   desc 'Run database migrations'
