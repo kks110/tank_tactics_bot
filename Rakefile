@@ -4,7 +4,7 @@ require 'yaml'
 require 'pry'
 
 # Load database configuration from YAML file
-db_config = YAML.load_file('config/database.yml')
+db_config = YAML.load_file('config/database.yml')[ENV.fetch('ENVIRONMENT', 'dev')]
 ActiveRecord::Base.establish_connection(db_config)
 
 namespace :db do
