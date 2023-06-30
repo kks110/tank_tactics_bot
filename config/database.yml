@@ -1,6 +1,14 @@
 
-adapter: postgresql
-encoding: unicode
-database: tank_tactics_dev
-username: tank_tactics
-password: tank_tactics
+dev:
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
+  database: tank_tactics_dev
+  username: tank_tactics
+  password: tank_tactics
+
+prod:
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
+  url: <%= ENV["TT_DATABASE_URL"] %>
