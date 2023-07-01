@@ -56,7 +56,7 @@ module Command
 
       BattleLog.logger.info("#{player.username} shot #{target.username}! #{target.username}: HP: #{target.hp}")
 
-      event.respond(content: "#{target.username} was shot! #{target.alive ? '' : 'They are dead!'}")
+      event.respond(content: "<@#{target.discord_id}> was shot by #{player.username}! #{target.alive ? '' : 'They are dead!'}")
 
     rescue => e
       event.respond(content: "An error has occurred: #{e}")

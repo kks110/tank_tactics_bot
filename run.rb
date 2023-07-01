@@ -20,11 +20,9 @@ end
 
 bot.run
 
-# TODO: Have random heart spawn when daily energy is given
-# TODO: Make board 'round'
+
 # TODO: Show tank range
 # TODO: Look in to better random distributions
-# TODO: Shoot / give to player names rather than coordinates
 # TODO: Have some kind of game state. Started, winner, that kind of thing
 # TODO: Run rubocop
 # TODO: Reset game
@@ -32,5 +30,11 @@ bot.run
 # TODO: Use config for energy costs (or make optional at game start?)
 # TODO: Come up with some kind of standard notation, and write something that can play out the the game a step at a time
 # TODO: Tests?
+# TODO: Look at image generation for the board
+
+# For next game
+# TODO: Have random heart spawn when daily energy is given
+# TODO: Make board 'round'
 
 # Updates in this patch:
+# Mentions on daily update and on being shot
