@@ -14,14 +14,17 @@ module Command
 
     def execute(event:)
       players = Player.all
+
+      event.respond(content: "Generating the grid...", ephemeral: true)
+
       ImageGeneration::Grid.new.generate(
         grid_x: players.count + 2,
         grid_y: players.count + 2,
         players: players
       )
 
-      event.respond(content: "Generating the grid...", ephemeral: true)
-      event.channel.send_file File.new('./grid.png')
+      image_location = ENV.fetch('TT_IMAGE_LOCATION', './')
+      event.channel.send_file File.new(image_location + '/grid.png')
       event.delete_response
 
     rescue => e

@@ -114,8 +114,9 @@ module ImageGeneration
         )
       end
 
+      image_location = ENV.fetch('TT_IMAGE_LOCATION', './')
       # Save the modified image
-      image.write('grid.png')
+      image.write(image_location + '/grid.png')
     end
   end
 end
