@@ -1,6 +1,7 @@
 .env
 .idea
 .DS_Store
+battle_log.txt
 
 *.gem
 *.rbc

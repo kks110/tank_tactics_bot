@@ -19,13 +19,16 @@ module Command
         return
       end
 
+      mentions = ""
       players = Player.all
       players.each do |player|
         player.update(energy: player.energy + 1) if player.alive
+        mentions << "<@#{player.discord_id}> "
       end
 
+
       BattleLog.logger.info("Everyone got their daily energy")
-      event.respond(content: "Energy successfully distributed")
+      event.respond(content: "Energy successfully distributed! #{mentions}")
 
     rescue => e
       event.respond(content: "An error has occurred: #{e}")
