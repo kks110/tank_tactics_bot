@@ -35,7 +35,8 @@ module ImageGeneration
 
       draw.draw(image)
 
-      draw.font = './font.ttf'
+      image_font = ENV.fetch('TT_IMAGE_FONT', '.')
+      draw.font = image_font + '/font.ttf'
       draw.pointsize = 30
       draw.fill = 'black'
 
@@ -114,7 +115,7 @@ module ImageGeneration
         )
       end
 
-      image_location = ENV.fetch('TT_IMAGE_LOCATION', './')
+      image_location = ENV.fetch('TT_IMAGE_LOCATION', '.')
       # Save the modified image
       image.write(image_location + '/grid.png')
     end
