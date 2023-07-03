@@ -99,19 +99,28 @@ module ImageGeneration
         draw.annotate(
           image,
           (player.x_position * cell_size) + cell_size + 11,
-          (player.y_position * cell_size) + cell_size + 54,
+          (player.y_position * cell_size) + cell_size + 50,
           (player.x_position * cell_size) + cell_size + 11,
-          (player.y_position * cell_size) + cell_size + 54,
+          (player.y_position * cell_size) + cell_size + 50,
           hp_text
         )
 
         draw.annotate(
           image,
           (player.x_position * cell_size) + cell_size + 11,
-          (player.y_position * cell_size) + cell_size + 76,
+          (player.y_position * cell_size) + cell_size + 71,
           (player.x_position * cell_size) + cell_size + 11,
-          (player.y_position * cell_size) + cell_size + 76,
+          (player.y_position * cell_size) + cell_size + 71,
           "󰆤  #{player.range}"
+        )
+
+        draw.annotate(
+          image,
+          (player.x_position * cell_size) + cell_size + 11,
+          (player.y_position * cell_size) + cell_size + 93,
+          (player.x_position * cell_size) + cell_size + 11,
+          (player.y_position * cell_size) + cell_size + 93,
+          "X:#{player.x_position} Y:#{player.y_position}"
         )
       end
 
