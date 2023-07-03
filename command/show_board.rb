@@ -1,5 +1,6 @@
 require_relative './base'
 require_relative './helpers/generate_grid_message'
+require_relative '../image_generation/grid'
 
 module Command
   class ShowBoard < Command::Base
@@ -12,24 +13,19 @@ module Command
     end
 
     def execute(event:)
-      show_everyone = event.options['show_everyone']
-      show_everyone = false if show_everyone.nil?
+      players = Player.all
+      ImageGeneration::Grid.new.generate(
+        grid_x: players.count + 2,
+        grid_y: players.count + 2,
+        players: players
+      )
 
-      grid = Command::Helpers::GenerateGridMessage.new.standard_grid
-      event.respond(content: grid, ephemeral: !show_everyone)
+      event.respond(content: "Generating the grid...", ephemeral: true)
+      event.channel.send_file File.new('./grid.png')
+      event.delete_response
 
     rescue => e
       event.respond(content: "An error has occurred: #{e}")
-    end
-
-    def options
-      [
-        Command::Options.new(
-          type: 'boolean',
-          name: 'show_everyone',
-          description: 'Default will just show you, use this to show the board to everyone'
-        )
-      ]
     end
   end
 end
