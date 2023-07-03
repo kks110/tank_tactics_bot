@@ -21,8 +21,8 @@ module Command
       end
 
       players = Player.all
-      x_options = (0..players.count+1).to_a.shuffle!
-      y_options = (0..players.count+1).to_a.shuffle!
+      x_options = (0..players.count + 1).to_a.shuffle!
+      y_options = (0..players.count + 1).to_a.shuffle!
 
       players.each do |player|
         player.update(x_position: x_options.pop, y_position: y_options.pop)
@@ -30,7 +30,17 @@ module Command
 
       grid = Command::Helpers::GenerateGridMessage.new.standard_grid
       BattleLog.logger.info("The game has begun!\n #{grid}")
-      event.respond(content: grid)
+
+      ImageGeneration::Grid.new.generate(
+        grid_x: players.count + 2,
+        grid_y: players.count + 2,
+        players: players
+      )
+
+      event.respond(content: "Generating the grid...", ephemeral: true)
+      event.channel.send_file File.new('./grid.png')
+      event.delete_response
+
 
     rescue => e
       event.respond(content: "An error has occurred: #{e}")
