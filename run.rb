@@ -24,7 +24,7 @@ bot.run
 # TODO: automate energy distribution 
 # TODO: Show tank range
 # TODO: Look in to better random distributions
-# TODO: Have some kind of game state. Started, winner, that kind of thing
+# TODO: Have some kind of game state. Started, winner, that kind of thing and add a check after each command to see if there is a winner
 # TODO: Run rubocop
 # TODO: Reset game
 # TODO: Use config for board sizes (or make optional at game start?)
