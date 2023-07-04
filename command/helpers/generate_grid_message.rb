@@ -3,8 +3,8 @@ require_relative './generate_grid'
 module Command
   module Helpers
     class GenerateGridMessage
-      def standard_grid
-        grid = GenerateGrid.new.run
+      def standard_grid(server_id:)
+        grid = GenerateGrid.new.run(server_id: server_id)
 
         board_max_x = grid[0].length
 

@@ -17,7 +17,8 @@ module Command
 
       user = event.user
       player = Player.find_by(discord_id: user.id)
-      grid = Command::Helpers::GenerateGrid.new.run
+      game = Game.find_by(server_id: event.server_id)
+      grid = Command::Helpers::GenerateGrid.new.run(server_id: event.server_id)
 
       unless player.energy > 0
         event.respond(content: "Not enough energy!")
@@ -42,12 +43,13 @@ module Command
           old_x: player.x_position,
           old_y: player.y_position + 1,
           new_x: player.x_position,
-          new_y: player.y_position
+          new_y: player.y_position,
+          server_id: event.server_id
         )
         event.respond(content: "Moved!")
 
       when 'down'
-        if player.y_position == grid.length - 1
+        if player.y_position == game.max_y
           event.respond(content: "You can't move down, you are on the edge of the board!")
           return
         end
@@ -63,7 +65,8 @@ module Command
           old_x: player.x_position,
           old_y: player.y_position - 1,
           new_x: player.x_position,
-          new_y: player.y_position
+          new_y: player.y_position,
+          server_id: event.server_id
         )
         event.respond(content: "Moved!")
       when 'left'
@@ -83,11 +86,12 @@ module Command
           old_x: player.x_position + 1,
           old_y: player.y_position,
           new_x: player.x_position,
-          new_y: player.y_position
+          new_y: player.y_position,
+          server_id: event.server_id
         )
         event.respond(content: "Moved!")
       when 'right'
-        if player.x_position == grid[0].length - 1
+        if player.x_position == game.max_x
           event.respond(content: "You can't move right, you are on the edge of the board!")
           return
         end
@@ -103,7 +107,8 @@ module Command
           old_x: player.x_position - 1,
           old_y: player.y_position,
           new_x: player.x_position,
-          new_y: player.y_position
+          new_y: player.y_position,
+          server_id: event.server_id
         )
         event.respond(content: "Moved!")
       end
@@ -113,9 +118,9 @@ module Command
       event.respond(content: "An error has occurred: #{e}")
     end
 
-    def log(username:, old_x:, old_y:, new_x:, new_y:)
+    def log(username:, old_x:, old_y:, new_x:, new_y:, server_id:)
       BattleLog.logger.info("#{username} moved. X:#{old_x} Y:#{old_y} -> X:#{new_x} Y:#{new_y}")
-      grid = Command::Helpers::GenerateGridMessage.new.standard_grid
+      grid = Command::Helpers::GenerateGridMessage.new.standard_grid(server_id: server_id)
       BattleLog.logger.info("\n#{grid}")
     end
 

@@ -14,12 +14,13 @@ module Command
 
     def execute(event:)
       players = Player.all
+      game = Game.find_by(server_id: event.server_id)
 
       event.respond(content: "Generating the grid...", ephemeral: true)
 
       ImageGeneration::Grid.new.generate(
-        grid_x: players.count + 2,
-        grid_y: players.count + 2,
+        grid_x: game.max_x,
+        grid_y: game.max_y,
         players: players
       )
 

@@ -7,6 +7,8 @@ module ImageGeneration
 
     def generate(grid_x:, grid_y:, players:)
 
+      grid_x = grid_x + 1
+      grid_y = grid_y + 1
       # The size of each cell on the grid
       cell_size = 100
 
