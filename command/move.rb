@@ -27,92 +27,103 @@ module Command
 
       case direction
       when 'up'
+        old_y = player.y_position
+        new_y = player.y_position - 1
+        x = player.x_position
+
         if player.y_position == 0
-          event.respond(content: "You can't move up, you are on the edge of the board!")
-          return
+          new_y = game.max_y
         end
 
-        unless grid[player.y_position - 1][player.x_position].nil?
+        unless grid[new_y][x].nil?
           event.respond(content: "You can't move up, there is a player in the way!")
           return
         end
 
-        player.update(y_position: player.y_position - 1, energy: player.energy - 1)
+        player.update(y_position: new_y, energy: player.energy - 1)
         log(
           username: player.username,
-          old_x: player.x_position,
-          old_y: player.y_position + 1,
-          new_x: player.x_position,
-          new_y: player.y_position,
+          old_x: x,
+          old_y: old_y,
+          new_x: x,
+          new_y: new_y,
           server_id: event.server_id
         )
         event.respond(content: "Moved!")
 
       when 'down'
+        old_y = player.y_position
+        new_y = player.y_position + 1
+        x = player.x_position
+
         if player.y_position == game.max_y
-          event.respond(content: "You can't move down, you are on the edge of the board!")
-          return
+          new_y = 0
         end
 
-        unless grid[player.y_position + 1][player.x_position].nil?
+        unless grid[new_y][x].nil?
           event.respond(content: "You can't move down, there is a player in the way!")
           return
         end
 
-        player.update(y_position: player.y_position + 1, energy: player.energy - 1)
+        player.update(y_position: new_y, energy: player.energy - 1)
         log(
           username: player.username,
-          old_x: player.x_position,
-          old_y: player.y_position - 1,
-          new_x: player.x_position,
-          new_y: player.y_position,
+          old_x: x,
+          old_y: old_y,
+          new_x: x,
+          new_y: new_y,
           server_id: event.server_id
         )
         event.respond(content: "Moved!")
       when 'left'
+        old_x = player.x_position
+        new_x = player.x_position - 1
+        y = player.y_position
+
         if player.x_position == 0
-          event.respond(content: "You can't move left, you are on the edge of the board!")
-          return
+          new_x = game.max_x
         end
 
-        unless grid[player.y_position][player.x_position - 1].nil?
+        unless grid[y][new_x].nil?
           event.respond(content: "You can't move left, there is a player in the way!")
           return
         end
 
-        player.update(x_position: player.x_position - 1, energy: player.energy - 1)
+        player.update(x_position: new_x, energy: player.energy - 1)
         log(
           username: player.username,
-          old_x: player.x_position + 1,
-          old_y: player.y_position,
-          new_x: player.x_position,
-          new_y: player.y_position,
+          old_x: old_x,
+          old_y: y,
+          new_x: new_x,
+          new_y: y,
           server_id: event.server_id
         )
         event.respond(content: "Moved!")
       when 'right'
+        old_x = player.x_position
+        new_x = player.x_position + 1
+        y = player.y_position
+
         if player.x_position == game.max_x
-          event.respond(content: "You can't move right, you are on the edge of the board!")
-          return
+          new_x = 0
         end
 
-        unless grid[player.y_position][player.x_position + 1].nil?
+        unless grid[y][new_x].nil?
           event.respond(content: "You can't move right, there is a player in the way!")
           return
         end
 
-        player.update(x_position: player.x_position + 1, energy: player.energy - 1)
+        player.update(x_position: new_x, energy: player.energy - 1)
         log(
           username: player.username,
-          old_x: player.x_position - 1,
-          old_y: player.y_position,
-          new_x: player.x_position,
-          new_y: player.y_position,
+          old_x: old_x,
+          old_y: y,
+          new_x: new_x,
+          new_y: y,
           server_id: event.server_id
         )
         event.respond(content: "Moved!")
       end
-
 
     rescue => e
       event.respond(content: "An error has occurred: #{e}")
