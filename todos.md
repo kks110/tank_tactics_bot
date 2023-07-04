@@ -1,14 +1,15 @@
 - Move diagonally
-- Automate energy distribution
 - Show tank range
 - Check after each command to see if there is a winner
 - Run rubocop
+-------------------------
 - Reset game
-- Use config for board sizes (or make optional at game start?)
-- Use config for energy costs (or make optional at game start?)
+- Automate energy distribution
 - Come up with some kind of standard notation, and write something that can play out the the game a step at a time
 - Tests?
 - Add profile cards?
+- Use config for energy costs (or make optional at game start?)
+- Use config for board sizes (or make optional at game start?)
 
   In latest patch:
 - At the start of the game, great a game object which hold, max_x, max_y ect instead of counting players
