@@ -20,7 +20,7 @@ module Command
 
       user = event.user
       player = Player.find_by(discord_id: user.id)
-      grid = Command::Helpers::GenerateGrid.new.run
+      grid = Command::Helpers::GenerateGrid.new.run(server_id: event.server_id)
 
       range_list = Command::Helpers::DetermineRange.new.build_range_list(player_x: player.x_position, player_y: player.y_position, player_range: player.range)
 

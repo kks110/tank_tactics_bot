@@ -19,6 +19,8 @@ module Command
         return
       end
 
+      game = Game.find_by(server_id: event.server_id)
+
       mentions = ""
       players = Player.all
       players.each do |player|
@@ -27,8 +29,16 @@ module Command
       end
 
 
-      BattleLog.logger.info("Everyone got their daily energy")
-      event.respond(content: "Energy successfully distributed! #{mentions}")
+      if game.heart_x.nil?
+        available_spawn_point = Command::Helpers::GenerateGrid.new.available_spawn_location(server_id: event.server_id)
+        spawn_location = available_spawn_point.sample
+        game.update(heart_x: spawn_location[:x], heart_y: spawn_location[:y])
+        BattleLog.logger.info("Everyone got their daily energy. A heart spawned at X:#{spawn_location[:x]}, Y:#{spawn_location[:y]}")
+        event.respond(content: "Energy successfully distributed! #{mentions} A heart spawned at X:#{spawn_location[:x]}, Y:#{spawn_location[:y]}")
+      else
+        BattleLog.logger.info("Everyone got their daily energy")
+        event.respond(content: "Energy successfully distributed! #{mentions}")
+      end
 
     rescue => e
       event.respond(content: "An error has occurred: #{e}")

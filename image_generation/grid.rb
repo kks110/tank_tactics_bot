@@ -5,7 +5,7 @@ module ImageGeneration
   class Grid
     include Magick
 
-    def generate(grid_x:, grid_y:, players:)
+    def generate(grid_x:, grid_y:, players:, heart_cords:)
 
       grid_x = grid_x + 1
       grid_y = grid_y + 1
@@ -123,6 +123,20 @@ module ImageGeneration
           (player.x_position * cell_size) + cell_size + 11,
           (player.y_position * cell_size) + cell_size + 93,
           "X:#{player.x_position} Y:#{player.y_position}"
+        )
+      end
+
+      if heart_cords
+        draw.pointsize = 80
+        draw.fill = 'green'
+
+        draw.annotate(
+          image,
+          (heart_cords[:x] * cell_size) + cell_size + 10,
+          (heart_cords[:y] * cell_size) + cell_size + 80,
+          (heart_cords[:x] * cell_size) + cell_size + 10,
+          (heart_cords[:y] * cell_size) + cell_size + 80,
+          ""
         )
       end
 

@@ -35,10 +35,11 @@ module Command
           new_y = game.max_y
         end
 
-        unless grid[new_y][x].nil?
+        if grid[new_y][x] != 'heart' && !grid[new_y][x].nil?
           event.respond(content: "You can't move up, there is a player in the way!")
           return
         end
+
 
         player.update(y_position: new_y, energy: player.energy - 1)
         log(
@@ -49,7 +50,6 @@ module Command
           new_y: new_y,
           server_id: event.server_id
         )
-        event.respond(content: "Moved!")
 
       when 'down'
         old_y = player.y_position
@@ -60,7 +60,7 @@ module Command
           new_y = 0
         end
 
-        unless grid[new_y][x].nil?
+        if grid[new_y][x] != 'heart' && !grid[new_y][x].nil?
           event.respond(content: "You can't move down, there is a player in the way!")
           return
         end
@@ -74,7 +74,7 @@ module Command
           new_y: new_y,
           server_id: event.server_id
         )
-        event.respond(content: "Moved!")
+
       when 'left'
         old_x = player.x_position
         new_x = player.x_position - 1
@@ -84,7 +84,7 @@ module Command
           new_x = game.max_x
         end
 
-        unless grid[y][new_x].nil?
+        if grid[y][new_x] != 'heart' && !grid[y][new_x].nil?
           event.respond(content: "You can't move left, there is a player in the way!")
           return
         end
@@ -98,7 +98,7 @@ module Command
           new_y: y,
           server_id: event.server_id
         )
-        event.respond(content: "Moved!")
+
       when 'right'
         old_x = player.x_position
         new_x = player.x_position + 1
@@ -108,7 +108,7 @@ module Command
           new_x = 0
         end
 
-        unless grid[y][new_x].nil?
+        if grid[y][new_x] != 'heart' && !grid[y][new_x].nil?
           event.respond(content: "You can't move right, there is a player in the way!")
           return
         end
@@ -122,11 +122,20 @@ module Command
           new_y: y,
           server_id: event.server_id
         )
+      end
+
+      if player.x_position == game.heart_x && player.y_position == game.heart_y
+        player.update(hp: player.hp + 1)
+        game.update(heart_x: nil, heart_y: nil)
+        event.respond(content: "Moved and you picked up the heart!")
+
+        BattleLog.logger.info("The heart was collected: #{player.username}: HP#{player.hp}")
+      else
         event.respond(content: "Moved!")
       end
 
-    rescue => e
-      event.respond(content: "An error has occurred: #{e}")
+    # rescue => e
+    #   event.respond(content: "An error has occurred: #{e}")
     end
 
     def log(username:, old_x:, old_y:, new_x:, new_y:, server_id:)

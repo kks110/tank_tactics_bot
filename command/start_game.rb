@@ -23,11 +23,10 @@ module Command
       players = Player.all
       game = Game.create!(server_id: event.server_id, max_x: players.count + 2, max_y: players.count + 2)
 
-      x_options = (0..game.max_x).to_a.shuffle!
-      y_options = (0..game.max_y).to_a.shuffle!
-
       players.each do |player|
-        player.update(x_position: x_options.pop, y_position: y_options.pop)
+        available_spawn_point = Command::Helpers::GenerateGrid.new.available_spawn_location(server_id: event.server_id)
+        spawn_location = available_spawn_point.sample
+        player.update(x_position: spawn_location[:x], y_position: spawn_location[:y])
       end
 
       grid = Command::Helpers::GenerateGridMessage.new.standard_grid(server_id: event.server_id)
@@ -35,10 +34,13 @@ module Command
 
       event.respond(content: "Generating the grid...", ephemeral: true)
 
+      heart_cords = game.heart_x ? { x: game.heart_x, y: game.heart_y } : nil
+
       ImageGeneration::Grid.new.generate(
         grid_x: game.max_x,
         grid_y: game.max_y,
-        players: players
+        players: players,
+        heart_cords: heart_cords
       )
 
       image_location = ENV.fetch('TT_IMAGE_LOCATION', '.')

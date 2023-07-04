@@ -1,8 +1,6 @@
 - Move diagonally
-- Have random heart spawn when daily energy is given
 - Automate energy distribution
 - Show tank range
-- Look in to better random distributions
 - Check after each command to see if there is a winner
 - Run rubocop
 - Reset game
@@ -12,7 +10,9 @@
 - Tests?
 - Add profile cards?
 
-In latest patch:
+  In latest patch:
 - At the start of the game, great a game object which hold, max_x, max_y ect instead of counting players
 - Make grid players + 3 rater than + 2
 - Board is now 'round'
+- A heart will spawn when daily energy is given if none exists on the board
+- Players and hearts will not spawn within 1 range of each other
