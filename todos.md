@@ -2,6 +2,7 @@
 - Show tank range
 - Check after each command to see if there is a winner
 - Run rubocop
+- Stop energy transfer on kill
 -------------------------
 - Reset game
 - Automate energy distribution
