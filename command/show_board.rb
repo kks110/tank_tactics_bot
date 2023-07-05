@@ -20,7 +20,7 @@ module Command
 
       heart_cords = game.heart_x ? { x: game.heart_x, y: game.heart_y } : nil
 
-      ImageGeneration::Grid.new.generate(
+      ImageGeneration::Grid.new.generate_game_board(
         grid_x: game.max_x,
         grid_y: game.max_y,
         players: players,

@@ -12,6 +12,7 @@ require_relative './give_energy'
 require_relative './help'
 require_relative './instructions'
 require_relative './leaderboard'
+require_relative './show_range'
 
 module Command
   LIST = [
@@ -24,6 +25,7 @@ module Command
     Move.new,
     IncreaseHp.new,
     ShowEnergy.new,
+    ShowRange.new,
     Shoot.new,
     UpgradeRange.new,
     GiveHeart.new,

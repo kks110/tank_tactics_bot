@@ -1,7 +1,7 @@
 - Move diagonally
-- Show tank range
 
 -------------------------
+- Terrain
 - Check after each command to see if there is a winner
 - Run rubocop
 - Reset game
@@ -20,3 +20,4 @@
 - A heart will spawn when daily energy is given if none exists on the board
 - Players and hearts will not spawn within 1 range of each other
 - Energy no longer transfers on kill
+- There is now a show_range command which shows how far you can shoot and who is in range

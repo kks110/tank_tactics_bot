@@ -2,7 +2,7 @@
 .idea
 .DS_Store
 battle_log.txt
-grid.png
+*.png
 
 *.gem
 *.rbc
