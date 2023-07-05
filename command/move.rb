@@ -51,6 +51,121 @@ module Command
           server_id: event.server_id
         )
 
+      when 'up_left'
+        old_y = player.y_position
+        old_x = player.x_position
+        new_y = player.y_position - 1
+        new_x = player.x_position - 1
+
+        if player.y_position == 0
+          new_y = game.max_y
+        end
+
+        if player.x_position == 0
+          new_x = game.max_x
+        end
+
+        if grid[new_y][new_x] != 'heart' && !grid[new_y][new_x].nil?
+          event.respond(content: "You can't move up, there is a player in the way!")
+          return
+        end
+
+        player.update(y_position: new_y, x_position: new_x, energy: player.energy - 1)
+        log(
+          username: player.username,
+          old_x: old_x,
+          old_y: old_y,
+          new_x: new_x,
+          new_y: new_y,
+          server_id: event.server_id
+        )
+
+      when 'up_right'
+        old_y = player.y_position
+        old_x = player.x_position
+        new_y = player.y_position - 1
+        new_x = player.x_position + 1
+
+        if player.y_position == 0
+          new_y = game.max_y
+        end
+
+        if player.x_position == game.max_x
+          new_x = 0
+        end
+
+        if grid[new_y][new_x] != 'heart' && !grid[new_y][new_x].nil?
+          event.respond(content: "You can't move up, there is a player in the way!")
+          return
+        end
+
+        player.update(y_position: new_y, x_position: new_x, energy: player.energy - 1)
+        log(
+          username: player.username,
+          old_x: old_x,
+          old_y: old_y,
+          new_x: new_x,
+          new_y: new_y,
+          server_id: event.server_id
+        )
+
+      when 'down_right'
+        old_y = player.y_position
+        old_x = player.x_position
+        new_y = player.y_position + 1
+        new_x = player.x_position + 1
+
+        if player.y_position == game.max_y
+          new_y = 0
+        end
+
+        if player.x_position == game.max_x
+          new_x = 0
+        end
+
+        if grid[new_y][new_x] != 'heart' && !grid[new_y][new_x].nil?
+          event.respond(content: "You can't move up, there is a player in the way!")
+          return
+        end
+
+        player.update(y_position: new_y, x_position: new_x, energy: player.energy - 1)
+        log(
+          username: player.username,
+          old_x: old_x,
+          old_y: old_y,
+          new_x: new_x,
+          new_y: new_y,
+          server_id: event.server_id
+        )
+
+      when 'down_left'
+        old_y = player.y_position
+        old_x = player.x_position
+        new_y = player.y_position + 1
+        new_x = player.x_position - 1
+
+        if player.y_position == game.max_y
+          new_y = 0
+        end
+
+        if player.x_position == 0
+          new_x = game.max_x
+        end
+
+        if grid[new_y][new_x] != 'heart' && !grid[new_y][new_x].nil?
+          event.respond(content: "You can't move up, there is a player in the way!")
+          return
+        end
+
+        player.update(y_position: new_y, x_position: new_x, energy: player.energy - 1)
+        log(
+          username: player.username,
+          old_x: old_x,
+          old_y: old_y,
+          new_x: new_x,
+          new_y: new_y,
+          server_id: event.server_id
+        )
       when 'down'
         old_y = player.y_position
         new_y = player.y_position + 1
@@ -151,7 +266,16 @@ module Command
           name: 'direction',
           description: 'Pick your direction, Up, Down, Left or Right',
           required: true,
-          choices: { up: 'up', down: 'down', left: 'left', right: 'right' }
+          choices: {
+            up_left: 'up_left',
+            up: 'up',
+            up_right: 'up_right',
+            left: 'left',
+            right: 'right',
+            down_left: 'down_left',
+            down: 'down',
+            down_right: 'down_right'
+          }
         )
       ]
     end

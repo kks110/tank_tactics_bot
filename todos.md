@@ -1,5 +1,3 @@
-- Move diagonally
-
 -------------------------
 - Terrain
 - Check after each command to see if there is a winner
@@ -21,3 +19,4 @@
 - Players and hearts will not spawn within 1 range of each other
 - Energy no longer transfers on kill
 - There is now a show_range command which shows how far you can shoot and who is in range
+- Add ability to move diagonally
