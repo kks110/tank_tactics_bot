@@ -50,8 +50,8 @@ module Command
       target.update(hp: target.hp - 1)
 
       if target.hp <= 0
-        player.update(energy: player.energy + target.energy, kills: player.kills + 1)
-        target.update(energy: 0, alive: false, hp: 0, deaths: target.deaths + 1)
+        player.update(kills: player.kills + 1)
+        target.update(alive: false, hp: 0, deaths: target.deaths + 1)
       end
 
       BattleLog.logger.info("#{player.username} shot #{target.username}! #{target.username}: HP: #{target.hp}")
