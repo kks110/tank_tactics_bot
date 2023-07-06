@@ -143,21 +143,44 @@ module ImageGeneration
         )
       end
 
-      draw.pointsize = 80
+      draw.pointsize = 33
       draw.fill = 'green'
 
       draw.annotate(
         image,
+        (player.x_position * cell_size) + cell_size + 20,
+        (player.y_position * cell_size) + cell_size + 90,
+        (player.x_position * cell_size) + cell_size + 20,
+        (player.y_position * cell_size) + cell_size + 90,
+        "You"
+      )
+
+      draw.pointsize = 80
+
+      if game.heart_x
+        draw.annotate(
+          image,
+          (game.heart_x * cell_size) + cell_size + 10,
+          (game.heart_y * cell_size) + cell_size + 80,
+          (game.heart_x * cell_size) + cell_size + 10,
+          (game.heart_y * cell_size) + cell_size + 80,
+          ""
+        )
+      end
+
+      draw.annotate(
+        image,
         (player.x_position * cell_size) + cell_size + 13,
-        (player.y_position * cell_size) + cell_size + 80,
+        (player.y_position * cell_size) + cell_size + 60,
         (player.x_position * cell_size) + cell_size + 13,
-        (player.y_position * cell_size) + cell_size + 80,
+        (player.y_position * cell_size) + cell_size + 60,
         "󰴺"
       )
 
       draw.fill = 'black'
       range_list.each do |item|
         next if item == [player.y_position, player.x_position]
+        next if item == [game.heart_y, game.heart_x]
         next if players_positions.include?(item)
 
         draw.annotate(
@@ -168,15 +191,6 @@ module ImageGeneration
           (item[0] * cell_size) + cell_size + 80,
           "󰓾"
         )
-
-            # draw.annotate(
-            #   image,
-            #   (player.x_position * cell_size) + cell_size + 11,
-            #   (player.y_position * cell_size) + cell_size + 93,
-            #   (player.x_position * cell_size) + cell_size + 11,
-            #   (player.y_position * cell_size) + cell_size + 93,
-            #   "X:#{player.x_position} Y:#{player.y_position}"
-            # )
       end
 
 

@@ -20,6 +20,12 @@ module Command
 
       user = event.user
       player = Player.find_by(discord_id: user.id)
+
+      if [player.y_position, player.x_position] == [y,x]
+        event.respond(content: "You can't give yourself energy!", ephemeral: true)
+        return
+      end
+
       game = Game.find_by(server_id: event.server_id)
       grid = Command::Helpers::GenerateGrid.new.run(server_id: event.server_id)
 

@@ -12,18 +12,19 @@ module Command
     end
 
     def execute(event:)
-      instructions = "You are a tank and you have 3 HP and 2 range to start.\n" +
+      instructions = "You are a tank and you have 3 HP and 2 range and 0 energy to start.\n" +
         "Everyone gets randomly placed on a grid. 1 energy a day gets distributed to everyone.\n" +
+        "When energy si distributed, a heart will spawn on the grid that can be picked up to increase your HP\n" +
         "You can use that energy to:\n" +
         "- shoot (1 energy)\n" +
-        "- move (1 energy)\n" +
+        "- move in any direction (1 energy) The world is 'round' so going off the edge will put you the other side\n" +
         "- upgrade your range (3 energy)\n" +
         "- gain a HP (3 energy)\n\n" +
         "You can also give energy and HP to other players within your range.\n" +
         "Just because you are dead, does not mean you are out. Someone can give you HP to revive you. You will return with however much HP you are given to you and 0 energy.\n" +
         "When someone dies, the killer gets their energy.\n"
 
-      event.respond(content: instructions)
+      event.respond(content: instructions, ephemeral: true)
 
     rescue => e
       event.respond(content: "An error has occurred: #{e}")
