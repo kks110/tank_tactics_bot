@@ -1,6 +1,6 @@
 source "https://rubygems.org"
 
-gem 'discordrb', '3.4.2'
+gem 'discordrb', '3.5.0'
 gem 'dotenv'
 gem 'activerecord'
 gem 'pg'
