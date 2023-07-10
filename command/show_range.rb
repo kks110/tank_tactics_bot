@@ -29,7 +29,7 @@ module Command
         event.delete_response
       else
         event.respond(content: "Sending you a dm", ephemeral: true)
-        event.user.send_file File.new(image_location + '/grid.png')
+        event.user.send_file File.new(image_location + '/range_grid.png')
       end
 
     rescue => e
