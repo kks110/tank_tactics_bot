@@ -66,7 +66,7 @@ module Command
         end
 
         if grid[new_y][new_x] != 'heart' && !grid[new_y][new_x].nil?
-          event.respond(content: "You can't move up, there is a player in the way!")
+          event.respond(content: "You can't move up to the left, there is a player in the way!")
           return
         end
 
@@ -95,7 +95,7 @@ module Command
         end
 
         if grid[new_y][new_x] != 'heart' && !grid[new_y][new_x].nil?
-          event.respond(content: "You can't move up, there is a player in the way!")
+          event.respond(content: "You can't move up and to the right, there is a player in the way!")
           return
         end
 
@@ -124,7 +124,7 @@ module Command
         end
 
         if grid[new_y][new_x] != 'heart' && !grid[new_y][new_x].nil?
-          event.respond(content: "You can't move up, there is a player in the way!")
+          event.respond(content: "You can't move down and to the right, there is a player in the way!")
           return
         end
 
@@ -153,7 +153,7 @@ module Command
         end
 
         if grid[new_y][new_x] != 'heart' && !grid[new_y][new_x].nil?
-          event.respond(content: "You can't move up, there is a player in the way!")
+          event.respond(content: "You can't move down and to the left, there is a player in the way!")
           return
         end
 
@@ -249,8 +249,8 @@ module Command
         event.respond(content: "Moved!")
       end
 
-    # rescue => e
-    #   event.respond(content: "An error has occurred: #{e}")
+    rescue => e
+      event.respond(content: "An error has occurred: #{e}")
     end
 
     def log(username:, old_x:, old_y:, new_x:, new_y:, server_id:)
