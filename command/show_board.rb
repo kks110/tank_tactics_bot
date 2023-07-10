@@ -14,9 +14,9 @@ module Command
 
     def execute(event:)
       players = Player.all
-      game = Game.find_by(server_id: event.server_id)
+      show_everyone = event.options['show_everyone'].nil? ? false : event.options['show_everyone']
 
-      event.respond(content: "Generating the grid...", ephemeral: true)
+      game = Game.find_by(server_id: event.server_id)
 
       heart_cords = game.heart_x ? { x: game.heart_x, y: game.heart_y } : nil
 
@@ -28,11 +28,28 @@ module Command
       )
 
       image_location = ENV.fetch('TT_IMAGE_LOCATION', '.')
-      event.channel.send_file File.new(image_location + '/grid.png')
-      event.delete_response
+
+      if show_everyone
+        event.respond(content: "Generating the grid...", ephemeral: true)
+        event.channel.send_file File.new(image_location + '/grid.png')
+        event.delete_response
+      else
+        event.respond(content: "Sending you a dm", ephemeral: true)
+        event.user.send_file File.new(image_location + '/grid.png')
+      end
 
     rescue => e
       event.respond(content: "An error has occurred: #{e}")
+    end
+
+    def options
+      [
+        Command::Options.new(
+          type: 'boolean',
+          name: 'show_everyone',
+          description: 'This will show the map to everyone'
+        )
+      ]
     end
   end
 end
