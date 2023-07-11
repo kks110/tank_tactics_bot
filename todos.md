@@ -1,14 +1,21 @@
 -------------------------
-- Terrain
-- Check after each command to see if there is a winner
-- Run rubocop
-- Reset game
+- Heart give 2HP instead of 1
+- Have an energy spawn on the map when the heart does
+- Make round map optional? Flag at start up, math get based of that
 - Automate energy distribution
+- Fog of war?
+- Line of sight block terrain?
+- Cities? if you capture them, you get more energy per turn
+- Alliances? Win by alliance. Create alliance, gives code that allows people to join.
+- Mines? can be placed? can be swept for? can be destroyed?
+- Check after each command to see if there is a winner
+- Reset game
 - Come up with some kind of standard notation, and write something that can play out the the game a step at a time
 - Tests?
 - Add profile cards?
 - Use config for energy costs (or make optional at game start?)
 - Use config for board sizes (or make optional at game start?)
+- Run rubocop
 
 -------------------------
   In latest patch:
