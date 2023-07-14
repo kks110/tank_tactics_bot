@@ -1,6 +1,4 @@
 -------------------------
-- Heart give 2HP instead of 1
-- Have an energy spawn on the map when the heart does
 - Make round map optional? Flag at start up, math get based of that
 - Automate energy distribution
 - Fog of war?
@@ -8,7 +6,6 @@
 - Cities? if you capture them, you get more energy per turn
 - Alliances? Win by alliance. Create alliance, gives code that allows people to join.
 - Mines? can be placed? can be swept for? can be destroyed?
-- Check after each command to see if there is a winner
 - Reset game
 - Come up with some kind of standard notation, and write something that can play out the the game a step at a time
 - Tests?
@@ -19,11 +16,13 @@
 
 -------------------------
   In latest patch:
-- At the start of the game, great a game object which hold, max_x, max_y ect instead of counting players
-- Make grid players + 3 rater than + 2
-- Board is now 'round'
-- A heart will spawn when daily energy is given if none exists on the board
-- Players and hearts will not spawn within 1 range of each other
-- Energy no longer transfers on kill
-- There is now a show_range command which shows how far you can shoot and who is in range
-- Add ability to move diagonally
+- Energy per day increased to 10
+- Moving costs 5 energy
+- Shooting costs 10 energy
+- Increase HP costs 30 energy
+- Increasing range costs 30 energy
+- Give energy will give 10 by default
+
+- HP pickup now gives 3 HP when collected
+- There is now an energy pickup. It gives 30 energy when collected
+- 

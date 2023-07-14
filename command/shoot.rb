@@ -41,7 +41,7 @@ module Command
         return
       end
 
-      if grid[y][x].nil?
+      if grid[y][x].nil? || grid[y][x] == 'heart' || grid[y][x] == 'energy_cell'
         event.respond(content:"No tank at that location!")
         return
       end

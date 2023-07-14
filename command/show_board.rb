@@ -18,13 +18,10 @@ module Command
 
       game = Game.find_by(server_id: event.server_id)
 
-      heard_coords = Heart.first ? Heart.first.coords : nil
-
       ImageGeneration::Grid.new.generate_game_board(
         grid_x: game.max_x,
         grid_y: game.max_y,
-        players: players,
-        heart_coords: heard_coords
+        players: players
       )
 
       image_location = ENV.fetch('TT_IMAGE_LOCATION', '.')

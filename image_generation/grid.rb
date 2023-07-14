@@ -170,6 +170,19 @@ module ImageGeneration
         )
       end
 
+      if EnergyCell.first
+        energy_cell_coords = EnergyCell.first.coords
+
+        draw.annotate(
+          image,
+          (energy_cell_coords[:x] * cell_size) + cell_size + 30,
+          (energy_cell_coords[:y] * cell_size) + cell_size + 80,
+          (energy_cell_coords[:x] * cell_size) + cell_size + 30,
+          (energy_cell_coords[:y] * cell_size) + cell_size + 80,
+          "󰂄"
+        )
+      end
+
       draw.annotate(
         image,
         (player.x_position * cell_size) + cell_size + 13,
@@ -201,7 +214,7 @@ module ImageGeneration
       image.write(image_location + '/range_grid.png')
     end
 
-    def generate_game_board(grid_x:, grid_y:, players:, heart_coords:)
+    def generate_game_board(grid_x:, grid_y:, players:)
 
       grid_x = grid_x + 1
       grid_y = grid_y + 1
@@ -322,9 +335,25 @@ module ImageGeneration
         )
       end
 
-      if heart_coords
-        draw.pointsize = 80
+      draw.pointsize = 80
+
+      if EnergyCell.first
+        draw.fill = 'blue'
+        energy_cell_coords = EnergyCell.first.coords
+
+        draw.annotate(
+          image,
+          (energy_cell_coords[:x] * cell_size) + cell_size + 30,
+          (energy_cell_coords[:y] * cell_size) + cell_size + 80,
+          (energy_cell_coords[:x] * cell_size) + cell_size + 30,
+          (energy_cell_coords[:y] * cell_size) + cell_size + 80,
+          "󰂄"
+        )
+      end
+
+      if Heart.first
         draw.fill = 'green'
+        heart_coords = Heart.first.coords
 
         draw.annotate(
           image,

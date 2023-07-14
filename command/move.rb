@@ -35,7 +35,7 @@ module Command
           new_y = game.max_y
         end
 
-        if grid[new_y][x] != 'heart' && !grid[new_y][x].nil?
+        if grid[new_y][x] != 'heart' && !grid[new_y][x].nil? && grid[new_y][x] != 'energy_cell'
           event.respond(content: "You can't move up, there is a player in the way!")
           return
         end
@@ -65,7 +65,7 @@ module Command
           new_x = game.max_x
         end
 
-        if grid[new_y][new_x] != 'heart' && !grid[new_y][new_x].nil?
+        if grid[new_y][new_x] != 'heart' && !grid[new_y][new_x].nil? && grid[new_y][new_x] != 'energy_cell'
           event.respond(content: "You can't move up to the left, there is a player in the way!")
           return
         end
@@ -94,7 +94,7 @@ module Command
           new_x = 0
         end
 
-        if grid[new_y][new_x] != 'heart' && !grid[new_y][new_x].nil?
+        if grid[new_y][new_x] != 'heart' && !grid[new_y][new_x].nil? && grid[new_y][new_x] != 'energy_cell'
           event.respond(content: "You can't move up and to the right, there is a player in the way!")
           return
         end
@@ -123,7 +123,7 @@ module Command
           new_x = 0
         end
 
-        if grid[new_y][new_x] != 'heart' && !grid[new_y][new_x].nil?
+        if grid[new_y][new_x] != 'heart' && !grid[new_y][new_x].nil? && grid[new_y][new_x] != 'energy_cell'
           event.respond(content: "You can't move down and to the right, there is a player in the way!")
           return
         end
@@ -152,7 +152,7 @@ module Command
           new_x = game.max_x
         end
 
-        if grid[new_y][new_x] != 'heart' && !grid[new_y][new_x].nil?
+        if grid[new_y][new_x] != 'heart' && !grid[new_y][new_x].nil? && grid[new_y][new_x] != 'energy_cell'
           event.respond(content: "You can't move down and to the left, there is a player in the way!")
           return
         end
@@ -175,7 +175,7 @@ module Command
           new_y = 0
         end
 
-        if grid[new_y][x] != 'heart' && !grid[new_y][x].nil?
+        if grid[new_y][x] != 'heart' && !grid[new_y][x].nil? && grid[new_y][x] != 'energy_cell'
           event.respond(content: "You can't move down, there is a player in the way!")
           return
         end
@@ -199,7 +199,7 @@ module Command
           new_x = game.max_x
         end
 
-        if grid[y][new_x] != 'heart' && !grid[y][new_x].nil?
+        if grid[y][new_x] != 'heart' && !grid[y][new_x].nil? && grid[y][new_x] != 'energy_cell'
           event.respond(content: "You can't move left, there is a player in the way!")
           return
         end
@@ -223,7 +223,7 @@ module Command
           new_x = 0
         end
 
-        if grid[y][new_x] != 'heart' && !grid[y][new_x].nil?
+        if grid[y][new_x] != 'heart' && !grid[y][new_x].nil? && grid[y][new_x] != 'energy_cell'
           event.respond(content: "You can't move right, there is a player in the way!")
           return
         end
@@ -239,20 +239,31 @@ module Command
         )
       end
 
+      response = "Moved!"
+
       if Heart.first
         heart = Heart.first
         if player.x_position == heart.x_position && player.y_position == heart.y_position
           player.update(hp: player.hp + 3)
           heart.destroy
-          event.respond(content: "Moved and you picked up the heart!")
+          response << " You picked up the heart! You now have #{player.hp}HP"
 
           BattleLog.logger.info("The heart was collected: #{player.username}: HP#{player.hp}")
-        else
-          event.respond(content: "Moved!")
         end
-      else
-        event.respond(content: "Moved!")
       end
+
+      if EnergyCell.first
+        energy_call = EnergyCell.first
+        if player.x_position == energy_call.x_position && player.y_position == energy_call.y_position
+          player.update(energy: player.energy + 30)
+          energy_call.destroy
+          response << " You picked up the energy cell!"
+
+          BattleLog.logger.info("The energy cell was collected: #{player.username}: #{player.energy} energy")
+        end
+      end
+
+      event.respond(content: response)
 
     rescue => e
       event.respond(content: "An error has occurred: #{e}")

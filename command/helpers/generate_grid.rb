@@ -14,9 +14,9 @@ module Command
           grid[player.y_position][player.x_position] = player
         end
 
-        if Heart.first
-          grid[Heart.first.y_position][Heart.first.x_position] = 'heart'
-        end
+        grid[Heart.first.y_position][Heart.first.x_position] = 'heart' if Heart.first
+
+        grid[EnergyCell.first.y_position][EnergyCell.first.x_position] = 'energy_cell' if EnergyCell.first
 
         grid
       end
@@ -38,23 +38,32 @@ module Command
           x = player.x_position
           y = player.y_position
 
-          y_minus_1 = y == 0 ? game.max_y : y - 1
-          y_plus_1 = y == game.max_y ? 0 : y + 1
-
-          x_minus_1 = x == 0 ? game.max_x : x - 1
-          x_plus_1 = x == game.max_x ? 0 : x + 1
-
-          list.delete({ x: x, y: y })
-          list.delete({ x: x_plus_1, y: y_minus_1 })
-          list.delete({ x: x_plus_1, y: y })
-          list.delete({ x: x_plus_1, y: y_plus_1 })
-          list.delete({ x: x, y: y_minus_1 })
-          list.delete({ x: x, y: y_plus_1 })
-          list.delete({ x: x_minus_1, y: y_minus_1 })
-          list.delete({ x: x_minus_1, y: y })
-          list.delete({ x: x_minus_1, y: y_plus_1 })
+          list = modify_list(x, y, list, game)
         end
 
+        list = modify_list(Heart.first.x_position, Heart.first.y_position, list, game) if Heart.first
+
+        list = modify_list(EnergyCell.first.x_position, EnergyCell.first.y_position, list, game) if EnergyCell.first
+
+        list
+      end
+
+      def modify_list(x, y, list, game)
+        y_minus_1 = y == 0 ? game.max_y : y - 1
+        y_plus_1 = y == game.max_y ? 0 : y + 1
+
+        x_minus_1 = x == 0 ? game.max_x : x - 1
+        x_plus_1 = x == game.max_x ? 0 : x + 1
+
+        list.delete({ x: x, y: y })
+        list.delete({ x: x_plus_1, y: y_minus_1 })
+        list.delete({ x: x_plus_1, y: y })
+        list.delete({ x: x_plus_1, y: y_plus_1 })
+        list.delete({ x: x, y: y_minus_1 })
+        list.delete({ x: x, y: y_plus_1 })
+        list.delete({ x: x_minus_1, y: y_minus_1 })
+        list.delete({ x: x_minus_1, y: y })
+        list.delete({ x: x_minus_1, y: y_plus_1 })
         list
       end
     end

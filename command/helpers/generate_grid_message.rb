@@ -15,7 +15,7 @@ module Command
               row << "   "
             end
             row << "|"
-            if j && j != 'heart'
+            if j && j != 'heart' && j != 'energy_cell'
               j.alive ? row << "#{j.hp}   HP" : row << " DEAD "
             else
               row << "      "
@@ -30,10 +30,12 @@ module Command
               row << " #{i_index} "
             end
             row << "|"
-            if j && j != 'heart'
+            if j && j != 'heart' && j != 'energy_cell'
               row << "#{j.range}  RNG"
             elsif j == 'heart'
               "  <3  "
+            elsif j == 'energy_cell'
+              "  E   "
             else
               row << "      "
             end
@@ -47,7 +49,7 @@ module Command
               row << "   "
             end
             row << "|"
-            if j &&  j != 'heart'
+            if j &&  j != 'heart' && j != 'energy_cell'
               display_name = ""
               if j.username.length < 6
                 display_name << j.username
