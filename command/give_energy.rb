@@ -16,7 +16,7 @@ module Command
       x = event.options['x']
       y = event.options['y']
       amount_to_give = event.options['amount']
-      amount_to_give = 1 if amount_to_give.nil?
+      amount_to_give = 10 if amount_to_give.nil?
 
       user = event.user
       player = Player.find_by(discord_id: user.id)
@@ -37,6 +37,11 @@ module Command
         max_y: game.max_y
       )
 
+      if player.energy < amount_to_give
+        event.respond(content: "You can't give more than you have!", ephemeral: true)
+        return
+      end
+
       unless range_list.include?([y,x])
         event.respond(content: "Not in range!", ephemeral: true)
         return
@@ -51,11 +56,6 @@ module Command
 
       unless target.alive
         event.respond(content:"You can't give energy to a dead player!", ephemeral: true)
-        return
-      end
-
-      if player.energy < amount_to_give
-        event.respond(content: "You can't give more than you have!", ephemeral: true)
         return
       end
 

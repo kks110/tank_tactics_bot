@@ -20,7 +20,7 @@ module Command
       game = Game.find_by(server_id: event.server_id)
       grid = Command::Helpers::GenerateGrid.new.run(server_id: event.server_id)
 
-      unless player.energy > 0
+      unless player.energy > 4
         event.respond(content: "Not enough energy!")
         return
       end
@@ -41,7 +41,7 @@ module Command
         end
 
 
-        player.update(y_position: new_y, energy: player.energy - 1)
+        player.update(y_position: new_y, energy: player.energy - 5)
         log(
           username: player.username,
           old_x: x,
@@ -70,7 +70,7 @@ module Command
           return
         end
 
-        player.update(y_position: new_y, x_position: new_x, energy: player.energy - 1)
+        player.update(y_position: new_y, x_position: new_x, energy: player.energy - 5)
         log(
           username: player.username,
           old_x: old_x,
@@ -99,7 +99,7 @@ module Command
           return
         end
 
-        player.update(y_position: new_y, x_position: new_x, energy: player.energy - 1)
+        player.update(y_position: new_y, x_position: new_x, energy: player.energy - 5)
         log(
           username: player.username,
           old_x: old_x,
@@ -128,7 +128,7 @@ module Command
           return
         end
 
-        player.update(y_position: new_y, x_position: new_x, energy: player.energy - 1)
+        player.update(y_position: new_y, x_position: new_x, energy: player.energy - 5)
         log(
           username: player.username,
           old_x: old_x,
@@ -157,7 +157,7 @@ module Command
           return
         end
 
-        player.update(y_position: new_y, x_position: new_x, energy: player.energy - 1)
+        player.update(y_position: new_y, x_position: new_x, energy: player.energy - 5)
         log(
           username: player.username,
           old_x: old_x,
@@ -180,7 +180,7 @@ module Command
           return
         end
 
-        player.update(y_position: new_y, energy: player.energy - 1)
+        player.update(y_position: new_y, energy: player.energy - 5)
         log(
           username: player.username,
           old_x: x,
@@ -204,7 +204,7 @@ module Command
           return
         end
 
-        player.update(x_position: new_x, energy: player.energy - 1)
+        player.update(x_position: new_x, energy: player.energy - 5)
         log(
           username: player.username,
           old_x: old_x,
@@ -228,7 +228,7 @@ module Command
           return
         end
 
-        player.update(x_position: new_x, energy: player.energy - 1)
+        player.update(x_position: new_x, energy: player.energy - 5)
         log(
           username: player.username,
           old_x: old_x,

@@ -24,7 +24,7 @@ module Command
       mentions = ""
       players = Player.all
       players.each do |player|
-        player.update(energy: player.energy + 1) if player.alive
+        player.update(energy: player.energy + 10) if player.alive
         mentions << "<@#{player.discord_id}> "
       end
 

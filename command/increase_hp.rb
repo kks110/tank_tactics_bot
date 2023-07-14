@@ -7,19 +7,19 @@ module Command
     end
 
     def description
-      "Increase HP by 1 for 3 energy"
+      "Increase HP by 1 for 30 energy"
     end
 
     def execute(event:)
       user = event.user
       player = Player.find_by(discord_id: user.id)
 
-      unless player.energy > 2
+      unless player.energy > 29
         event.respond(content: "Not enough energy!")
         return
       end
 
-      player.update(energy: player.energy - 3, hp: player.hp + 1)
+      player.update(energy: player.energy - 30, hp: player.hp + 1)
 
       BattleLog.logger.info("#{player.username} Increased their HP to #{player.hp}")
       event.respond(content: "Health increased, you now have #{player.hp}HP")

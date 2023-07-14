@@ -19,6 +19,12 @@ module Command
 
       user = event.user
       player = Player.find_by(discord_id: user.id)
+
+      unless player.energy > 9
+        event.respond(content: "Not enough energy!")
+        return
+      end
+
       game = Game.find_by(server_id: event.server_id)
       grid = Command::Helpers::GenerateGrid.new.run(server_id: event.server_id)
 
@@ -35,11 +41,6 @@ module Command
         return
       end
 
-      unless player.energy > 0
-        event.respond(content: "Not enough energy!")
-        return
-      end
-
       if grid[y][x].nil?
         event.respond(content:"No tank at that location!")
         return
@@ -52,7 +53,7 @@ module Command
         return
       end
 
-      player.update(energy: player.energy - 1)
+      player.update(energy: player.energy - 10)
 
       target.update(hp: target.hp - 1)
 
