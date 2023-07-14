@@ -14,8 +14,8 @@ module Command
           grid[player.y_position][player.x_position] = player
         end
 
-        unless game.heart_x.nil?
-          grid[game.heart_y][game.heart_x] = 'heart'
+        if Heart.first
+          grid[Heart.first.y_position][Heart.first.x_position] = 'heart'
         end
 
         grid

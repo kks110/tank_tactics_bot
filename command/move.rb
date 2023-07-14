@@ -239,12 +239,17 @@ module Command
         )
       end
 
-      if player.x_position == game.heart_x && player.y_position == game.heart_y
-        player.update(hp: player.hp + 1)
-        game.update(heart_x: nil, heart_y: nil)
-        event.respond(content: "Moved and you picked up the heart!")
+      if Heart.first
+        heart = Heart.first
+        if player.x_position == heart.x_position && player.y_position == heart.y_position
+          player.update(hp: player.hp + 3)
+          heart.destroy
+          event.respond(content: "Moved and you picked up the heart!")
 
-        BattleLog.logger.info("The heart was collected: #{player.username}: HP#{player.hp}")
+          BattleLog.logger.info("The heart was collected: #{player.username}: HP#{player.hp}")
+        else
+          event.respond(content: "Moved!")
+        end
       else
         event.respond(content: "Moved!")
       end

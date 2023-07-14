@@ -157,13 +157,15 @@ module ImageGeneration
 
       draw.pointsize = 80
 
-      if game.heart_x
+      if Heart.first
+        heart_coords = Heart.first.coords
+
         draw.annotate(
           image,
-          (game.heart_x * cell_size) + cell_size + 10,
-          (game.heart_y * cell_size) + cell_size + 80,
-          (game.heart_x * cell_size) + cell_size + 10,
-          (game.heart_y * cell_size) + cell_size + 80,
+          (heart_coords[:x] * cell_size) + cell_size + 10,
+          (heart_coords[:y] * cell_size) + cell_size + 80,
+          (heart_coords[:x] * cell_size) + cell_size + 10,
+          (heart_coords[:y] * cell_size) + cell_size + 80,
           ""
         )
       end
@@ -180,7 +182,8 @@ module ImageGeneration
       draw.fill = 'black'
       range_list.each do |item|
         next if item == [player.y_position, player.x_position]
-        next if item == [game.heart_y, game.heart_x]
+        heart_coords = Heart.first.coords
+        next if item == [heart_coords[:y], heart_coords[:x]]
         next if players_positions.include?(item)
 
         draw.annotate(
@@ -193,14 +196,12 @@ module ImageGeneration
         )
       end
 
-
-
       image_location = ENV.fetch('TT_IMAGE_LOCATION', '.')
       # Save the modified image
       image.write(image_location + '/range_grid.png')
     end
 
-    def generate_game_board(grid_x:, grid_y:, players:, heart_cords:)
+    def generate_game_board(grid_x:, grid_y:, players:, heart_coords:)
 
       grid_x = grid_x + 1
       grid_y = grid_y + 1
@@ -321,16 +322,16 @@ module ImageGeneration
         )
       end
 
-      if heart_cords
+      if heart_coords
         draw.pointsize = 80
         draw.fill = 'green'
 
         draw.annotate(
           image,
-          (heart_cords[:x] * cell_size) + cell_size + 10,
-          (heart_cords[:y] * cell_size) + cell_size + 80,
-          (heart_cords[:x] * cell_size) + cell_size + 10,
-          (heart_cords[:y] * cell_size) + cell_size + 80,
+          (heart_coords[:x] * cell_size) + cell_size + 10,
+          (heart_coords[:y] * cell_size) + cell_size + 80,
+          (heart_coords[:x] * cell_size) + cell_size + 10,
+          (heart_coords[:y] * cell_size) + cell_size + 80,
           ""
         )
       end
