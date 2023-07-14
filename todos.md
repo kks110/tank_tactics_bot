@@ -14,7 +14,7 @@
 - Run rubocop
 
 -------------------------
-  In latest patch:
+New updates:
 - Energy per day increased to 10
 - Moving costs 5 energy
 - Shooting costs 10 energy
@@ -23,6 +23,10 @@
 - Give energy will give 10 by default
 - HP pickup now gives 3 HP when collected
 - There is now an energy pickup. It gives 30 energy when collected
+
+Bug fixes:
+- Could shoot hearts and energy cells
+- If range was more than the board size, the draw range command broke
 
 Backend / admin stuff
 - Add a reset game command to easily reset

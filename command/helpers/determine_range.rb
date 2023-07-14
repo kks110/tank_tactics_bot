@@ -5,6 +5,16 @@ module Command
       def build_range_list(player_x:, player_y:, player_range:, max_x:, max_y:)
         list = []
 
+        if (player_range + player_range + 1) >= max_x + 1
+          (0..max_y).to_a.each do |y_option|
+            (0..max_x).to_a.each do |x_option|
+              list << [y_option, x_option]
+            end
+          end
+
+          return list
+        end
+
         range_right_x = (player_x + player_range) > max_x ? (player_x + player_range) - max_x - 1 : (player_x + player_range)
         range_left_x = (player_x - player_range) < 0 ? (player_x - player_range) + max_x + 1 : (player_x - player_range)
 
