@@ -21,8 +21,9 @@
 - Increase HP costs 30 energy
 - Increasing range costs 30 energy
 - Give energy will give 10 by default
-
 - HP pickup now gives 3 HP when collected
 - There is now an energy pickup. It gives 30 energy when collected
+
+Backend / admin stuff
 - Add a reset game command to easily reset
-- 
+- Daily energy, upgrade costs and rewards are now driven by a config file

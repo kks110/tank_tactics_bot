@@ -12,7 +12,7 @@ module Command
       "Move your tank"
     end
 
-    def execute(event:)
+    def execute(event:, game_data:)
       direction = event.options['direction']
 
       user = event.user
@@ -20,7 +20,7 @@ module Command
       game = Game.find_by(server_id: event.server_id)
       grid = Command::Helpers::GenerateGrid.new.run(server_id: event.server_id)
 
-      unless player.energy > 4
+      unless player.energy >= game_data.move_cost
         event.respond(content: "Not enough energy!")
         return
       end
@@ -41,7 +41,7 @@ module Command
         end
 
 
-        player.update(y_position: new_y, energy: player.energy - 5)
+        player.update(y_position: new_y, energy: player.energy - game_data.move_cost)
         log(
           username: player.username,
           old_x: x,
@@ -70,7 +70,7 @@ module Command
           return
         end
 
-        player.update(y_position: new_y, x_position: new_x, energy: player.energy - 5)
+        player.update(y_position: new_y, x_position: new_x, energy: player.energy - game_data.move_cost)
         log(
           username: player.username,
           old_x: old_x,
@@ -99,7 +99,7 @@ module Command
           return
         end
 
-        player.update(y_position: new_y, x_position: new_x, energy: player.energy - 5)
+        player.update(y_position: new_y, x_position: new_x, energy: player.energy - game_data.move_cost)
         log(
           username: player.username,
           old_x: old_x,
@@ -128,7 +128,7 @@ module Command
           return
         end
 
-        player.update(y_position: new_y, x_position: new_x, energy: player.energy - 5)
+        player.update(y_position: new_y, x_position: new_x, energy: player.energy - game_data.move_cost)
         log(
           username: player.username,
           old_x: old_x,
@@ -157,7 +157,7 @@ module Command
           return
         end
 
-        player.update(y_position: new_y, x_position: new_x, energy: player.energy - 5)
+        player.update(y_position: new_y, x_position: new_x, energy: player.energy - game_data.move_cost)
         log(
           username: player.username,
           old_x: old_x,
@@ -180,7 +180,7 @@ module Command
           return
         end
 
-        player.update(y_position: new_y, energy: player.energy - 5)
+        player.update(y_position: new_y, energy: player.energy - game_data.move_cost)
         log(
           username: player.username,
           old_x: x,
@@ -204,7 +204,7 @@ module Command
           return
         end
 
-        player.update(x_position: new_x, energy: player.energy - 5)
+        player.update(x_position: new_x, energy: player.energy - game_data.move_cost)
         log(
           username: player.username,
           old_x: old_x,
@@ -228,7 +228,7 @@ module Command
           return
         end
 
-        player.update(x_position: new_x, energy: player.energy - 5)
+        player.update(x_position: new_x, energy: player.energy - game_data.move_cost)
         log(
           username: player.username,
           old_x: old_x,
@@ -244,7 +244,7 @@ module Command
       if Heart.first
         heart = Heart.first
         if player.x_position == heart.x_position && player.y_position == heart.y_position
-          player.update(hp: player.hp + 3)
+          player.update(hp: player.hp + game_data.heart_reward)
           heart.destroy
           response << " You picked up the heart! You now have #{player.hp}HP"
 
@@ -255,7 +255,7 @@ module Command
       if EnergyCell.first
         energy_call = EnergyCell.first
         if player.x_position == energy_call.x_position && player.y_position == energy_call.y_position
-          player.update(energy: player.energy + 30)
+          player.update(energy: player.energy + game_data.energy_cell_reward)
           energy_call.destroy
           response << " You picked up the energy cell!"
 

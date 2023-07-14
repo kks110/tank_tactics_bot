@@ -11,7 +11,7 @@ module Command
       "Let the game begin!"
     end
 
-    def execute(event:)
+    def execute(event:, game_data:)
       user = event.user
       player = Player.find_by(discord_id: user.id)
 

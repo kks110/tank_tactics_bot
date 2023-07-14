@@ -12,7 +12,7 @@ module Command
       "See whos on top"
     end
 
-    def execute(event:)
+    def execute(event:, game_data:)
       rank_by = event.options['rank_by']
       rank_by = 'kills' if rank_by.nil?
 

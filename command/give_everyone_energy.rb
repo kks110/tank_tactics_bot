@@ -10,7 +10,7 @@ module Command
       "Distribute daily energy"
     end
 
-    def execute(event:)
+    def execute(event:, game_data:)
       user = event.user
       player = Player.find_by(discord_id: user.id)
 
@@ -19,12 +19,10 @@ module Command
         return
       end
 
-      game = Game.find_by(server_id: event.server_id)
-
       mentions = ""
       players = Player.all
       players.each do |player|
-        player.update(energy: player.energy + 10) if player.alive
+        player.update(energy: player.energy + game_data.daily_energy_amount) if player.alive
         mentions << "<@#{player.discord_id}> "
       end
 
@@ -51,8 +49,8 @@ module Command
       end
 
       event.respond(content: response)
-    # rescue => e
-    #   event.respond(content: "An error has occurred: #{e}")
+    rescue => e
+      event.respond(content: "An error has occurred: #{e}")
     end
   end
 end

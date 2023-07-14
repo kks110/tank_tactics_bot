@@ -12,7 +12,7 @@ module Command
       "Give energy to someone"
     end
 
-    def execute(event:)
+    def execute(event:, game_data:)
       x = event.options['x']
       y = event.options['y']
       amount_to_give = event.options['amount']

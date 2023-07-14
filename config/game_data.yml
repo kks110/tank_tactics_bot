@@ -1,0 +1,12 @@
+
+costs:
+  increase_hp: 30
+  increase_range: 30
+  shoot: 10
+  move: 5
+
+daily_energy: 10
+
+rewards:
+  heart: 3
+  energy_cell: 30

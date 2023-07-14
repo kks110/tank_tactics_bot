@@ -1,25 +1,25 @@
 require_relative './base'
 
 module Command
-  class UpgradeRange < Command::Base
+  class IncreaseRange < Command::Base
     def name
-      :upgrade_range
+      :increase_range
     end
 
     def description
       "Increase range by 1 for 30 energy"
     end
 
-    def execute(event:)
+    def execute(event:, game_data:)
       user = event.user
       player = Player.find_by(discord_id: user.id)
 
-      unless player.energy > 29
+      unless player.energy >= game_data.increase_range_cost
         event.respond(content: "Not enough energy!")
         return
       end
 
-      player.update(energy: player.energy - 30, range: player.range + 1)
+      player.update(energy: player.energy - game_data.increase_range_cost, range: player.range + 1)
 
       BattleLog.logger.info("#{player.username} increased their range to #{player.range}")
       event.respond(content: "Range increased, you now have #{player.range} range")

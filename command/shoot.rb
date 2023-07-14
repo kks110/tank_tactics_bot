@@ -13,14 +13,14 @@ module Command
       "Shoot someone"
     end
 
-    def execute(event:)
+    def execute(event:, game_data:)
       x = event.options['x']
       y = event.options['y']
 
       user = event.user
       player = Player.find_by(discord_id: user.id)
 
-      unless player.energy > 9
+      unless player.energy >= game_data.shoot_cost
         event.respond(content: "Not enough energy!")
         return
       end
@@ -53,7 +53,7 @@ module Command
         return
       end
 
-      player.update(energy: player.energy - 10)
+      player.update(energy: player.energy - game_data.shoot_cost)
 
       target.update(hp: target.hp - 1)
 

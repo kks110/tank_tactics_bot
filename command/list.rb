@@ -6,7 +6,7 @@ require_relative './move'
 require_relative './increase_hp'
 require_relative './show_energy'
 require_relative './shoot'
-require_relative './upgrade_range'
+require_relative './increase_range'
 require_relative './give_heart'
 require_relative './give_energy'
 require_relative './help'
@@ -28,7 +28,7 @@ module Command
     ShowEnergy.new,
     ShowRange.new,
     Shoot.new,
-    UpgradeRange.new,
+    IncreaseRange.new,
     GiveHeart.new,
     GiveEnergy.new,
     Leaderboard.new,

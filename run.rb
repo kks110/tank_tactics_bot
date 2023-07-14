@@ -10,14 +10,17 @@ require_relative './models/energy_cell'
 require_relative './command/list'
 require_relative './initialise'
 require_relative './battle_log'
+require_relative './config/game_data'
 
 bot = Discordrb::Bot.new(token: ENV.fetch('SLASH_COMMAND_BOT_TOKEN', nil), intents: [:server_messages])
 Command::RegisterCommands.run(bot: bot)
 
+game_data = Config::GameData.new
+
 Command::LIST.each do |command|
   bot.application_command(command.name) do |event|
     puts "Executing command: #{command.name}"
-    command.execute(event: event)
+    command.execute(event: event, game_data: game_data)
   end
 end
 

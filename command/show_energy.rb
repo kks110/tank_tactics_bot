@@ -10,7 +10,7 @@ module Command
       "Show how much energy you have"
     end
 
-    def execute(event:)
+    def execute(event:, game_data:)
       user = event.interaction.user
       player = Player.find_by(discord_id: user.id)
 
