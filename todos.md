@@ -6,7 +6,6 @@
 - Cities? if you capture them, you get more energy per turn
 - Alliances? Win by alliance. Create alliance, gives code that allows people to join.
 - Mines? can be placed? can be swept for? can be destroyed?
-- Reset game
 - Come up with some kind of standard notation, and write something that can play out the the game a step at a time
 - Tests?
 - Add profile cards?
@@ -25,4 +24,5 @@
 
 - HP pickup now gives 3 HP when collected
 - There is now an energy pickup. It gives 30 energy when collected
+- Add a reset game command to easily reset
 - 

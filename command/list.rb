@@ -13,6 +13,7 @@ require_relative './help'
 require_relative './instructions'
 require_relative './leaderboard'
 require_relative './show_range'
+require_relative './reset_game'
 
 module Command
   LIST = [
@@ -30,6 +31,7 @@ module Command
     UpgradeRange.new,
     GiveHeart.new,
     GiveEnergy.new,
-    Leaderboard.new
+    Leaderboard.new,
+    ResetGame.new
   ]
 end
