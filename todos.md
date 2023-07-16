@@ -15,6 +15,7 @@
 
 -------------------------
 New updates:
+- Add a vote_for_peace command
 - Energy per day increased to 10
 - Moving costs 5 energy
 - Shooting costs 10 energy

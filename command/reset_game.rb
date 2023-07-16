@@ -1,5 +1,6 @@
 require_relative './base'
 require_relative './helpers/generate_grid_message'
+require_relative './helpers/clean_up'
 
 module Command
   class ResetGame < Command::Base
@@ -25,34 +26,8 @@ module Command
         return
       end
 
-      most_kills = Player.order({'kills' => :desc}).first
-      most_deaths = Player.order({'deaths' => :desc}).first
+      Command::Helpers::CleanUp.run(event: event)
 
-      event.respond(content: "The game has ended!\n Most Kills: #{most_kills.username}: #{most_kills.kills}\n Most Deaths: #{most_deaths.username}: #{most_deaths.deaths}")
-
-      players = Player.all
-      players.each do |player|
-        if player.admin
-          player.update(
-            x_position: nil,
-            y_position: nil,
-            energy: 0,
-            hp: 3,
-            range: 2,
-            kills: 0,
-            deaths: 0,
-          )
-        else
-          player.destroy
-        end
-      end
-
-      Game.first.destroy
-
-      Heart.first.destroy if Heart.first
-      EnergyCell.first.destroy if EnergyCell.first
-
-      BattleLog.logger.info("The game has ended!\n")
     rescue => e
       event.respond(content: "An error has occurred: #{e}")
     end
