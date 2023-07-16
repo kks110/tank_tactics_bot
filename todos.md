@@ -1,7 +1,7 @@
 -------------------------
 - Use config for game world size so when we add different things eg cities, I can pull from config
-- Each
-- Automate energy distribution of the below will be a column in the game table as a bool which can be used throughout the app
+- Automate energy distribution
+- Each of the below will be a column in the game table as a bool which can be used throughout the app
 - Make round map optional and all the below. have books passed when the game is made
 - Fog of war?
 - Line of sight block terrain?
