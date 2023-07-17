@@ -337,6 +337,38 @@ module ImageGeneration
 
       draw.pointsize = 80
 
+      City.all.each do |city|
+        draw.fill = 'goldenrod'
+
+        message = ''
+        if city.player_id
+          player = Player.find_by(id: city.player_id)
+          message << player.username
+        else
+          message << 'Unowned'
+        end
+
+        draw.pointsize = 22
+        draw.annotate(
+          image,
+          (city.x_position * cell_size) + cell_size + 11,
+          (city.y_position * cell_size) + cell_size + 95,
+          (city.x_position * cell_size) + cell_size + 11,
+          (city.y_position * cell_size) + cell_size + 95,
+          message
+        )
+
+        draw.pointsize = 80
+        draw.annotate(
+          image,
+          (city.x_position * cell_size) + cell_size + 30,
+          (city.y_position * cell_size) + cell_size + 70,
+          (city.x_position * cell_size) + cell_size + 30,
+          (city.y_position * cell_size) + cell_size + 70,
+          "󰄚"
+        )
+      end
+
       if EnergyCell.first
         draw.fill = 'blue'
         energy_cell_coords = EnergyCell.first.coords

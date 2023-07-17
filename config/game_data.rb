@@ -7,19 +7,19 @@ module Config
     end
 
     def increase_hp_cost
-      config["costs"]["increase_hp"]
+      config['costs']['increase_hp']
     end
 
     def increase_range_cost
-      config["costs"]["increase_range"]
+      config['costs']['increase_range']
     end
 
     def shoot_cost
-      config["costs"]["shoot"]
+      config['costs']['shoot']
     end
 
     def move_cost
-      config["costs"]["move"]
+      config['costs']['move']
     end
 
     def daily_energy_amount
@@ -27,11 +27,15 @@ module Config
     end
 
     def heart_reward
-      config["rewards"]["heart"]
+      config['rewards']['heart']
     end
 
     def energy_cell_reward
-      config["rewards"]["energy_cell"]
+      config['rewards']['energy_cell']
+    end
+
+    def world_size_max(type: 'default')
+      config['world_size_max'].fetch(type, 'default')
     end
 
     private

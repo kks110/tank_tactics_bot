@@ -241,6 +241,17 @@ module Command
 
       response = "Moved!"
 
+      if game.cities
+        City.all.each do |city|
+          if player.x_position == city.x_position && player.y_position == city.y_position
+            city.update(player_id: player.id)
+            response << " You have captured a city! You will gain an extra 5 energy each day"
+
+            BattleLog.logger.info("City captured: #{player.username}: City X:#{city.x_position} Y:#{city.y_position}")
+          end
+        end
+      end
+
       if Heart.first
         heart = Heart.first
         if player.x_position == heart.x_position && player.y_position == heart.y_position
@@ -271,8 +282,6 @@ module Command
 
     def log(username:, old_x:, old_y:, new_x:, new_y:, server_id:)
       BattleLog.logger.info("#{username} moved. X:#{old_x} Y:#{old_y} -> X:#{new_x} Y:#{new_y}")
-      grid = Command::Helpers::GenerateGridMessage.new.standard_grid(server_id: server_id)
-      BattleLog.logger.info("\n#{grid}")
     end
 
     def options

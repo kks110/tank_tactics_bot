@@ -1,5 +1,4 @@
 require_relative './base'
-require_relative './helpers/generate_grid_message'
 require_relative '../image_generation/grid'
 
 module Command

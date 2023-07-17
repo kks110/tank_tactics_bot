@@ -45,6 +45,10 @@ module Command
 
         list = modify_list(EnergyCell.first.x_position, EnergyCell.first.y_position, list, game) if EnergyCell.first
 
+        City.all.each do |city|
+          modify_list(city.x_position, city.y_position, list, game)
+        end
+
         list
       end
 
