@@ -39,6 +39,10 @@ module Config
       config['rewards']['energy_cell']
     end
 
+    def captured_city_reward
+      config['rewards']['captured_city']
+    end
+
     def world_size_max(type: 'default')
       config['world_size_max'].fetch(type, 'default')
     end

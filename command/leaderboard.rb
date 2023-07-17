@@ -9,7 +9,7 @@ module Command
     end
 
     def description
-      "See whos on top"
+      "See who's on top"
     end
 
     def execute(event:, game_data:)
@@ -32,13 +32,9 @@ module Command
     def message_order_logic(player, rank_by)
       case rank_by
       when 'kills'
-        "| K: #{player.kills} / D: #{player.deaths}  |  HP: #{player.hp}  |  RNG: #{player.range}\n"
-      when 'deaths'
-        "D:#{player.deaths} / K: #{player.kills}  |  HP :#{player.hp}  |  RNG: #{player.range}\n"
-      when 'hp'
-        "HP:#{player.hp}  |  K: #{player.kills} / D: #{player.deaths}  |  RNG: #{player.range}\n"
-      when 'range'
-        "RNG: #{player.range}  |  K: #{player.kills} / D: #{player.deaths}  |  HP: #{player.hp}\n"
+        "K: #{player.kills} / D: #{player.deaths}\n"
+      when 'city_captures'
+        "City Captureas: #{player.city_captures}\n"
       end
     end
 
@@ -48,7 +44,7 @@ module Command
           type: 'string',
           name: 'rank_by',
           description: 'Pick the order that you want to rank people by',
-          choices: { hp: 'hp', range: 'range', kills: 'kills', deaths: 'deaths' }
+          choices: { kills: 'kills', city_captures: 'city_captures' }
         )
       ]
     end

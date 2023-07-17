@@ -4,6 +4,9 @@ module Command
       def self.run(event:, peace_vote: false)
         most_kills = Player.order({'kills' => :desc}).first
         most_deaths = Player.order({'deaths' => :desc}).first
+        most_captures = Player.order({'city_captures' => :desc}).first
+
+        game = Game.find_by(server_id: event.server_id)
 
         winners = Player.where({ 'alive' => true })
 
@@ -21,6 +24,7 @@ module Command
 
         response << "Most Kills: #{most_kills.username}: #{most_kills.kills}\n"
         response << "Most Deaths: #{most_deaths.username}: #{most_deaths.deaths}"
+        response << "Most City Captures: #{most_captures.username}: #{most_captures.city_captures}" if game.cities
 
 
         event.respond(content: response)

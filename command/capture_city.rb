@@ -27,7 +27,7 @@ module Command
       user = event.user
       player = Player.find_by(discord_id: user.id)
 
-      unless player.energy >= game_data.capture_city
+      unless player.energy >= game_data.capture_city_cost
         event.respond(content: "Not enough energy!")
         return
       end
@@ -59,7 +59,7 @@ module Command
         return
       end
 
-      player.update(energy: player.energy - game_data.capture_city)
+      player.update(energy: player.energy - game_data.capture_city_cost, city_captures: player.city_captures + 1)
 
       target.update(player_id: player.id)
 

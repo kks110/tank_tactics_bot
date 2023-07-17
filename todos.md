@@ -1,6 +1,4 @@
 -------------------------
-- Add cities captured to the palyer
-- Add leaderboard listable by captures
 - Add game settings command
 - Automate energy distribution
 - Fog of war?
@@ -26,6 +24,7 @@ New updates:
 - Give energy will give 10 by default
 - HP pickup now gives 3 HP when collected
 - There is now an energy pickup. It gives 30 energy when collected
+- Leaderboard ahs changes. Now shows either Kills or city captures
 
 Bug fixes:
 - Could shoot hearts and energy cells

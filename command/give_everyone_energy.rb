@@ -13,16 +13,28 @@ module Command
     def execute(event:, game_data:)
       user = event.user
       player = Player.find_by(discord_id: user.id)
+      game = Game.find_by(server_id: event.server_id)
 
       unless player.admin
         event.respond(content: "Sorry! Only admins can do this!")
         return
       end
 
+      city_owners = []
+      if game.cities
+        City.all.each do |city|
+          city_owners << city.player_id if city.player_id
+        end
+      end
+
       mentions = ""
       players = Player.all
       players.each do |player|
-        player.update(energy: player.energy + game_data.daily_energy_amount) if player.alive
+        amount_to_give = game_data.daily_energy_amount
+
+        amount_to_give += game_data.captured_city_reward if city_owners.include?(player.id)
+
+        player.update(energy: player.energy + amount_to_give) if player.alive
         mentions << "<@#{player.discord_id}> "
       end
 

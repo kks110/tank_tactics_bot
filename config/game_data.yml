@@ -11,6 +11,7 @@ daily_energy: 10
 rewards:
   heart: 3
   energy_cell: 30
+  captured_city: 5
 
 # This is the max on the X and Y axis.
 # It calculated as number of players + this number
