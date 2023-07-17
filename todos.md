@@ -1,4 +1,6 @@
 -------------------------
+- Add cities captured to the palyer
+- Add leaderboard listable by captures
 - Add game settings command
 - Automate energy distribution
 - Fog of war?
