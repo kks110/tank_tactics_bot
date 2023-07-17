@@ -15,6 +15,8 @@ require_relative './leaderboard'
 require_relative './show_range'
 require_relative './reset_game'
 require_relative './vote_for_peace'
+require_relative './capture_city'
+
 
 module Command
   LIST = [
@@ -34,6 +36,7 @@ module Command
     GiveEnergy.new,
     Leaderboard.new,
     ResetGame.new,
-    VoteForPeace.new
+    VoteForPeace.new,
+    CaptureCity.new
   ]
 end

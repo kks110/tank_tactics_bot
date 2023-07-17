@@ -14,9 +14,15 @@ module Command
           grid[player.y_position][player.x_position] = player
         end
 
-        grid[Heart.first.y_position][Heart.first.x_position] = 'heart' if Heart.first
+        grid[Heart.first.y_position][Heart.first.x_position] = Heart.first if Heart.first
 
-        grid[EnergyCell.first.y_position][EnergyCell.first.x_position] = 'energy_cell' if EnergyCell.first
+        grid[EnergyCell.first.y_position][EnergyCell.first.x_position] = EnergyCell.first if EnergyCell.first
+
+        if game.cities
+          City.all.each do |city|
+            grid[city.y_position][city.x_position] = city
+          end
+        end
 
         grid
       end

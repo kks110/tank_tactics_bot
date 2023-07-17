@@ -4,6 +4,7 @@ costs:
   increase_range: 30
   shoot: 10
   move: 5
+  capture_city: 10
 
 daily_energy: 10
 

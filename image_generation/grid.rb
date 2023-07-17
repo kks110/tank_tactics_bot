@@ -338,13 +338,13 @@ module ImageGeneration
       draw.pointsize = 80
 
       City.all.each do |city|
-        draw.fill = 'goldenrod'
-
         message = ''
         if city.player_id
+          draw.fill = 'silver'
           player = Player.find_by(id: city.player_id)
           message << player.username
         else
+          draw.fill = 'goldenrod'
           message << 'Unowned'
         end
 
@@ -361,9 +361,9 @@ module ImageGeneration
         draw.pointsize = 80
         draw.annotate(
           image,
-          (city.x_position * cell_size) + cell_size + 30,
+          (city.x_position * cell_size) + cell_size + 15,
           (city.y_position * cell_size) + cell_size + 70,
-          (city.x_position * cell_size) + cell_size + 30,
+          (city.x_position * cell_size) + cell_size + 15,
           (city.y_position * cell_size) + cell_size + 70,
           "󰄚"
         )

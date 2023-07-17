@@ -22,6 +22,11 @@ module Config
       config['costs']['move']
     end
 
+    def capture_city_cost
+      config['costs']['capture_city']
+    end
+
+
     def daily_energy_amount
       config['daily_energy']
     end

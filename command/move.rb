@@ -35,8 +35,8 @@ module Command
           new_y = game.max_y
         end
 
-        if grid[new_y][x] != 'heart' && !grid[new_y][x].nil? && grid[new_y][x] != 'energy_cell'
-          event.respond(content: "You can't move up, there is a player in the way!")
+        if grid[new_y][x].class != Heart && !grid[new_y][x].nil? && grid[new_y][x].class != EnergyCell || grid[new_y][x].class == City
+          event.respond(content: "You can't move up, there is something in the way!")
           return
         end
 
@@ -65,8 +65,8 @@ module Command
           new_x = game.max_x
         end
 
-        if grid[new_y][new_x] != 'heart' && !grid[new_y][new_x].nil? && grid[new_y][new_x] != 'energy_cell'
-          event.respond(content: "You can't move up to the left, there is a player in the way!")
+        if grid[new_y][new_x].class != Heart && !grid[new_y][new_x].nil? && grid[new_y][new_x].class != EnergyCell || grid[new_y][new_x].class == City
+          event.respond(content: "You can't move up to the left, there is something in the way!")
           return
         end
 
@@ -94,8 +94,8 @@ module Command
           new_x = 0
         end
 
-        if grid[new_y][new_x] != 'heart' && !grid[new_y][new_x].nil? && grid[new_y][new_x] != 'energy_cell'
-          event.respond(content: "You can't move up and to the right, there is a player in the way!")
+        if grid[new_y][new_x].class != Heart && !grid[new_y][new_x].nil? && grid[new_y][new_x].class != EnergyCell || grid[new_y][new_x].class == City
+          event.respond(content: "You can't move up and to the right, there is something in the way!")
           return
         end
 
@@ -123,8 +123,8 @@ module Command
           new_x = 0
         end
 
-        if grid[new_y][new_x] != 'heart' && !grid[new_y][new_x].nil? && grid[new_y][new_x] != 'energy_cell'
-          event.respond(content: "You can't move down and to the right, there is a player in the way!")
+        if grid[new_y][new_x].class != Heart && !grid[new_y][new_x].nil? && grid[new_y][new_x].class != EnergyCell || grid[new_y][new_x].class == City
+          event.respond(content: "You can't move down and to the right, there is something in the way!")
           return
         end
 
@@ -152,8 +152,8 @@ module Command
           new_x = game.max_x
         end
 
-        if grid[new_y][new_x] != 'heart' && !grid[new_y][new_x].nil? && grid[new_y][new_x] != 'energy_cell'
-          event.respond(content: "You can't move down and to the left, there is a player in the way!")
+        if grid[new_y][new_x].class != Heart && !grid[new_y][new_x].nil? && grid[new_y][new_x].class != EnergyCell || grid[new_y][new_x].class == City
+          event.respond(content: "You can't move down and to the left, there is something in the way!")
           return
         end
 
@@ -175,8 +175,8 @@ module Command
           new_y = 0
         end
 
-        if grid[new_y][x] != 'heart' && !grid[new_y][x].nil? && grid[new_y][x] != 'energy_cell'
-          event.respond(content: "You can't move down, there is a player in the way!")
+        if grid[new_y][x].class != Heart && !grid[new_y][x].nil? && grid[new_y][x].class != EnergyCell || grid[new_y][x].class == City
+          event.respond(content: "You can't move down, there is something in the way!")
           return
         end
 
@@ -199,8 +199,8 @@ module Command
           new_x = game.max_x
         end
 
-        if grid[y][new_x] != 'heart' && !grid[y][new_x].nil? && grid[y][new_x] != 'energy_cell'
-          event.respond(content: "You can't move left, there is a player in the way!")
+        if grid[y][new_x].class != Heart && !grid[y][new_x].nil? && grid[y][new_x].class != EnergyCell || grid[y][new_x].class == City
+          event.respond(content: "You can't move left, there is something in the way!")
           return
         end
 
@@ -223,8 +223,8 @@ module Command
           new_x = 0
         end
 
-        if grid[y][new_x] != 'heart' && !grid[y][new_x].nil? && grid[y][new_x] != 'energy_cell'
-          event.respond(content: "You can't move right, there is a player in the way!")
+        if grid[y][new_x].class != Heart && !grid[y][new_x].nil? && grid[y][new_x].class != EnergyCell || grid[y][new_x].class == City
+          event.respond(content: "You can't move right, there is something in the way!")
           return
         end
 
@@ -240,17 +240,6 @@ module Command
       end
 
       response = "Moved!"
-
-      if game.cities
-        City.all.each do |city|
-          if player.x_position == city.x_position && player.y_position == city.y_position
-            city.update(player_id: player.id)
-            response << " You have captured a city! You will gain an extra 5 energy each day"
-
-            BattleLog.logger.info("City captured: #{player.username}: City X:#{city.x_position} Y:#{city.y_position}")
-          end
-        end
-      end
 
       if Heart.first
         heart = Heart.first
