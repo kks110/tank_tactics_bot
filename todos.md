@@ -1,12 +1,10 @@
 -------------------------
-- Use config for game world size so when we add different things eg cities, I can pull from config
+- Add game settings command
 - Automate energy distribution
-- Each of the below will be a column in the game table as a bool which can be used throughout the app
-- Make round map optional and all the below. have books passed when the game is made
 - Fog of war?
 - Line of sight block terrain?
 - Cities? if you capture them, you get more energy per turn
-- Alliances? Win by alliance. Create alliance, gives code that allows people to join.
+- Alliances? Win by alliance. Create alliance, gives code that allows people to join. Cost double to attach alliance?
 - Mines? can be placed? can be swept for? can be destroyed?
 - Come up with some kind of standard notation, and write something that can play out the the game a step at a time
 - Tests?
@@ -34,3 +32,4 @@ Bug fixes:
 Backend / admin stuff
 - Add a reset game command to easily reset
 - Daily energy, upgrade costs and rewards are now driven by a config file
+- World size now comes from config
