@@ -17,6 +17,8 @@ module Command
 
       game = Game.find_by(server_id: event.server_id)
 
+      show_everyone = false if game.fog_of_war
+
       ImageGeneration::Grid.new.generate_game_board(
         grid_x: game.max_x,
         grid_y: game.max_y,

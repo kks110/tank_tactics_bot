@@ -14,15 +14,18 @@ module Command
       user = event.user
       player = Player.find_by(discord_id: user.id)
 
+      game = Game.find_by(server_id: event.server_id)
+      ephemeral = game.fog_of_war
+
       unless player.energy >= game_data.increase_hp_cost
-        event.respond(content: "Not enough energy!")
+        event.respond(content: "Not enough energy!", ephemeral: ephemeral)
         return
       end
 
       player.update(energy: player.energy - game_data.increase_hp_cost, hp: player.hp + 1)
 
       BattleLog.logger.info("#{player.username} Increased their HP to #{player.hp}")
-      event.respond(content: "Health increased, you now have #{player.hp}HP")
+      event.respond(content: "Health increased, you now have #{player.hp}HP", ephemeral: ephemeral)
 
     rescue => e
       event.respond(content: "An error has occurred: #{e}")

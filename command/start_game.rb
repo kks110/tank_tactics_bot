@@ -21,14 +21,18 @@ module Command
 
       players = Player.all
       world_max = players.count + game_data.world_size_max
+
       cities = event.options['cities'] ? event.options['cities'] : false
+      fog_of_far = event.options['fog_of_far'] ? event.options['fog_of_far'] : false
+
       city_count = players.count / 2
 
       game = Game.create!(
         server_id: event.server_id,
         max_x: world_max,
         max_y: world_max,
-        cities: cities
+        cities: cities,
+        fog_of_far: fog_of_far
       )
 
       if cities
@@ -38,7 +42,6 @@ module Command
           City.create!(x_position: spawn_location[:x], y_position: spawn_location[:y])
         end
       end
-
 
       players.each do |player|
         available_spawn_point = Command::Helpers::GenerateGrid.new.available_spawn_location(server_id: event.server_id)
@@ -58,9 +61,8 @@ module Command
       event.channel.send_file File.new(image_location + '/grid.png')
       event.delete_response
 
-
-    # rescue => e
-    #   event.respond(content: "An error has occurred: #{e}")
+    rescue => e
+      event.respond(content: "An error has occurred: #{e}")
     end
 
     def options
@@ -69,6 +71,11 @@ module Command
           type: 'boolean',
           name: 'cities',
           description: 'Do you want to add cities? (default: false)'
+        ),
+        Command::Options.new(
+          type: 'boolean',
+          name: 'fog_of_far',
+          description: 'Do you want to enable Fog of War? (default: false)'
         )
       ]
     end

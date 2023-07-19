@@ -20,8 +20,10 @@ module Command
       game = Game.find_by(server_id: event.server_id)
       grid = Command::Helpers::GenerateGrid.new.run(server_id: event.server_id)
 
+      ephemeral = game.fog_of_war
+
       unless player.energy >= game_data.move_cost
-        event.respond(content: "Not enough energy!")
+        event.respond(content: "Not enough energy!", ephemeral: ephemeral)
         return
       end
 
@@ -36,7 +38,7 @@ module Command
         end
 
         if grid[new_y][x].class != Heart && !grid[new_y][x].nil? && grid[new_y][x].class != EnergyCell || grid[new_y][x].class == City
-          event.respond(content: "You can't move up, there is something in the way!")
+          event.respond(content: "You can't move up, there is something in the way!", ephemeral: ephemeral)
           return
         end
 
@@ -66,7 +68,7 @@ module Command
         end
 
         if grid[new_y][new_x].class != Heart && !grid[new_y][new_x].nil? && grid[new_y][new_x].class != EnergyCell || grid[new_y][new_x].class == City
-          event.respond(content: "You can't move up to the left, there is something in the way!")
+          event.respond(content: "You can't move up to the left, there is something in the way!", ephemeral: ephemeral)
           return
         end
 
@@ -95,7 +97,7 @@ module Command
         end
 
         if grid[new_y][new_x].class != Heart && !grid[new_y][new_x].nil? && grid[new_y][new_x].class != EnergyCell || grid[new_y][new_x].class == City
-          event.respond(content: "You can't move up and to the right, there is something in the way!")
+          event.respond(content: "You can't move up and to the right, there is something in the way!", ephemeral: ephemeral)
           return
         end
 
@@ -124,7 +126,7 @@ module Command
         end
 
         if grid[new_y][new_x].class != Heart && !grid[new_y][new_x].nil? && grid[new_y][new_x].class != EnergyCell || grid[new_y][new_x].class == City
-          event.respond(content: "You can't move down and to the right, there is something in the way!")
+          event.respond(content: "You can't move down and to the right, there is something in the way!", ephemeral: ephemeral)
           return
         end
 
@@ -153,7 +155,7 @@ module Command
         end
 
         if grid[new_y][new_x].class != Heart && !grid[new_y][new_x].nil? && grid[new_y][new_x].class != EnergyCell || grid[new_y][new_x].class == City
-          event.respond(content: "You can't move down and to the left, there is something in the way!")
+          event.respond(content: "You can't move down and to the left, there is something in the way!", ephemeral: ephemeral)
           return
         end
 
@@ -176,7 +178,7 @@ module Command
         end
 
         if grid[new_y][x].class != Heart && !grid[new_y][x].nil? && grid[new_y][x].class != EnergyCell || grid[new_y][x].class == City
-          event.respond(content: "You can't move down, there is something in the way!")
+          event.respond(content: "You can't move down, there is something in the way!", ephemeral: ephemeral)
           return
         end
 
@@ -200,7 +202,7 @@ module Command
         end
 
         if grid[y][new_x].class != Heart && !grid[y][new_x].nil? && grid[y][new_x].class != EnergyCell || grid[y][new_x].class == City
-          event.respond(content: "You can't move left, there is something in the way!")
+          event.respond(content: "You can't move left, there is something in the way!", ephemeral: ephemeral)
           return
         end
 
@@ -224,7 +226,7 @@ module Command
         end
 
         if grid[y][new_x].class != Heart && !grid[y][new_x].nil? && grid[y][new_x].class != EnergyCell || grid[y][new_x].class == City
-          event.respond(content: "You can't move right, there is something in the way!")
+          event.respond(content: "You can't move right, there is something in the way!", ephemeral: ephemeral)
           return
         end
 
@@ -263,7 +265,7 @@ module Command
         end
       end
 
-      event.respond(content: response)
+      event.respond(content: response, ephemeral: ephemeral)
 
     rescue => e
       event.respond(content: "An error has occurred: #{e}")

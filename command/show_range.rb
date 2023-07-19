@@ -18,6 +18,8 @@ module Command
 
       game = Game.find_by(server_id: event.server_id)
 
+      show_everyone = false if game.fog_of_war
+
       ImageGeneration::Grid.new.generate_range(grid_x: game.max_x, grid_y: game.max_y, player: player, server_id: event.server_id)
 
       image_location = ENV.fetch('TT_IMAGE_LOCATION', '.')

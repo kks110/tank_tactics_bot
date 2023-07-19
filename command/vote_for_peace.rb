@@ -4,8 +4,6 @@ require_relative './helpers/clean_up'
 
 module Command
   class VoteForPeace < Command::Base
-    CROSS_MARK = "\u274c"
-
     def name
       :vote_for_peace
     end

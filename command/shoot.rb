@@ -19,13 +19,15 @@ module Command
 
       user = event.user
       player = Player.find_by(discord_id: user.id)
+      game = Game.find_by(server_id: event.server_id)
+
+      ephemeral = game.fog_of_war
 
       unless player.energy >= game_data.shoot_cost
-        event.respond(content: "Not enough energy!")
+        event.respond(content: "Not enough energy!", ephemeral: ephemeral)
         return
       end
 
-      game = Game.find_by(server_id: event.server_id)
       grid = Command::Helpers::GenerateGrid.new.run(server_id: event.server_id)
 
       range_list = Command::Helpers::DetermineRange.new.build_range_list(
@@ -37,19 +39,19 @@ module Command
       )
 
       unless range_list.include?([y,x])
-        event.respond(content: "Not in range!")
+        event.respond(content: "Not in range!", ephemeral: ephemeral)
         return
       end
 
       if grid[y][x].nil? || grid[y][x] == 'heart' || grid[y][x] == 'energy_cell'
-        event.respond(content:"No tank at that location!")
+        event.respond(content:"No tank at that location!", ephemeral: ephemeral)
         return
       end
 
       target = grid[y][x]
 
       unless target.alive
-        event.respond(content:"Tank is already dead!")
+        event.respond(content:"Tank is already dead!", ephemeral: ephemeral)
         return
       end
 
@@ -64,7 +66,7 @@ module Command
 
       BattleLog.logger.info("#{player.username} shot #{target.username}! #{target.username}: HP: #{target.hp}")
 
-      event.respond(content: "<@#{target.discord_id}> was shot by #{player.username}! #{target.alive ? '' : 'They are dead!'}")
+      event.respond(content: "<@#{target.discord_id}> was shot by #{player.username}! #{target.alive ? '' : 'They are dead!'}", ephemeral: ephemeral)
 
     rescue => e
       event.respond(content: "An error has occurred: #{e}")
