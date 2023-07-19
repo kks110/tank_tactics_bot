@@ -21,7 +21,7 @@ module Command
       show_everyone = false if game.fog_of_war
 
       if game.fog_of_war
-        ImageGeneration::Grid.new.generate_fog_of_war_board(grid_x: game.max_x, grid_y: game.max_y, player: player, server_id: event.server_id for_range: true)
+        ImageGeneration::Grid.new.generate_fog_of_war_board(grid_x: game.max_x, grid_y: game.max_y, player: player, server_id: event.server_id, for_range: true)
       else
         ImageGeneration::Grid.new.generate_range(grid_x: game.max_x, grid_y: game.max_y, player: player, server_id: event.server_id)
       end

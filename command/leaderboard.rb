@@ -13,6 +13,13 @@ module Command
     end
 
     def execute(event:, game_data:)
+      game = Game.find_by(server_id: event.server_id)
+
+      if game.fog_of_war
+        event.respond(content: 'Leaderboard is disabled in fog of war games')
+        return
+      end
+
       rank_by = event.options['rank_by']
       rank_by = 'kills' if rank_by.nil?
 
