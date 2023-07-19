@@ -438,7 +438,7 @@ module ImageGeneration
       image.write(image_location + '/grid.png')
     end
 
-    def generate_fog_of_war_board(grid_x:, grid_y:, player:, server_id:)
+    def generate_fog_of_war_board(grid_x:, grid_y:, player:, server_id:, for_range: false)
       game = Game.find_by(server_id: server_id)
       players = Player.all
 
@@ -669,7 +669,8 @@ module ImageGeneration
 
       image_location = ENV.fetch('TT_IMAGE_LOCATION', '.')
       # Save the modified image
-      image.write(image_location + '/grid.png')
+      file_name = for_range ? '/range_grid.png' : '/grid.png'
+      image.write(image_location + file_name)
     end
   end
 end
