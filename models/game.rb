@@ -6,4 +6,7 @@ class Game < ActiveRecord::Base
 
   validates :cities, inclusion: [true, false]
   validates :cities, exclusion: [nil]
+
+  validates :fog_of_war, inclusion: [true, false]
+  validates :fog_of_war, exclusion: [nil]
 end

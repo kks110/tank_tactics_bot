@@ -23,7 +23,7 @@ module Command
       world_max = players.count + game_data.world_size_max
 
       cities = event.options['cities'] ? event.options['cities'] : false
-      fog_of_far = event.options['fog_of_far'] ? event.options['fog_of_far'] : false
+      fog_of_war = event.options['fog_of_war'] ? event.options['fog_of_war'] : false
 
       city_count = players.count / 2
 
@@ -32,7 +32,7 @@ module Command
         max_x: world_max,
         max_y: world_max,
         cities: cities,
-        fog_of_far: fog_of_far
+        fog_of_war: fog_of_war
       )
 
       if cities
@@ -49,17 +49,21 @@ module Command
         player.update(x_position: spawn_location[:x], y_position: spawn_location[:y])
       end
 
-      event.respond(content: "Generating the grid...", ephemeral: true)
+      if fog_of_war
+        event.respond(content: "The game has begun, what lurks beyond the clouds...")
+      else
+        event.respond(content: "Generating the grid...", ephemeral: true)
 
-      ImageGeneration::Grid.new.generate_game_board(
-        grid_x: game.max_x,
-        grid_y: game.max_y,
-        players: players
-      )
+        ImageGeneration::Grid.new.generate_game_board(
+          grid_x: game.max_x,
+          grid_y: game.max_y,
+          players: players
+        )
 
-      image_location = ENV.fetch('TT_IMAGE_LOCATION', '.')
-      event.channel.send_file File.new(image_location + '/grid.png')
-      event.delete_response
+        image_location = ENV.fetch('TT_IMAGE_LOCATION', '.')
+        event.channel.send_file File.new(image_location + '/grid.png')
+        event.delete_response
+      end
 
     rescue => e
       event.respond(content: "An error has occurred: #{e}")
@@ -74,7 +78,7 @@ module Command
         ),
         Command::Options.new(
           type: 'boolean',
-          name: 'fog_of_far',
+          name: 'fog_of_war',
           description: 'Do you want to enable Fog of War? (default: false)'
         )
       ]

@@ -19,11 +19,23 @@ module Command
 
       show_everyone = false if game.fog_of_war
 
-      ImageGeneration::Grid.new.generate_game_board(
-        grid_x: game.max_x,
-        grid_y: game.max_y,
-        players: players
-      )
+      if game.fog_of_war
+        user = event.user
+        player = Player.find_by(discord_id: user.id)
+
+        ImageGeneration::Grid.new.generate_fog_of_war_board(
+          grid_x: game.max_x,
+          grid_y: game.max_y,
+          player: player,
+          server_id: event.server_id
+        )
+      else
+        ImageGeneration::Grid.new.generate_game_board(
+          grid_x: game.max_x,
+          grid_y: game.max_y,
+          players: players
+        )
+      end
 
       image_location = ENV.fetch('TT_IMAGE_LOCATION', '.')
 
