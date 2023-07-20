@@ -1,4 +1,5 @@
 -------------------------
+- Create an object to pass to the commands as i keep adding more things
 - Automate energy distribution
 - Line of sight block terrain?
 - Alliances? Win by alliance. Create alliance, gives code that allows people to join. Cost double to attach alliance?
