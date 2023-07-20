@@ -13,7 +13,7 @@ module Command
       "Capture a city!"
     end
 
-    def execute(event:, game_data:)
+    def execute(event:, game_data:, bot:)
       game = Game.find_by(server_id: event.server_id)
 
       unless game.cities

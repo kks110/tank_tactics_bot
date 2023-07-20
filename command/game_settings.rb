@@ -11,7 +11,7 @@ module Command
       "Show the current games settings"
     end
 
-    def execute(event:, game_data:)
+    def execute(event:, game_data:, bot:)
       response = "Game Settings:\n"
 
       game = Game.find_by(server_id: event.server_id)

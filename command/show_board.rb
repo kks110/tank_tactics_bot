@@ -11,7 +11,7 @@ module Command
       "Show the game board"
     end
 
-    def execute(event:, game_data:)
+    def execute(event:, game_data:, bot:)
       players = Player.all
       show_everyone = event.options['show_everyone'].nil? ? false : event.options['show_everyone']
 

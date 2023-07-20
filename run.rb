@@ -22,7 +22,7 @@ game_data = Config::GameData.new
 Command::LIST.each do |command|
   bot.application_command(command.name) do |event|
     puts "Executing command: #{command.name}"
-    command.execute(event: event, game_data: game_data)
+    command.execute(event: event, game_data: game_data, bot: bot)
   end
 end
 

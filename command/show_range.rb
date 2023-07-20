@@ -11,7 +11,7 @@ module Command
       "Show your tanks range"
     end
 
-    def execute(event:, game_data:)
+    def execute(event:, game_data:, bot:)
       show_everyone = event.options['show_everyone'].nil? ? false : event.options['show_everyone']
       user = event.user
       player = Player.find_by(discord_id: user.id)

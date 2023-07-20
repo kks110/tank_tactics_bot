@@ -10,7 +10,7 @@ module Command
       "Distribute daily energy"
     end
 
-    def execute(event:, game_data:)
+    def execute(event:, game_data:, bot:)
       user = event.user
       player = Player.find_by(discord_id: user.id)
       game = Game.find_by(server_id: event.server_id)

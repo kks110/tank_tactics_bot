@@ -10,7 +10,7 @@ module Command
       "Register to play!"
     end
 
-    def execute(event:, game_data:)
+    def execute(event:, game_data:, bot:)
       user = event.user
       Player.create!(discord_id: user.id, username: user.username)
       event.respond(content: "#{user.username} registered successfully!")

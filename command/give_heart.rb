@@ -12,7 +12,7 @@ module Command
       "Give a heart to someone"
     end
 
-    def execute(event:, game_data:)
+    def execute(event:, game_data:, bot:)
       x = event.options['x']
       y = event.options['y']
       amount_to_give = event.options['amount']

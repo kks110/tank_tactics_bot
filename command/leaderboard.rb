@@ -12,7 +12,7 @@ module Command
       "See who's on top"
     end
 
-    def execute(event:, game_data:)
+    def execute(event:, game_data:, bot:)
       game = Game.find_by(server_id: event.server_id)
 
       if game.fog_of_war

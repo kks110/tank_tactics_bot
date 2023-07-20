@@ -12,7 +12,7 @@ module Command
       "Move your tank"
     end
 
-    def execute(event:, game_data:)
+    def execute(event:, game_data:, bot:)
       direction = event.options['direction']
 
       user = event.user

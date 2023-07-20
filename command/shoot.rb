@@ -13,7 +13,7 @@ module Command
       "Shoot someone"
     end
 
-    def execute(event:, game_data:)
+    def execute(event:, game_data:, bot:)
       x = event.options['x']
       y = event.options['y']
 
@@ -59,9 +59,19 @@ module Command
 
       target.update(hp: target.hp - 1)
 
+      if game.fog_of_war
+        target_for_dm = bot.user(target.discord_id)
+        target_for_dm.pm("You were shot by #{player.username}")
+      end
+
       if target.hp <= 0
         player.update(kills: player.kills + 1)
         target.update(alive: false, hp: 0, deaths: target.deaths + 1)
+        target_for_dm.pm("You are dead!") if game.fog_of_war
+
+        City.all.each do |city|
+          city.update(player_id: nil) if city.player_id == target.id
+        end
       end
 
       BattleLog.logger.info("#{player.username} shot #{target.username}! #{target.username}: HP: #{target.hp}")
