@@ -24,7 +24,7 @@ module Command
       ephemeral = game.fog_of_war
 
       unless player.energy >= game_data.shoot_cost
-        event.respond(content: "Not enough energy!", ephemeral: ephemeral)
+        event.respond(content: "Not enough energy!", ephemeral: true)
         return
       end
 
@@ -39,19 +39,19 @@ module Command
       )
 
       unless range_list.include?([y,x])
-        event.respond(content: "Not in range!", ephemeral: ephemeral)
+        event.respond(content: "Not in range!", ephemeral: true)
         return
       end
 
       if grid[y][x].nil? || grid[y][x] == 'heart' || grid[y][x] == 'energy_cell'
-        event.respond(content:"No tank at that location!", ephemeral: ephemeral)
+        event.respond(content:"No tank at that location!", ephemeral: true)
         return
       end
 
       target = grid[y][x]
 
       unless target.alive
-        event.respond(content:"Tank is already dead!", ephemeral: ephemeral)
+        event.respond(content:"Tank is already dead!", ephemeral: true)
         return
       end
 

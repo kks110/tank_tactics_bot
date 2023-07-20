@@ -62,6 +62,10 @@ module Command
       player.update(energy: player.energy - amount_to_give)
       target.update(energy: target.energy + amount_to_give)
 
+
+      target_for_dm = bot.user(target.discord_id)
+      target_for_dm.pm("You were given #{amount_to_give} energy by #{player.username}")
+
       BattleLog.logger.info("#{player.username} gave #{amount_to_give} energy to #{target.username}")
       event.respond(content: "#{target.username} was given energy by #{player.username}!", ephemeral: true)
 

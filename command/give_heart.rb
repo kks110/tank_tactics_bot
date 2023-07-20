@@ -21,12 +21,14 @@ module Command
       user = event.user
       player = Player.find_by(discord_id: user.id)
 
+      game = Game.find_by(server_id: event.server_id)
+      ephemeral = game.fog_of_war
+
       if [player.y_position, player.x_position] == [y,x]
-        event.respond(content: "You can't give yourself HP!")
+        event.respond(content: "You can't give yourself HP!", ephemeral: true)
         return
       end
 
-      game = Game.find_by(server_id: event.server_id)
       grid = Command::Helpers::GenerateGrid.new.run(server_id: event.server_id)
 
       range_list = Command::Helpers::DetermineRange.new.build_range_list(
@@ -38,19 +40,19 @@ module Command
       )
 
       unless range_list.include?([y,x])
-        event.respond(content: "Not in range!")
+        event.respond(content: "Not in range!", ephemeral: true)
         return
       end
 
       if grid[y][x].nil? || grid[y][x] == 'heart' || grid[y][x] == 'energy_cell'
-        event.respond(content:"No tank at that location!")
+        event.respond(content:"No tank at that location!", ephemeral: true)
         return
       end
 
       target = grid[y][x]
 
       if player.hp <= amount_to_give
-        event.respond(content: "You can't do that, it will kill you!")
+        event.respond(content: "You can't do that, it will kill you!", ephemeral: true)
         return
       end
 
@@ -61,8 +63,13 @@ module Command
         target.update(alive: true)
       end
 
+      if game.fog_of_war
+        target_for_dm = bot.user(target.discord_id)
+        target_for_dm.pm("You were given #{amount_to_give}HP by #{player.username}")
+      end
+
       BattleLog.logger.info("#{player.username} gave #{amount_to_give} HP to #{target.username}")
-      event.respond(content: "#{target.username} was healed for #{amount_to_give}HP!")
+      event.respond(content: "#{target.username} was healed for #{amount_to_give}HP!", ephemeral: ephemeral)
 
     rescue => e
       event.respond(content: "An error has occurred: #{e}")

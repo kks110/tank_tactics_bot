@@ -19,7 +19,7 @@ module Command
       ephemeral = game.fog_of_war
 
       unless game.cities
-        event.respond(content: "Cities are not enabled!", ephemeral: ephemeral)
+        event.respond(content: "Cities are not enabled!", ephemeral: true)
         return
       end
 
@@ -30,7 +30,7 @@ module Command
       player = Player.find_by(discord_id: user.id)
 
       unless player.energy >= game_data.capture_city_cost
-        event.respond(content: "Not enough energy!", ephemeral: ephemeral)
+        event.respond(content: "Not enough energy!", ephemeral: true)
         return
       end
 
@@ -45,19 +45,19 @@ module Command
       )
 
       unless range_list.include?([y,x])
-        event.respond(content: "Not in range! You must be next to the city", ephemeral: ephemeral)
+        event.respond(content: "Not in range! You must be next to the city", ephemeral: true)
         return
       end
 
       unless grid[y][x].class == City
-        event.respond(content:"No city at that location!", ephemeral: ephemeral)
+        event.respond(content:"No city at that location!", ephemeral: true)
         return
       end
 
       target = grid[y][x]
 
       if grid[y][x].player_id == player.id
-        event.respond(content:"You already own this city!", ephemeral: ephemeral)
+        event.respond(content:"You already own this city!", ephemeral: true)
         return
       end
 

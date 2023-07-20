@@ -18,7 +18,7 @@ module Command
       ephemeral = game.fog_of_war
 
       unless player.energy >= game_data.increase_hp_cost
-        event.respond(content: "Not enough energy!", ephemeral: ephemeral)
+        event.respond(content: "Not enough energy!", ephemeral: true)
         return
       end
 
