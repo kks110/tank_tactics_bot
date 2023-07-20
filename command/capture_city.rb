@@ -10,7 +10,7 @@ module Command
     end
 
     def description
-      "Capture a city!"
+      "Capture a city within 1 range!"
     end
 
     def execute(event:, game_data:, bot:)

@@ -3,12 +3,9 @@
 - Line of sight block terrain?
 - Alliances? Win by alliance. Create alliance, gives code that allows people to join. Cost double to attach alliance?
 - Mines? can be placed? can be swept for? can be destroyed?
-- Add game settings command
 - Come up with some kind of standard notation, and write something that can play out the the game a step at a time
 - Tests?
 - Add profile cards?
-- Use config for energy costs (or make optional at game start?)
-- Use config for board sizes (or make optional at game start?)
 - Run rubocop
 
 -------------------------
