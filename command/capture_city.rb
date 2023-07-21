@@ -67,7 +67,12 @@ module Command
 
       BattleLog.logger.info("#{player.username} captures a city. City X:#{target.x_position} Y:#{target.y_position}")
 
-      event.respond(content: "<@#{player.discord_id}> has captured a city at X:#{target.x_position} Y:#{target.y_position}", ephemeral: ephemeral)
+      if game.fog_of_war
+        event.channel.send_message 'Someone captured a city!'
+        event.respond(content: "You have captured a city at X:#{target.x_position} Y:#{target.y_position}", ephemeral: true)
+      else
+        event.respond(content: "<@#{player.discord_id}> has captured a city at X:#{target.x_position} Y:#{target.y_position}")
+      end
 
     rescue => e
       event.respond(content: "An error has occurred: #{e}")

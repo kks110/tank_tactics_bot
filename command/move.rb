@@ -250,6 +250,8 @@ module Command
           heart.destroy
           response << " You picked up the heart! You now have #{player.hp}HP"
 
+          event.channel.send_message 'Someone picked up the heart!'
+
           BattleLog.logger.info("The heart was collected: #{player.username}: HP#{player.hp}")
         end
       end
@@ -260,6 +262,8 @@ module Command
           player.update(energy: player.energy + game_data.energy_cell_reward)
           energy_call.destroy
           response << " You picked up the energy cell!"
+
+          event.channel.send_message 'Someone picked up the energy cell!'
 
           BattleLog.logger.info("The energy cell was collected: #{player.username}: #{player.energy} energy")
         end

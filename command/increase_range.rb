@@ -15,7 +15,6 @@ module Command
       player = Player.find_by(discord_id: user.id)
 
       game = Game.find_by(server_id: event.server_id)
-      ephemeral = game.fog_of_war
 
       unless player.energy >= game_data.increase_range_cost
         event.respond(content: "Not enough energy!", ephemeral: true)
@@ -25,7 +24,13 @@ module Command
       player.update(energy: player.energy - game_data.increase_range_cost, range: player.range + 1)
 
       BattleLog.logger.info("#{player.username} increased their range to #{player.range}")
-      event.respond(content: "Range increased, you now have #{player.range} range", ephemeral: ephemeral)
+
+      if game.fog_of_war
+        event.channel.send_message 'Someone increased their range!'
+        event.respond(content: "Range increased, you now have #{player.range} range", ephemeral: true)
+      else
+        event.respond(content: "Range increased, you now have #{player.range} range")
+      end
 
     rescue => e
       event.respond(content: "An error has occurred: #{e}")

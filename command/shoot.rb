@@ -21,8 +21,6 @@ module Command
       player = Player.find_by(discord_id: user.id)
       game = Game.find_by(server_id: event.server_id)
 
-      ephemeral = game.fog_of_war
-
       unless player.energy >= game_data.shoot_cost
         event.respond(content: "Not enough energy!", ephemeral: true)
         return
@@ -76,7 +74,12 @@ module Command
 
       BattleLog.logger.info("#{player.username} shot #{target.username}! #{target.username}: HP: #{target.hp}")
 
-      event.respond(content: "<@#{target.discord_id}> was shot by #{player.username}! #{target.alive ? '' : 'They are dead!'}", ephemeral: ephemeral)
+      if game.fog_of_war
+        event.channel.send_message 'Someone was shot!'
+        event.respond(content: "You shot #{target.username}! #{target.alive ? '' : 'They are dead!'}", ephemeral: true)
+      else
+        event.respond(content: "<@#{target.discord_id}> was shot by #{player.username}! #{target.alive ? '' : 'They are dead!'}")
+      end
 
     rescue => e
       event.respond(content: "An error has occurred: #{e}")

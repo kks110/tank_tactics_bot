@@ -22,7 +22,6 @@ module Command
       player = Player.find_by(discord_id: user.id)
 
       game = Game.find_by(server_id: event.server_id)
-      ephemeral = game.fog_of_war
 
       if [player.y_position, player.x_position] == [y,x]
         event.respond(content: "You can't give yourself HP!", ephemeral: true)
@@ -69,7 +68,13 @@ module Command
       end
 
       BattleLog.logger.info("#{player.username} gave #{amount_to_give} HP to #{target.username}")
-      event.respond(content: "#{target.username} was healed for #{amount_to_give}HP!", ephemeral: ephemeral)
+
+      if game.fog_of_war
+        event.channel.send_message 'Someone was healed!'
+        event.respond(content: "#{target.username} was healed for #{amount_to_give}HP!", ephemeral: true)
+      else
+        event.respond(content: "#{target.username} was healed for #{amount_to_give}HP!")
+      end
 
     rescue => e
       event.respond(content: "An error has occurred: #{e}")
