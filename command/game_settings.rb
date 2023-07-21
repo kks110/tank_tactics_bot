@@ -12,13 +12,12 @@ module Command
     end
 
     def execute(event:, game_data:, bot:)
-      response = "Game Settings:\n"
-
       game = Game.find_by(server_id: event.server_id)
 
+      response = "Game Settings:\n"
       game.cities ? response << "- Cities: Enabled\n" : response << "- Cities: Disabled\n"
       game.fog_of_war ? response << "- Fog of War: Enabled\n" : response << "- Fog of War: Disabled\n"
-      response << "- Daily Energy: #{game_data.daily_energy_amount}e\n"
+      response << "- Daily Energy: #{game_data.daily_energy_amount} energy\n"
       response << "\n"
       response << "Costs:\n"
       response << "- Increase HP: #{game_data.increase_hp_cost} energy\n"
