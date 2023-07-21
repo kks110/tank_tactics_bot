@@ -17,6 +17,7 @@ require_relative './reset_game'
 require_relative './vote_for_peace'
 require_relative './capture_city'
 require_relative './game_settings'
+require_relative './game_state'
 
 
 module Command
@@ -39,6 +40,7 @@ module Command
     ResetGame.new,
     VoteForPeace.new,
     CaptureCity.new,
-    GameSettings.new
+    GameSettings.new,
+    GameState.new
   ]
 end
