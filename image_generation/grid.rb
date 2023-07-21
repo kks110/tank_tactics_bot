@@ -158,6 +158,7 @@ module ImageGeneration
       draw.pointsize = 80
 
       if Heart.first
+        draw.fill = 'green'
         heart_coords = Heart.first.coords
 
         draw.annotate(
@@ -169,8 +170,10 @@ module ImageGeneration
           ""
         )
       end
+      draw.fill = 'black'
 
       if EnergyCell.first
+        draw.fill = 'blue'
         energy_cell_coords = EnergyCell.first.coords
 
         draw.annotate(
@@ -182,6 +185,7 @@ module ImageGeneration
           "󰂄"
         )
       end
+      draw.fill = 'black'
 
       draw.annotate(
         image,
@@ -204,16 +208,6 @@ module ImageGeneration
           message << 'Unowned'
         end
 
-        draw.pointsize = 22
-        draw.annotate(
-          image,
-          (city.x_position * cell_size) + cell_size + 11,
-          (city.y_position * cell_size) + cell_size + 95,
-          (city.x_position * cell_size) + cell_size + 11,
-          (city.y_position * cell_size) + cell_size + 95,
-          message
-        )
-
         draw.pointsize = 80
         draw.annotate(
           image,
@@ -222,6 +216,35 @@ module ImageGeneration
           (city.x_position * cell_size) + cell_size + 15,
           (city.y_position * cell_size) + cell_size + 70,
           "󰄚"
+        )
+
+        draw.fill = 'black'
+        draw.pointsize = 22
+        draw.annotate(
+          image,
+          (city.x_position * cell_size) + cell_size + 11,
+          (city.y_position * cell_size) + cell_size + 20,
+          (city.x_position * cell_size) + cell_size + 11,
+          (city.y_position * cell_size) + cell_size + 20,
+          "X: #{city.x_position}"
+        )
+
+        draw.annotate(
+          image,
+          (city.x_position * cell_size) + cell_size + 11,
+          (city.y_position * cell_size) + cell_size + 40,
+          (city.x_position * cell_size) + cell_size + 11,
+          (city.y_position * cell_size) + cell_size + 40,
+          "Y: #{city.y_position}"
+        )
+
+        draw.annotate(
+          image,
+          (city.x_position * cell_size) + cell_size + 11,
+          (city.y_position * cell_size) + cell_size + 95,
+          (city.x_position * cell_size) + cell_size + 11,
+          (city.y_position * cell_size) + cell_size + 95,
+          message
         )
       end
 
@@ -373,7 +396,10 @@ module ImageGeneration
 
       draw.pointsize = 80
 
-      City.all.each do |city|
+      cities = City.all
+      cities.each do |city|
+        next unless range_list.include?([city.y_position, city.x_position])
+
         message = ''
         if city.player_id
           draw.fill = 'silver'
@@ -384,16 +410,6 @@ module ImageGeneration
           message << 'Unowned'
         end
 
-        draw.pointsize = 22
-        draw.annotate(
-          image,
-          (city.x_position * cell_size) + cell_size + 11,
-          (city.y_position * cell_size) + cell_size + 95,
-          (city.x_position * cell_size) + cell_size + 11,
-          (city.y_position * cell_size) + cell_size + 95,
-          message
-        )
-
         draw.pointsize = 80
         draw.annotate(
           image,
@@ -402,6 +418,35 @@ module ImageGeneration
           (city.x_position * cell_size) + cell_size + 15,
           (city.y_position * cell_size) + cell_size + 70,
           "󰄚"
+        )
+
+        draw.fill = 'black'
+        draw.pointsize = 22
+        draw.annotate(
+          image,
+          (city.x_position * cell_size) + cell_size + 11,
+          (city.y_position * cell_size) + cell_size + 20,
+          (city.x_position * cell_size) + cell_size + 11,
+          (city.y_position * cell_size) + cell_size + 20,
+          "X: #{city.x_position}"
+        )
+
+        draw.annotate(
+          image,
+          (city.x_position * cell_size) + cell_size + 11,
+          (city.y_position * cell_size) + cell_size + 40,
+          (city.x_position * cell_size) + cell_size + 11,
+          (city.y_position * cell_size) + cell_size + 40,
+          "Y: #{city.y_position}"
+        )
+
+        draw.annotate(
+          image,
+          (city.x_position * cell_size) + cell_size + 11,
+          (city.y_position * cell_size) + cell_size + 95,
+          (city.x_position * cell_size) + cell_size + 11,
+          (city.y_position * cell_size) + cell_size + 95,
+          message
         )
       end
 
@@ -591,6 +636,7 @@ module ImageGeneration
       draw.pointsize = 80
 
       if Heart.first
+        draw.fill = 'green'
         heart_coords = Heart.first.coords
         if range_list.include?([heart_coords[:y], heart_coords[:x]])
           draw.annotate(
@@ -603,8 +649,10 @@ module ImageGeneration
           )
         end
       end
+      draw.fill = 'black'
 
       if EnergyCell.first
+        draw.fill = 'blue'
         energy_cell_coords = EnergyCell.first.coords
 
         if range_list.include?([energy_cell_coords[:y], energy_cell_coords[:x]])
@@ -618,6 +666,7 @@ module ImageGeneration
           )
         end
       end
+      draw.fill = 'black'
 
       cities = City.all
       cities.each do |city|
@@ -633,16 +682,6 @@ module ImageGeneration
           message << 'Unowned'
         end
 
-        draw.pointsize = 22
-        draw.annotate(
-          image,
-          (city.x_position * cell_size) + cell_size + 11,
-          (city.y_position * cell_size) + cell_size + 95,
-          (city.x_position * cell_size) + cell_size + 11,
-          (city.y_position * cell_size) + cell_size + 95,
-          message
-        )
-
         draw.pointsize = 80
         draw.annotate(
           image,
@@ -651,6 +690,35 @@ module ImageGeneration
           (city.x_position * cell_size) + cell_size + 15,
           (city.y_position * cell_size) + cell_size + 70,
           "󰄚"
+        )
+
+        draw.fill = 'black'
+        draw.pointsize = 22
+        draw.annotate(
+          image,
+          (city.x_position * cell_size) + cell_size + 11,
+          (city.y_position * cell_size) + cell_size + 20,
+          (city.x_position * cell_size) + cell_size + 11,
+          (city.y_position * cell_size) + cell_size + 20,
+          "X: #{city.x_position}"
+        )
+
+        draw.annotate(
+          image,
+          (city.x_position * cell_size) + cell_size + 11,
+          (city.y_position * cell_size) + cell_size + 40,
+          (city.x_position * cell_size) + cell_size + 11,
+          (city.y_position * cell_size) + cell_size + 40,
+          "Y: #{city.y_position}"
+        )
+
+        draw.annotate(
+          image,
+          (city.x_position * cell_size) + cell_size + 11,
+          (city.y_position * cell_size) + cell_size + 95,
+          (city.x_position * cell_size) + cell_size + 11,
+          (city.y_position * cell_size) + cell_size + 95,
+          message
         )
       end
 
