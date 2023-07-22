@@ -12,8 +12,9 @@ module Command
       "See who's on top"
     end
 
-    def execute(event:, game_data:, bot:)
-      game = Game.find_by(server_id: event.server_id)
+    def execute(context:)
+      game = context.game
+      event = context.event
 
       if game.fog_of_war
         event.respond(content: 'Leaderboard is disabled in fog of war games')

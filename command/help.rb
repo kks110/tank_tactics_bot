@@ -11,7 +11,9 @@ module Command
       "Show a list of commands"
     end
 
-    def execute(event:, game_data:, bot:)
+    def execute(context:)
+      event = context.event
+
       response = "Here is a list of commands:\n"
 
       Command::Helpers::LIST.each do |command|

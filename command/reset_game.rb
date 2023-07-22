@@ -11,16 +11,17 @@ module Command
       "Resets the game"
     end
 
-    def execute(event:, game_data:, bot:)
-      user = event.user
-      player = Player.find_by(discord_id: user.id)
+    def execute(context:)
+      event = context.event
+      player = context.player
+      game = context.game
 
       unless player.admin
         event.respond(content: "Sorry! Only admins can do this!")
         return
       end
 
-      unless Game.first
+      unless game
         event.respond(content: "There is no game running!")
         return
       end

@@ -10,11 +10,11 @@ module Command
       'Increase HP by 1 for 30 energy'
     end
 
-    def execute(event:, game_data:, bot:)
-      user = event.user
-      player = Player.find_by(discord_id: user.id)
-
-      game = Game.find_by(server_id: event.server_id)
+    def execute(context:)
+      game = context.game
+      event = context.event
+      player = context.player
+      game_data = context.game_data
 
       unless player.energy >= game_data.increase_hp_cost
         event.respond(content: 'Not enough energy!', ephemeral: true)

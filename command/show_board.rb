@@ -11,11 +11,13 @@ module Command
       "Show the game board"
     end
 
-    def execute(event:, game_data:, bot:)
+    def execute(context:)
+      game = context.game
+      event = context.event
+      game_data = context.game_data
+
       players = Player.all
       show_everyone = event.options['show_everyone'].nil? ? false : event.options['show_everyone']
-
-      game = Game.find_by(server_id: event.server_id)
 
       show_everyone = false if game.fog_of_war
 

@@ -1,5 +1,5 @@
 require_relative './base'
-require_relative './lpers/list'
+require_relative './helpers/list'
 require_relative './helpers/clean_up'
 
 module Command
@@ -12,9 +12,9 @@ module Command
       "Start vote if more than 50% of players are dead. 60% of living players required to end game"
     end
 
-    def execute(event:, game_data:, bot:)
-      user = event.user
-      player = Player.find_by(discord_id: user.id)
+    def execute(context:)
+      event = context.event
+      player = context.player
 
       full_player_count = Player.all.count
       alive_player_count = Player.where({ 'alive' => true }).count

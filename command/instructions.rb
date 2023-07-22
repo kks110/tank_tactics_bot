@@ -10,7 +10,10 @@ module Command
       "Instruction overview"
     end
 
-    def execute(event:, game_data:, bot:)
+    def execute(context:)
+      event = context.event
+      game_data = context.game_data
+
       instructions = "You are a tank and you have 3 HP, 2 range and 0 energy to start.\n" +
         "Everyone gets randomly placed on a grid. #{game_data.daily_energy_amount} energy a day gets distributed to everyone.\n" +
         "When energy is distributed, a heart will spawn on the grid that can be picked up to increase your HP\n" +

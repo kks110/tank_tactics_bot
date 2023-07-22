@@ -12,12 +12,14 @@ module Command
       "Move your tank"
     end
 
-    def execute(event:, game_data:, bot:)
+    def execute(context:)
+      game = context.game
+      event = context.event
+      player = context.player
+      game_data = context.game_data
+
       direction = event.options['direction']
 
-      user = event.user
-      player = Player.find_by(discord_id: user.id)
-      game = Game.find_by(server_id: event.server_id)
       grid = Command::Helpers::GenerateGrid.new.run(server_id: event.server_id)
 
       ephemeral = game.fog_of_war

@@ -11,12 +11,13 @@ module Command
       "Show your tanks range"
     end
 
-    def execute(event:, game_data:, bot:)
-      show_everyone = event.options['show_everyone'].nil? ? false : event.options['show_everyone']
-      user = event.user
-      player = Player.find_by(discord_id: user.id)
+    def execute(context:)
+      game = context.game
+      event = context.event
+      player = context.player
+      game_data = context.game_data
 
-      game = Game.find_by(server_id: event.server_id)
+      show_everyone = event.options['show_everyone'].nil? ? false : event.options['show_everyone']
 
       show_everyone = false if game.fog_of_war
 

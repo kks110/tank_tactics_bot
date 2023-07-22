@@ -13,13 +13,15 @@ module Command
       "Shoot someone"
     end
 
-    def execute(event:, game_data:, bot:)
+    def execute(context:)
+      game = context.game
+      event = context.event
+      player = context.player
+      game_data = context.game_data
+      bot = context.bot
+
       x = event.options['x']
       y = event.options['y']
-
-      user = event.user
-      player = Player.find_by(discord_id: user.id)
-      game = Game.find_by(server_id: event.server_id)
 
       unless player.energy >= game_data.shoot_cost
         event.respond(content: "Not enough energy!", ephemeral: true)

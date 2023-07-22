@@ -13,10 +13,12 @@ module Command
       "Capture a city within 1 range!"
     end
 
-    def execute(event:, game_data:, bot:)
-      game = Game.find_by(server_id: event.server_id)
+    def execute(context:)
 
-      ephemeral = game.fog_of_war
+      game = context.game
+      event = context.event
+      player = context.player
+      game_data = context.game_data
 
       unless game.cities
         event.respond(content: "Cities are not enabled!", ephemeral: true)
@@ -25,9 +27,6 @@ module Command
 
       x = event.options['x']
       y = event.options['y']
-
-      user = event.user
-      player = Player.find_by(discord_id: user.id)
 
       unless player.energy >= game_data.capture_city_cost
         event.respond(content: "Not enough energy!", ephemeral: true)

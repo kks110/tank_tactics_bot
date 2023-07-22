@@ -10,10 +10,11 @@ module Command
       "Distribute daily energy"
     end
 
-    def execute(event:, game_data:, bot:)
-      user = event.user
-      player = Player.find_by(discord_id: user.id)
-      game = Game.find_by(server_id: event.server_id)
+    def execute(context:)
+      game = context.game
+      event = context.event
+      player = context.player
+      game_data = context.game_data
 
       unless player.admin
         event.respond(content: "Sorry! Only admins can do this!")

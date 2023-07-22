@@ -10,8 +10,9 @@ module Command
       "Show the current state of the game"
     end
 
-    def execute(event:, game_data:, bot:)
-      game = Game.find_by(server_id: event.server_id)
+    def execute(context:)
+      game = context.game
+      event = context.event
 
       response = ''
       response << "Heart location: X:#{Heart.first.coords[:x]} Y:#{Heart.first.coords[:y]}\n" if Heart.first

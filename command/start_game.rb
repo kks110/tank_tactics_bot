@@ -10,9 +10,10 @@ module Command
       "Let the game begin!"
     end
 
-    def execute(event:, game_data:, bot:)
-      user = event.user
-      player = Player.find_by(discord_id: user.id)
+    def execute(context:)
+      event = context.event
+      player = context.player
+      game_data = context.game_data
 
       unless player.admin
         event.respond(content: "Sorry! Only admins can do this!")

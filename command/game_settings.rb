@@ -10,8 +10,10 @@ module Command
       "Show the current games settings"
     end
 
-    def execute(event:, game_data:, bot:)
-      game = Game.find_by(server_id: event.server_id)
+    def execute(context:)
+      game = context.game
+      event = context.event
+      game_data = context.game_data
 
       response = "Game Settings:\n"
       game.cities ? response << "- Cities: Enabled\n" : response << "- Cities: Disabled\n"

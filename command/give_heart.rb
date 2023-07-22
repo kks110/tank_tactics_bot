@@ -12,16 +12,16 @@ module Command
       "Give a heart to someone"
     end
 
-    def execute(event:, game_data:, bot:)
+    def execute(context:)
+      game = context.game
+      event = context.event
+      player = context.player
+      bot = context.bot
+
       x = event.options['x']
       y = event.options['y']
       amount_to_give = event.options['amount']
       amount_to_give = 1 if amount_to_give.nil?
-
-      user = event.user
-      player = Player.find_by(discord_id: user.id)
-
-      game = Game.find_by(server_id: event.server_id)
 
       if [player.y_position, player.x_position] == [y,x]
         event.respond(content: "You can't give yourself HP!", ephemeral: true)
