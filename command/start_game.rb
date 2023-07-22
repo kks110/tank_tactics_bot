@@ -60,7 +60,7 @@ module Command
           players: players
         )
 
-        image_location = ENV.fetch('TT_IMAGE_LOCATION', '.')
+        image_location = game_data.image_location
         event.channel.send_file File.new(image_location + '/grid.png')
         event.delete_response
       end

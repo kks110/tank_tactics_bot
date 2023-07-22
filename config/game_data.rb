@@ -6,6 +6,14 @@ module Config
       @config = load_config
     end
 
+    def image_location
+      ENV.fetch('TT_IMAGE_LOCATION', '.')
+    end
+
+    def image_font
+      ENV.fetch('TT_IMAGE_FONT', '.')
+    end
+
     def increase_hp_cost
       config['costs']['increase_hp']
     end

@@ -37,7 +37,7 @@ module Command
         )
       end
 
-      image_location = ENV.fetch('TT_IMAGE_LOCATION', '.')
+      image_location = game_data.image_location
 
       if show_everyone
         event.respond(content: "Generating the grid...", ephemeral: true)

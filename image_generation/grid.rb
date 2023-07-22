@@ -53,7 +53,7 @@ module ImageGeneration
 
       draw.draw(image)
 
-      image_font = ENV.fetch('TT_IMAGE_FONT', '.')
+      image_font = game_data.image_font
       draw.font = image_font + '/font.ttf'
       draw.pointsize = 30
       draw.fill = 'black'
@@ -268,7 +268,7 @@ module ImageGeneration
         )
       end
 
-      image_location = ENV.fetch('TT_IMAGE_LOCATION', '.')
+      image_location = game_data.image_location
       # Save the modified image
       image.write(image_location + '/range_grid.png')
     end
@@ -305,7 +305,7 @@ module ImageGeneration
 
       draw.draw(image)
 
-      image_font = ENV.fetch('TT_IMAGE_FONT', '.')
+      image_font = game_data.image_font
       draw.font = image_font + '/font.ttf'
       draw.pointsize = 30
       draw.fill = 'black'
@@ -478,7 +478,7 @@ module ImageGeneration
         )
       end
 
-      image_location = ENV.fetch('TT_IMAGE_LOCATION', '.')
+      image_location = game_data.image_location
       # Save the modified image
       image.write(image_location + '/grid.png')
     end
@@ -541,7 +541,7 @@ module ImageGeneration
 
       draw.draw(image)
 
-      image_font = ENV.fetch('TT_IMAGE_FONT', '.')
+      image_font = game_data.image_font
       draw.font = image_font + '/font.ttf'
       draw.pointsize = 30
       draw.fill = 'black'
@@ -735,7 +735,7 @@ module ImageGeneration
         )
       end
 
-      image_location = ENV.fetch('TT_IMAGE_LOCATION', '.')
+      image_location = game_data.image_location
       # Save the modified image
       file_name = for_range ? '/range_grid.png' : '/grid.png'
       image.write(image_location + file_name)

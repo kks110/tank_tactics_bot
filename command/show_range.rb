@@ -26,7 +26,7 @@ module Command
         ImageGeneration::Grid.new.generate_range(grid_x: game.max_x, grid_y: game.max_y, player: player, server_id: event.server_id)
       end
 
-      image_location = ENV.fetch('TT_IMAGE_LOCATION', '.')
+      image_location = game_data.image_location
 
       if show_everyone
         event.respond(content: "Generating the grid...", ephemeral: true)
