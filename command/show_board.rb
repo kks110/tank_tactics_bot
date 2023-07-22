@@ -14,6 +14,7 @@ module Command
     def execute(context:)
       game = context.game
       event = context.event
+      player = context.player
       game_data = context.game_data
 
       players = Player.all
@@ -22,20 +23,19 @@ module Command
       show_everyone = false if game.fog_of_war
 
       if game.fog_of_war
-        user = event.user
-        player = Player.find_by(discord_id: user.id)
-
         ImageGeneration::Grid.new.generate_fog_of_war_board(
           grid_x: game.max_x,
           grid_y: game.max_y,
           player: player,
-          server_id: event.server_id
+          server_id: event.server_id,
+          game_data: game_data
         )
       else
         ImageGeneration::Grid.new.generate_game_board(
           grid_x: game.max_x,
           grid_y: game.max_y,
-          players: players
+          players: players,
+          game_data: game_data
         )
       end
 

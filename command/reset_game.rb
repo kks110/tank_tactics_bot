@@ -15,6 +15,7 @@ module Command
       event = context.event
       player = context.player
       game = context.game
+      game_data = context.game_data
 
       unless player.admin
         event.respond(content: "Sorry! Only admins can do this!")
@@ -26,7 +27,7 @@ module Command
         return
       end
 
-      Command::Helpers::CleanUp.run(event: event)
+      Command::Helpers::CleanUp.run(event: event, game_data: game_data)
 
     rescue => e
       event.respond(content: "An error has occurred: #{e}")

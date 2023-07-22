@@ -58,7 +58,8 @@ module Command
         ImageGeneration::Grid.new.generate_game_board(
           grid_x: game.max_x,
           grid_y: game.max_y,
-          players: players
+          players: players,
+          game_data: game_data
         )
 
         image_location = game_data.image_location

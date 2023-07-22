@@ -5,7 +5,7 @@ module ImageGeneration
   class Grid
     include Magick
 
-    def generate_range(grid_x:, grid_y:, player:, server_id:)
+    def generate_range(grid_x:, grid_y:, player:, server_id:, game_data:)
       game = Game.find_by(server_id: server_id)
       players = Player.all
 
@@ -273,7 +273,7 @@ module ImageGeneration
       image.write(image_location + '/range_grid.png')
     end
 
-    def generate_game_board(grid_x:, grid_y:, players:)
+    def generate_game_board(grid_x:, grid_y:, players:, game_data:)
 
       grid_x = grid_x + 1
       grid_y = grid_y + 1
@@ -483,7 +483,7 @@ module ImageGeneration
       image.write(image_location + '/grid.png')
     end
 
-    def generate_fog_of_war_board(grid_x:, grid_y:, player:, server_id:, for_range: false)
+    def generate_fog_of_war_board(grid_x:, grid_y:, player:, server_id:, game_data:, for_range: false)
       game = Game.find_by(server_id: server_id)
       players = Player.all
 

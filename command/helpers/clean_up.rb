@@ -1,7 +1,7 @@
 module Command
   module Helpers
     class CleanUp
-      def self.run(event:, peace_vote: false)
+      def self.run(event:, game_data:, peace_vote: false)
         most_kills = Player.order({'kills' => :desc}).first
         most_deaths = Player.order({'deaths' => :desc}).first
         most_captures = Player.order({'city_captures' => :desc}).first
@@ -32,7 +32,8 @@ module Command
         ImageGeneration::Grid.new.generate_game_board(
           grid_x: game.max_x,
           grid_y: game.max_y,
-          players: players
+          players: players,
+          game_data: game_data
         )
 
         image_location = game_data.image_location

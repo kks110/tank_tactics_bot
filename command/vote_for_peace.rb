@@ -15,6 +15,7 @@ module Command
     def execute(context:)
       event = context.event
       player = context.player
+      game_data = context.game_data
 
       full_player_count = Player.all.count
       alive_player_count = Player.where({ 'alive' => true }).count
@@ -42,7 +43,7 @@ module Command
       vote_count = PeaceVote.all.count
 
       if (vote_count.to_f/alive_player_count.to_f) * 10 > 6
-        Command::Helpers::CleanUp.run(event: event, peace_vote: true)
+        Command::Helpers::CleanUp.run(event: event, game_data: game_data, peace_vote: true)
       else
         event.respond(content: "Vote registered", ephemeral: true)
       end
