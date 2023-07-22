@@ -29,6 +29,15 @@ module Command
 
         event.respond(content: response)
 
+        ImageGeneration::Grid.new.generate_game_board(
+          grid_x: game.max_x,
+          grid_y: game.max_y,
+          players: players
+        )
+
+        image_location = ENV.fetch('TT_IMAGE_LOCATION', '.')
+        event.channel.send_file File.new(image_location + '/grid.png')
+
         peace_votes = PeaceVote.all
         peace_votes.each do |vote|
           vote.destroy
