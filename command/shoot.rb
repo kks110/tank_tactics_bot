@@ -77,7 +77,7 @@ module Command
       BattleLog.logger.info("#{player.username} shot #{target.username}! #{target.username}: HP: #{target.hp}")
 
       if game.fog_of_war
-        event.channel.send_message 'Someone was shot!'
+        event.channel.send_message "Someone was shot! #{target.alive ? '' : 'They are dead!'}"
         event.respond(content: "You shot #{target.username}! #{target.alive ? '' : 'They are dead!'}", ephemeral: true)
       else
         event.respond(content: "<@#{target.discord_id}> was shot by #{player.username}! #{target.alive ? '' : 'They are dead!'}")
