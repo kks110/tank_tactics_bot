@@ -71,12 +71,12 @@ module Command
 
     def options
       [
-        Command::Options.new(
+        Command::Models::Options.new(
           type: 'boolean',
           name: 'cities',
           description: 'Do you want to add cities? (default: false)'
         ),
-        Command::Options.new(
+        Command::Models::Options.new(
           type: 'boolean',
           name: 'fog_of_war',
           description: 'Do you want to enable Fog of War? (default: false)'

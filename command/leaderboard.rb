@@ -1,6 +1,6 @@
 require_relative './base'
 require_relative './helpers/generate_grid'
-require_relative './options'
+require_relative './models/options'
 
 module Command
   class Leaderboard < Command::Base
@@ -47,7 +47,7 @@ module Command
 
     def options
       [
-        Command::Options.new(
+        Command::Models::Options.new(
           type: 'string',
           name: 'rank_by',
           description: 'Pick the order that you want to rank people by',

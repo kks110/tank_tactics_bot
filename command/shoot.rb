@@ -1,7 +1,7 @@
 require_relative './base'
 require_relative './helpers/generate_grid'
 require_relative './helpers/determine_range'
-require_relative './options'
+require_relative './models/options'
 
 module Command
   class Shoot < Command::Base
@@ -87,13 +87,13 @@ module Command
 
     def options
       [
-        Command::Options.new(
+        Command::Models::Options.new(
           type: 'integer',
           name: 'x',
           description: 'The X coordinate',
           required: true,
         ),
-        Command::Options.new(
+        Command::Models::Options.new(
           type: 'integer',
           name: 'y',
           description: 'The Y coordinate',

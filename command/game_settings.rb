@@ -1,5 +1,4 @@
 require_relative './base'
-require_relative './list'
 
 module Command
   class GameSettings < Command::Base

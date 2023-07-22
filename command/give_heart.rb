@@ -82,19 +82,19 @@ module Command
 
     def options
       [
-        Command::Options.new(
+        Command::Models::Options.new(
           type: 'integer',
           name: 'x',
           description: 'The X coordinate',
           required: true,
           ),
-        Command::Options.new(
+        Command::Models::Options.new(
           type: 'integer',
           name: 'y',
           description: 'The Y coordinate',
           required: true,
         ),
-        Command::Options.new(
+        Command::Models::Options.new(
           type: 'integer',
           name: 'amount',
           description: 'How many hearts do you want to give (default is 1)',

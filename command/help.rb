@@ -1,5 +1,5 @@
 require_relative './base'
-require_relative './list'
+require_relative './helpers/list'
 
 module Command
   class Help < Command::Base
@@ -14,7 +14,7 @@ module Command
     def execute(event:, game_data:, bot:)
       response = "Here is a list of commands:\n"
 
-      Command::LIST.each do |command|
+      Command::Helpers::LIST.each do |command|
         response << "- `/#{command.name}`: #{command.description}\n"
       end
 

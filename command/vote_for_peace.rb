@@ -1,5 +1,5 @@
 require_relative './base'
-require_relative './list'
+require_relative './lpers/list'
 require_relative './helpers/clean_up'
 
 module Command

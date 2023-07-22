@@ -54,7 +54,7 @@ module Command
 
     def options
       [
-        Command::Options.new(
+        Command::Models::Options.new(
           type: 'boolean',
           name: 'show_everyone',
           description: 'This will show the map to everyone'
