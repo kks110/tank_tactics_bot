@@ -511,6 +511,23 @@ module ImageGeneration
         all_cells.delete(range_item)
       end
 
+      cities = City.all
+      cities.each do |city|
+        if player.id == city.player_id
+          city_view = Command::Helpers::DetermineRange.new.build_range_list(
+            player_x: city.x_position,
+            player_y: city.y_position,
+            player_range: 1,
+            max_x: game.max_x,
+            max_y: game.max_y
+          )
+          city_view.each do |view|
+            all_cells.delete(view)
+          end
+        end
+      end
+
+
       grid_x = grid_x + 1
       grid_y = grid_y + 1
       # The size of each cell on the grid
@@ -668,9 +685,8 @@ module ImageGeneration
       end
       draw.fill = 'black'
 
-      cities = City.all
       cities.each do |city|
-        next unless range_list.include?([city.y_position, city.x_position])
+        next if all_cells.include?([city.y_position, city.x_position])
 
         message = ''
         if city.player_id

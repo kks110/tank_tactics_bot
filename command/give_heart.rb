@@ -58,6 +58,7 @@ module Command
       player.update(hp: player.hp - amount_to_give)
       target.update(hp: target.hp + amount_to_give)
 
+      target_was_dead = !target.alive
       unless target.alive
         target.update(alive: true)
       end
@@ -70,7 +71,7 @@ module Command
       BattleLog.logger.info("#{player.username} gave #{amount_to_give} HP to #{target.username}")
 
       if game.fog_of_war
-        event.channel.send_message 'Someone was healed!'
+        event.channel.send_message target_was_dead ? 'Someone has been revived!' : 'Someone was healed!'
         event.respond(content: "#{target.username} was healed for #{amount_to_give}HP!", ephemeral: true)
       else
         event.respond(content: "#{target.username} was healed for #{amount_to_give}HP!")
