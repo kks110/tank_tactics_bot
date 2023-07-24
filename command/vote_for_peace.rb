@@ -27,7 +27,15 @@ module Command
 
       yesterday = DateTime.now - 1
 
+      first_vote = false
+
       votes = PeaceVote.all
+
+      first_vote = true if votes.count == 0
+      if first_vote
+        event.channel.send_message 'A vote for peace has started!'
+      end
+
       votes.each do |vote|
         vote.destroy if vote.created_at < yesterday
         vote.destroy unless Player.find_by(id: vote.player_id).alive
