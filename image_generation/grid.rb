@@ -202,7 +202,7 @@ module ImageGeneration
         if city.player_id
           draw.fill = 'silver'
           player = Player.find_by(id: city.player_id)
-          message << player.username
+          message << player.username[0...7]
         else
           draw.fill = 'goldenrod'
           message << 'Unowned'
@@ -404,7 +404,7 @@ module ImageGeneration
         if city.player_id
           draw.fill = 'silver'
           player = Player.find_by(id: city.player_id)
-          message << player.username
+          message << player.username[0...7]
         else
           draw.fill = 'goldenrod'
           message << 'Unowned'
@@ -692,7 +692,7 @@ module ImageGeneration
         if city.player_id
           draw.fill = 'silver'
           player = Player.find_by(id: city.player_id)
-          message << player.username
+          message << player.username[0...7]
         else
           draw.fill = 'goldenrod'
           message << 'Unowned'
