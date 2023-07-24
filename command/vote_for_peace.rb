@@ -27,12 +27,9 @@ module Command
 
       yesterday = DateTime.now - 1
 
-      first_vote = false
-
       votes = PeaceVote.all
 
-      first_vote = true if votes.count == 0
-      if first_vote
+      if player.peace_vote.nil?
         event.channel.send_message 'A vote for peace has started!'
       end
 
@@ -41,7 +38,7 @@ module Command
         vote.destroy unless Player.find_by(id: vote.player_id).alive
       end
 
-      if PeaceVote.find_by(player_id: player.id).nil?
+      if player.peace_vote.nil?
         PeaceVote.create(player_id: player.id)
       else
         event.respond(content: "You have already voted in the last 24 hours", ephemeral: true)

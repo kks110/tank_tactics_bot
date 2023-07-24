@@ -62,7 +62,7 @@ module Command
 
       player.update(energy: player.energy - game_data.capture_city_cost, city_captures: player.city_captures + 1)
 
-      previous_owner = target.player_id ? Player.find_by({ id: target.player_id }) : nil
+      previous_owner = target.player
       target.update(player_id: player.id)
 
       BattleLog.logger.info("#{player.username} captures a city. City X:#{target.x_position} Y:#{target.y_position}")
