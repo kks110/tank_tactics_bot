@@ -21,21 +21,18 @@ module Command
         return
       end
 
-      city_owners = []
       if game.cities
         City.all.each do |city|
-          city_owners << city.player_id if city.player_id
+          if city.player
+            city.player.update(energy: player.energy + game_data.captured_city_reward) if city.player.alive
+          end
         end
       end
 
       mentions = ""
       players = Player.all
       players.each do |player|
-        amount_to_give = game_data.daily_energy_amount
-
-        amount_to_give += game_data.captured_city_reward if city_owners.include?(player.id)
-
-        player.update(energy: player.energy + amount_to_give) if player.alive
+        player.update(energy: player.energy + game_data.daily_energy_amount) if player.alive
         mentions << "<@#{player.discord_id}> "
       end
 
