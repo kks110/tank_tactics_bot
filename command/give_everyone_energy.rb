@@ -24,7 +24,7 @@ module Command
       if game.cities
         City.all.each do |city|
           if city.player
-            city.player.update(energy: player.energy + game_data.captured_city_reward) if city.player.alive
+            city.player.update(energy: city.player.energy + game_data.captured_city_reward) if city.player.alive
           end
         end
       end
