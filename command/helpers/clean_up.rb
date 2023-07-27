@@ -20,14 +20,15 @@ module Command
           response << " <@#{winner.discord_id}>"
         end
 
-        response << ". "
+        response << "\n"
 
         response << "Most Kills: #{most_kills.username}: #{most_kills.kills}\n"
-        response << "Most Deaths: #{most_deaths.username}: #{most_deaths.deaths}"
-        response << "Most City Captures: #{most_captures.username}: #{most_captures.city_captures}" if game.cities
-
+        response << "Most Deaths: #{most_deaths.username}: #{most_deaths.deaths}\n"
+        response << "Most City Captures: #{most_captures.username}: #{most_captures.city_captures}\n" if game.cities
 
         event.respond(content: response)
+
+        players = Player.all
 
         ImageGeneration::Grid.new.generate_game_board(
           grid_x: game.max_x,
@@ -39,12 +40,14 @@ module Command
         image_location = game_data.image_location
         event.channel.send_file File.new(image_location + '/grid.png')
 
+        log_location = BattleLog.log_path
+        event.channel.send_file File.new(log_location)
+
         peace_votes = PeaceVote.all
         peace_votes.each do |vote|
           vote.destroy
         end
 
-        players = Player.all
         players.each do |player|
           if player.admin
             player.update(
@@ -53,9 +56,11 @@ module Command
               energy: 0,
               hp: 3,
               range: 2,
+              alive: true,
               kills: 0,
               deaths: 0,
-              )
+              city_captures: 0
+            )
           else
             player.destroy
           end
@@ -65,6 +70,10 @@ module Command
 
         Heart.first.destroy if Heart.first
         EnergyCell.first.destroy if EnergyCell.first
+
+        City.all.each do |city|
+          city.destroy
+        end
 
         BattleLog.logger.info("The game has ended!\n")
       end
