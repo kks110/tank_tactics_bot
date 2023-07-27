@@ -398,8 +398,6 @@ module ImageGeneration
 
       cities = City.all
       cities.each do |city|
-        next unless range_list.include?([city.y_position, city.x_position])
-
         message = ''
         if city.player_id
           draw.fill = 'silver'
