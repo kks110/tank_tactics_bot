@@ -78,7 +78,7 @@ module Command
       end
 
     rescue => e
-      event.respond(content: "An error has occurred: #{e}")
+      ErrorLog.logger.error("An Error occurred: Command name: #{name}. Error #{e}")
     end
 
     def options

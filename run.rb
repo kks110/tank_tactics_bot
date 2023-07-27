@@ -12,6 +12,7 @@ require_relative './models/city'
 require_relative './command/helpers/list'
 require_relative './initialise'
 require_relative './battle_log'
+require_relative './error_log'
 require_relative './config/game_data'
 require_relative './command/models/execute_params'
 

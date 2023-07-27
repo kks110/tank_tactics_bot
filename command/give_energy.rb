@@ -71,7 +71,7 @@ module Command
       event.respond(content: "#{target.username} was given energy by #{player.username}!", ephemeral: true)
 
     rescue => e
-      event.respond(content: "An error has occurred: #{e}", ephemeral: true)
+      ErrorLog.logger.error("An Error occurred: Command name: #{name}. Error #{e}")
     end
 
     def options
