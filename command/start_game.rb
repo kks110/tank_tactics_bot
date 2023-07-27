@@ -67,6 +67,9 @@ module Command
         event.delete_response
       end
 
+      BattleLog.logger.info("The game has begun!")
+
+
     rescue => e
       ErrorLog.logger.error("An Error occurred: Command name: #{name}. Error #{e}")
     end
