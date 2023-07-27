@@ -21,18 +21,29 @@ module Command
         return
       end
 
+      players = Player.all
+
+      BattleLog.logger.info("Daily energy:")
+      BattleLog.logger.info("Pre energy")
+      players.each do |player|
+        BattleLog.logger.info("#{player.username}: #{player.energy}")
+      end
+
       if game.cities
         City.all.each do |city|
           if city.player
             city.player.update(energy: city.player.energy + game_data.captured_city_reward) if city.player.alive
+            BattleLog.logger.info("#{city.player.username} has a city. Giving energy. New energy: #{city.player.energy}")
           end
         end
       end
 
-      mentions = ""
       players = Player.all
+
+      mentions = ""
       players.each do |player|
         player.update(energy: player.energy + game_data.daily_energy_amount) if player.alive
+        BattleLog.logger.info("Giving energy to #{player.username}. New energy: #{player.energy}")
         mentions << "<@#{player.discord_id}> "
       end
 
@@ -60,7 +71,7 @@ module Command
 
       event.respond(content: response)
     rescue => e
-      event.respond(content: "An error has occurred: #{e}")
+      ErrorLog.logger.error("An Error occurred: Command name: #{name}. Error #{e}")
     end
   end
 end
