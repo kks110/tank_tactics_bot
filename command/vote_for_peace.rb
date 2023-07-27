@@ -35,7 +35,7 @@ module Command
 
       votes.each do |vote|
         vote.destroy if vote.created_at < yesterday
-        vote.destroy unless Player.find_by(id: vote.player_id).alive
+        vote.destroy unless vote.player.alive
       end
 
       if player.peace_vote.nil?

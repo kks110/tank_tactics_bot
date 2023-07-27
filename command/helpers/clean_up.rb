@@ -14,7 +14,7 @@ module Command
 
         response << "The vote for peace has been successful!\n" if peace_vote
 
-        response << "The game has ended!\nThe winner/s are:"
+        response << "The game has ended!\nThe winner's are:"
 
         winners.each do |winner|
           response << " <@#{winner.discord_id}>"
