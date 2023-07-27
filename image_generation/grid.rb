@@ -523,6 +523,7 @@ module ImageGeneration
           )
           city_view.each do |view|
             all_cells.delete(view)
+            range_list << view
           end
         end
       end
