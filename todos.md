@@ -5,16 +5,20 @@
   -  cities captured
   -  most cities held at once
   -  cities lost
-  -  damge done
+  -  damage done
+  -  damage received
   -  hearts collected
   -  energy collected
   -  times moved
   -  max hp achieved
   -  max range achieved
+  -  max energy at one time
   -  energy Spent
   -  energy given
-  -  hp given
+  -  energy received
   -  highest energy given at distribution
+  -  hp given
+  -  hp received
 - Automate energy distribution
 - Line of sight block terrain?
 - Alliances? Win by alliance. Create alliance, gives code that allows people to join. Cost double to attach alliance?
