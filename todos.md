@@ -1,4 +1,17 @@
 -------------------------
+- clear the battle log at new game start
+- add command to send battle log at the end
+- only allow some commands if a game is running
+- see if error logger works as there is an error in the battle log
+- change the hp and energy spawns so they are at least 2 away from everything
+- change the city spawns so they are at least 2 away from everything
+- Add a heart and energy cell spawn map to show previous locations
+- Fix vote for peace bugs
+  - Allowing dead people to vote
+  - Multiple 'vote has started messages'
+- Bug with images. Need to create unique names / add username to images
+- Come up with some kind of standard notation, and write something that can play out the the game a step at a time
+- Fog of war -> try just blocking out the cells completely
 - Add end of game stats:
   -  kills
   -  deaths
@@ -23,9 +36,7 @@
 - Line of sight block terrain?
 - Alliances? Win by alliance. Create alliance, gives code that allows people to join. Cost double to attach alliance?
 - Mines? can be placed? can be swept for? can be destroyed?
-- Come up with some kind of standard notation, and write something that can play out the the game a step at a time
 - Tests?
-- Add profile cards?
 - Run rubocop
 
 -------------------------
