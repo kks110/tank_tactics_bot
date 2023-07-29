@@ -12,6 +12,7 @@
 - Bug with images. Need to create unique names / add username to images
 - Come up with some kind of standard notation, and write something that can play out the the game a step at a time
 - Fog of war -> try just blocking out the cells completely
+- Fix heart being the wrong font size on the draw full board used for the final grid
 - Add end of game stats:
   -  kills
   -  deaths
