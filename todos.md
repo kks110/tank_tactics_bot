@@ -6,9 +6,6 @@
 - change the hp and energy spawns so they are at least 2 away from everything
 - change the city spawns so they are at least 2 away from everything
 - Add a heart and energy cell spawn map to show previous locations
-- Fix vote for peace bugs
-  - Allowing dead people to vote
-  - Multiple 'vote has started messages'
 - Bug with images. Need to create unique names / add username to images
 - Come up with some kind of standard notation, and write something that can play out the the game a step at a time
 - Fog of war -> try just blocking out the cells completely
@@ -42,4 +39,6 @@
 
 -------------------------
 New updates:
-
+- Fix vote for peace bugs
+  - You now can't vote if you are dead
+  - Will only send 'vote has started' message if there are no peace votes

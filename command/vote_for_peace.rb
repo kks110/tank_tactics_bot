@@ -17,6 +17,11 @@ module Command
       player = context.player
       game_data = context.game_data
 
+      unless player.alive
+        event.respond(content: "You can't vote if you are dead!", ephemeral: true)
+        return
+      end
+
       full_player_count = Player.all.count
       alive_player_count = Player.where({ 'alive' => true }).count
 
@@ -29,14 +34,14 @@ module Command
 
       votes = PeaceVote.all
 
-      if player.peace_vote.nil?
-        event.channel.send_message 'A vote for peace has started!'
-      end
-
       votes.each do |vote|
         vote.destroy if vote.created_at < yesterday
         vote.destroy unless vote.player.alive
       end
+
+      votes = PeaceVote.all
+
+      event.channel.send_message 'A vote for peace has started!' if votes.nil?
 
       if player.peace_vote.nil?
         PeaceVote.create(player_id: player.id)
