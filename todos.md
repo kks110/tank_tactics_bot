@@ -1,6 +1,5 @@
 -------------------------
-- change the hp and energy spawns so they are at least 2 away from everything
-- change the city spawns so they are at least 2 away from everything
+- change hp and energy cell spawns so they dont spawn within 2 of where they last were
 - Add a heart and energy cell spawn map to show previous locations
 - Bug with images. Need to create unique names / add username to images
 - Come up with some kind of standard notation, and write something that can play out the the game a step at a time
