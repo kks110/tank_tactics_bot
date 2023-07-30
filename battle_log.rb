@@ -8,6 +8,10 @@ class BattleLog
     logger
   end
 
+  def self.reset_log
+    File.delete(log_path) if File.exist?(log_path)
+  end
+
   def self.log_path
     ENV.fetch('LOG_PATH', 'battle_log.txt')
   end

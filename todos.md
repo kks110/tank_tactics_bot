@@ -1,7 +1,5 @@
 -------------------------
-- clear the battle log at new game start
 - add command to send battle log at the end
-- only allow some commands if a game is running
 - see if error logger works as there is an error in the battle log
 - change the hp and energy spawns so they are at least 2 away from everything
 - change the city spawns so they are at least 2 away from everything
@@ -42,3 +40,5 @@ New updates:
 - Fix vote for peace bugs
   - You now can't vote if you are dead
   - Will only send 'vote has started' message if there are no peace votes
+- Add breaks so some commands can't run if game is running
+- Add battle log reset and more logging at game start

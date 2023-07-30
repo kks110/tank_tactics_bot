@@ -28,9 +28,8 @@ module Command
       players = Player.all
 
       BattleLog.logger.info("Daily energy:")
-      BattleLog.logger.info("Pre energy")
       players.each do |player|
-        BattleLog.logger.info("#{player.username}: #{player.energy}")
+        BattleLog.logger.info("#{player.username} X: #{player.x_position} Y: #{player.y_position} Energy: #{player.energy}")
       end
 
       if game.cities

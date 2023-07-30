@@ -76,8 +76,18 @@ module Command
         event.delete_response
       end
 
+      BattleLog.reset_log
       BattleLog.logger.info("The game has begun!")
+      players = Player.all
+      cities = City.all
 
+      players.each do |player|
+        BattleLog.logger.info("#{player.username} X: #{player.x_position} Y: #{player.y_position}")
+      end
+
+      cities.each do |city|
+        BattleLog.logger.info("City X: #{city.x_position} Y: #{city.y_position}")
+      end
 
     rescue => e
       ErrorLog.logger.error("An Error occurred: Command name: #{name}. Error #{e}")
