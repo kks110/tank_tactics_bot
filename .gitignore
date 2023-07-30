@@ -3,6 +3,7 @@
 .DS_Store
 battle_log.txt
 *.png
+error_log.txt
 
 *.gem
 *.rbc

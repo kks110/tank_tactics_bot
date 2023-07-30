@@ -1,13 +1,10 @@
 -------------------------
-- add command to send battle log at the end
-- see if error logger works as there is an error in the battle log
 - change the hp and energy spawns so they are at least 2 away from everything
 - change the city spawns so they are at least 2 away from everything
 - Add a heart and energy cell spawn map to show previous locations
 - Bug with images. Need to create unique names / add username to images
 - Come up with some kind of standard notation, and write something that can play out the the game a step at a time
 - Fog of war -> try just blocking out the cells completely
-- Fix heart being the wrong font size on the draw full board used for the final grid
 - Add end of game stats:
   -  kills
   -  deaths
@@ -42,3 +39,4 @@ New updates:
   - Will only send 'vote has started' message if there are no peace votes
 - Add breaks so some commands can't run if game is running
 - Add battle log reset and more logging at game start
+- Fix heart being the wrong font size on the draw full board used for the final grid

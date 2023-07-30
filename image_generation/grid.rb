@@ -448,6 +448,7 @@ module ImageGeneration
         )
       end
 
+      draw.pointsize = 80
       if EnergyCell.first
         draw.fill = 'blue'
         energy_cell_coords = EnergyCell.first.coords
