@@ -6,12 +6,22 @@ module Command
       :register
     end
 
+    def requires_game?
+      false
+    end
+
     def description
       "Register to play!"
     end
 
     def execute(context:)
       event = context.event
+
+      if context.game
+        event.respond(content: "You can't register when a game is running!", ephemeral: true)
+        return
+      end
+
 
       user = event.user
       Player.create!(discord_id: user.id, username: user.username)

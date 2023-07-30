@@ -6,6 +6,10 @@ module Command
       :increase_hp
     end
 
+    def requires_game?
+      true
+    end
+
     def description
       'Increase HP by 1 for 30 energy'
     end

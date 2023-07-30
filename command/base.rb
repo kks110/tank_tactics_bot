@@ -6,6 +6,10 @@ module Command
       raise NotImplementedError, "Must Implement the name method for commands"
     end
 
+    def requires_game?
+      raise NotImplementedError, "Must Implement the requires_game? method for commands"
+    end
+
     def description
       raise NotImplementedError, "Must Implement the description method for commands"
     end

@@ -7,6 +7,10 @@ module Command
       :show_board
     end
 
+    def requires_game?
+      true
+    end
+
     def description
       "Show the game board"
     end

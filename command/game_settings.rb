@@ -6,6 +6,10 @@ module Command
       :game_settings
     end
 
+    def requires_game?
+      true
+    end
+
     def description
       "Show the current games settings"
     end

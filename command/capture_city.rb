@@ -9,6 +9,10 @@ module Command
       :capture_city
     end
 
+    def requires_game?
+      true
+    end
+
     def description
       "Capture a city within 1 range!"
     end

@@ -8,6 +8,10 @@ module Command
       :give_heart
     end
 
+    def requires_game?
+      true
+    end
+
     def description
       "Give a heart to someone"
     end

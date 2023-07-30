@@ -8,6 +8,10 @@ module Command
       :leaderboard
     end
 
+    def requires_game?
+      true
+    end
+
     def description
       "See who's on top"
     end

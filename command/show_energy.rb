@@ -6,6 +6,10 @@ module Command
       :show_energy
     end
 
+    def requires_game?
+      true
+    end
+
     def description
       "Show how much energy you have"
     end

@@ -28,15 +28,19 @@ Command::Helpers::LIST.each do |command|
     player = Player.find_by(discord_id: event.user.id)
     game = Game.find_by(server_id: event.server_id)
 
-    context = Command::Models::ExecuteParams.new(
-      event: event,
-      game_data: game_data,
-      bot: bot,
-      game: game,
-      player: player
-    )
+    if command.requires_game? && game.nil?
+      event.respond(content: "The game hasn't started yet!", ephemeral: true)
+    else
+      context = Command::Models::ExecuteParams.new(
+        event: event,
+        game_data: game_data,
+        bot: bot,
+        game: game,
+        player: player
+      )
 
-    command.execute(context: context)
+      command.execute(context: context)
+    end
   end
 end
 

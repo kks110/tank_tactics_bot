@@ -6,6 +6,10 @@ module Command
       :game_state
     end
 
+    def requires_game?
+      true
+    end
+
     def description
       "Show the current state of the game"
     end

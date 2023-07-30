@@ -8,6 +8,10 @@ module Command
       :vote_for_peace
     end
 
+    def requires_game?
+      true
+    end
+
     def description
       "Start vote if more than 50% of players are dead. 60% of living players required to end game"
     end

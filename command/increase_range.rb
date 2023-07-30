@@ -6,6 +6,10 @@ module Command
       :increase_range
     end
 
+    def requires_game?
+      true
+    end
+
     def description
       "Increase range by 1 for 30 energy"
     end

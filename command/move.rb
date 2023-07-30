@@ -8,6 +8,10 @@ module Command
       :move
     end
 
+    def requires_game?
+      true
+    end
+
     def description
       "Move your tank"
     end

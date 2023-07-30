@@ -7,6 +7,10 @@ module Command
       :help
     end
 
+    def requires_game?
+      false
+    end
+
     def description
       "Show a list of commands"
     end

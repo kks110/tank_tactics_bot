@@ -6,6 +6,10 @@ module Command
       :start_game
     end
 
+    def requires_game?
+      false
+    end
+
     def description
       "Let the game begin!"
     end
@@ -15,8 +19,13 @@ module Command
       player = context.player
       game_data = context.game_data
 
+      if context.game
+        event.respond(content: "A game is already running!", ephemeral: true)
+        return
+      end
+
       unless player.admin
-        event.respond(content: "Sorry! Only admins can do this!")
+        event.respond(content: "Sorry! Only admins can do this!", ephemeral: true)
         return
       end
 

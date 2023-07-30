@@ -9,6 +9,10 @@ module Command
       :shoot
     end
 
+    def requires_game?
+      true
+    end
+
     def description
       "Shoot someone"
     end

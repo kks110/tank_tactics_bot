@@ -8,6 +8,10 @@ module Command
       :give_energy
     end
 
+    def requires_game?
+      true
+    end
+
     def description
       "Give energy to someone"
     end

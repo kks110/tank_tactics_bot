@@ -6,6 +6,10 @@ module Command
       :give_everyone_energy
     end
 
+    def requires_game?
+      true
+    end
+
     def description
       "Distribute daily energy"
     end

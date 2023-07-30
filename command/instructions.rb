@@ -6,6 +6,10 @@ module Command
       :instructions
     end
 
+    def requires_game?
+      false
+    end
+
     def description
       "Instruction overview"
     end

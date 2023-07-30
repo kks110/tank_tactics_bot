@@ -7,6 +7,10 @@ module Command
       :reset_game
     end
 
+    def requires_game?
+      true
+    end
+
     def description
       "Resets the game"
     end

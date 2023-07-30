@@ -7,6 +7,10 @@ module Command
       :show_range
     end
 
+    def requires_game?
+      true
+    end
+
     def description
       "Show your tanks range"
     end
