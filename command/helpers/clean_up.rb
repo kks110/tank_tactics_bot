@@ -30,15 +30,15 @@ module Command
 
         players = Player.all
 
-        ImageGeneration::Grid.new.generate_game_board(
+        image_location = ImageGeneration::Grid.new.generate_game_board(
           grid_x: game.max_x,
           grid_y: game.max_y,
+          player: game_data.player,
           players: players,
           game_data: game_data
         )
 
-        image_location = game_data.image_location
-        event.channel.send_file File.new(image_location + '/grid.png')
+        event.channel.send_file File.new(image_location)
 
         log_location = BattleLog.log_path
         event.channel.send_file File.new(log_location)

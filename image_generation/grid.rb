@@ -268,12 +268,13 @@ module ImageGeneration
         )
       end
 
-      image_location = game_data.image_location
+      image_location = "#{game_data.image_location}/#{player.username}_range_grid.png"
       # Save the modified image
-      image.write(image_location + '/range_grid.png')
+      image.write(image_location)
+      image_location
     end
 
-    def generate_game_board(grid_x:, grid_y:, players:, game_data:)
+    def generate_game_board(grid_x:, grid_y:, player:, players:, game_data:)
 
       grid_x = grid_x + 1
       grid_y = grid_y + 1
@@ -477,9 +478,10 @@ module ImageGeneration
         )
       end
 
-      image_location = game_data.image_location
+      image_location = "#{game_data.image_location}/#{player.username}_grid.png"
       # Save the modified image
-      image.write(image_location + '/grid.png')
+      image.write(image_location)
+      image_location
     end
 
     def generate_fog_of_war_board(grid_x:, grid_y:, player:, server_id:, game_data:, for_range: false)
@@ -751,10 +753,10 @@ module ImageGeneration
         )
       end
 
-      image_location = game_data.image_location
+      image_location = "#{game_data.image_location}/#{player.username}_#{for_range ? '/range_grid.png' : '/grid.png'}"
       # Save the modified image
-      file_name = for_range ? '/range_grid.png' : '/grid.png'
-      image.write(image_location + file_name)
+      image.write(image_location)
+      image_location
     end
   end
 end

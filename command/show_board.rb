@@ -26,8 +26,10 @@ module Command
 
       show_everyone = false if game.fog_of_war
 
+      image_location = ""
+
       if game.fog_of_war
-        ImageGeneration::Grid.new.generate_fog_of_war_board(
+        image_location = ImageGeneration::Grid.new.generate_fog_of_war_board(
           grid_x: game.max_x,
           grid_y: game.max_y,
           player: player,
@@ -35,23 +37,22 @@ module Command
           game_data: game_data
         )
       else
-        ImageGeneration::Grid.new.generate_game_board(
+        image_location = ImageGeneration::Grid.new.generate_game_board(
           grid_x: game.max_x,
           grid_y: game.max_y,
+          player: player,
           players: players,
           game_data: game_data
         )
       end
 
-      image_location = game_data.image_location
-
       if show_everyone
         event.respond(content: "Generating the grid...", ephemeral: true)
-        event.channel.send_file File.new(image_location + '/grid.png')
+        event.channel.send_file File.new(image_location)
         event.delete_response
       else
         event.respond(content: "Sending you a dm", ephemeral: true)
-        event.user.send_file File.new(image_location + '/grid.png')
+        event.user.send_file File.new(image_location)
       end
 
     rescue => e

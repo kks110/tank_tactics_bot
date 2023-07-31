@@ -64,15 +64,15 @@ module Command
       else
         event.respond(content: "Generating the grid...", ephemeral: true)
 
-        ImageGeneration::Grid.new.generate_game_board(
+        image_location = ImageGeneration::Grid.new.generate_game_board(
           grid_x: game.max_x,
           grid_y: game.max_y,
+          player: player,
           players: players,
           game_data: game_data
         )
 
-        image_location = game_data.image_location
-        event.channel.send_file File.new(image_location + '/grid.png')
+        event.channel.send_file File.new(image_location)
         event.delete_response
       end
 
