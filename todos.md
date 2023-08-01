@@ -4,25 +4,25 @@
 - Come up with some kind of standard notation, and write something that can play out the the game a step at a time
 - Fog of war -> try just blocking out the cells completely
 - Add end of game stats:
-  -  kills
-  -  deaths
-  -  cities captured
-  -  most cities held at once
-  -  cities lost
-  -  damage done
-  -  damage received
-  -  hearts collected
-  -  energy collected
-  -  times moved
-  -  max hp achieved
-  -  max range achieved
-  -  max energy at one time
-  -  energy Spent
-  -  energy given
-  -  energy received
-  -  highest energy given at distribution
-  -  hp given
-  -  hp received
+  - cities captures
+  - cities lost
+  - most cities held
+  - energy spent
+  - energy given
+  - energy received
+  - max daily energy given
+  - hp given
+  - hp received
+  - highest energy
+  - highest hp
+  - highest range
+  - times moved
+  - hearts collected
+  - energy cells collected
+  - damage done
+  - damage received
+  - kills
+  - deaths
 - Automate energy distribution
 - Line of sight block terrain?
 - Alliances? Win by alliance. Create alliance, gives code that allows people to join. Cost double to attach alliance?
