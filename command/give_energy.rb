@@ -65,8 +65,10 @@ module Command
       end
 
       player.update(energy: player.energy - amount_to_give)
-      target.update(energy: target.energy + amount_to_give)
+      player.stats.update(energy_given: player.stats.energy_given + amount_to_give)
 
+      target.update(energy: target.energy + amount_to_give)
+      target.stats.update(energy_received: target.stats.energy_received + amount_to_give)
 
       target_for_dm = bot.user(target.discord_id)
       target_for_dm.pm("You were given #{amount_to_give} energy by #{player.username}")

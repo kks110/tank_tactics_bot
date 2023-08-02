@@ -253,6 +253,8 @@ module Command
         heart = Heart.first
         if player.x_position == heart.x_position && player.y_position == heart.y_position
           player.update(hp: player.hp + game_data.heart_reward)
+          player.stats.update(hearts_collected: player.stats.hearts_collected + 1)
+
           heart.destroy
           response << " You picked up the heart! You now have #{player.hp}HP"
 
@@ -266,6 +268,8 @@ module Command
         energy_call = EnergyCell.first
         if player.x_position == energy_call.x_position && player.y_position == energy_call.y_position
           player.update(energy: player.energy + game_data.energy_cell_reward)
+          player.stats.update(energy_cells_collected: player.stats.energy_cells_collected + 1)
+
           energy_call.destroy
           response << " You picked up the energy cell!"
 
@@ -275,6 +279,7 @@ module Command
         end
       end
 
+      player.stats.update(times_moved: player.stats.times_moved + 1)
       event.respond(content: response, ephemeral: ephemeral)
 
     rescue => e

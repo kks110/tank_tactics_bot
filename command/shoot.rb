@@ -60,8 +60,11 @@ module Command
       end
 
       player.update(energy: player.energy - game_data.shoot_cost)
+      player.stats.update(damage_done: player.stats.damage_done + 1)
 
       target.update(hp: target.hp - 1)
+      target.stats.update(damage_received: player.stats.damage_received + 1)
+
 
       if game.fog_of_war
         target_for_dm = bot.user(target.discord_id)
@@ -69,8 +72,9 @@ module Command
       end
 
       if target.hp <= 0
-        player.update(kills: player.kills + 1)
-        target.update(alive: false, hp: 0, deaths: target.deaths + 1)
+        player.stats.update(kills: player.stats.kills + 1)
+        target.update(alive: false, hp: 0)
+        target.stats.update(deaths: target.stats.deaths + 1)
         target_for_dm.pm("You are dead!") if game.fog_of_war
 
         City.all.each do |city|

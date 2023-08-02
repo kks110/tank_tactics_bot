@@ -60,7 +60,10 @@ module Command
       end
 
       player.update(hp: player.hp - amount_to_give)
+      player.stats.update(hp_given: player.stats.hp_given + amount_to_give)
+
       target.update(hp: target.hp + amount_to_give)
+      target.stats.update(hp_received: target.stats.hp_received + amount_to_give)
 
       target_was_dead = !target.alive
       unless target.alive
