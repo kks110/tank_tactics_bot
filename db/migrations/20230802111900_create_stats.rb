@@ -1,6 +1,6 @@
-class CreateStatistics < ActiveRecord::Migration[7.0]
+class CreateStats < ActiveRecord::Migration[7.0]
   def change
-    create_table :statistics do |t|
+    create_table :stats do |t|
       t.belongs_to :player
       t.integer :kills, default: 0
       t.integer :deaths, default: 0

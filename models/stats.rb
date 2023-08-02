@@ -1,5 +1,5 @@
 require 'active_record'
 
-class Statistic < ActiveRecord::Base
+class Stats < ActiveRecord::Base
   belongs_to :player
 end

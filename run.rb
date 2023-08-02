@@ -9,12 +9,14 @@ require_relative './models/heart'
 require_relative './models/energy_cell'
 require_relative './models/peace_vote'
 require_relative './models/city'
+require_relative './models/stats'
 require_relative './command/helpers/list'
 require_relative './initialise'
 require_relative './battle_log'
 require_relative './error_log'
 require_relative './config/game_data'
 require_relative './command/models/execute_params'
+require_relative './config/initializers/inflections'
 
 bot = Discordrb::Bot.new(token: ENV.fetch('SLASH_COMMAND_BOT_TOKEN', nil), intents: [:server_messages])
 Command::Helpers::RegisterCommands.run(bot: bot)
