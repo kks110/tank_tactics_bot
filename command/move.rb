@@ -255,6 +255,10 @@ module Command
           player.update(hp: player.hp + game_data.heart_reward)
           player.stats.update(hearts_collected: player.stats.hearts_collected + 1)
 
+          if player.hp > player.stats.highest_hp
+            player.stats.update(highest_hp: player.hp)
+          end
+
           heart.destroy
           response << " You picked up the heart! You now have #{player.hp}HP"
 

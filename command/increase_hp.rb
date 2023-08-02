@@ -27,6 +27,10 @@ module Command
 
       player.update(energy: player.energy - game_data.increase_hp_cost, hp: player.hp + 1)
 
+      if player.hp > player.stats.highest_hp
+        player.stats.update(highest_hp: player.hp)
+      end
+
       BattleLog.logger.info("#{player.username} Increased their HP to #{player.hp}")
 
       if game.fog_of_war

@@ -65,6 +65,10 @@ module Command
       target.update(hp: target.hp + amount_to_give)
       target.stats.update(hp_received: target.stats.hp_received + amount_to_give)
 
+      if target.hp > target.stats.highest_hp
+        target.stats.update(highest_hp: target.hp)
+      end
+
       target_was_dead = !target.alive
       unless target.alive
         target.update(alive: true)

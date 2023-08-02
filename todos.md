@@ -4,12 +4,7 @@
 - Come up with some kind of standard notation, and write something that can play out the the game a step at a time
 - Fog of war -> try just blocking out the cells completely
 - Add end of game stats:
-    t.integer :most_cities_held, default: 0
     t.integer :energy_spent, default: 0
-    t.integer :highest_daily_energy_given, default: 0
-    t.integer :highest_energy, default: 0
-    t.integer :highest_hp, default: 0
-    t.integer :highest_range, default: 0
 - Automate energy distribution
 - Line of sight block terrain?
 - Alliances? Win by alliance. Create alliance, gives code that allows people to join. Cost double to attach alliance?

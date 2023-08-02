@@ -89,6 +89,11 @@ module Command
         event.respond(content: "<@#{player.discord_id}> has captured a city at X:#{target.x_position} Y:#{target.y_position}")
       end
 
+      cities_owned_count = player.city.count
+      if cities_owned_count > player.stats.most_cities_held
+        player.stats.update(most_cities_held: cities_owned_count)
+      end
+
     rescue => e
       ErrorLog.logger.error("An Error occurred: Command name: #{name}. Error #{e}")
     end

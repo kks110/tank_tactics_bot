@@ -70,6 +70,10 @@ module Command
       target.update(energy: target.energy + amount_to_give)
       target.stats.update(energy_received: target.stats.energy_received + amount_to_give)
 
+      if target.energy > target.stats.highest_energy
+        target.stats.update(highest_energy: target.energy)
+      end
+
       target_for_dm = bot.user(target.discord_id)
       target_for_dm.pm("You were given #{amount_to_give} energy by #{player.username}")
 

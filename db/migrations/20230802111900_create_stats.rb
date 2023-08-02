@@ -10,7 +10,7 @@ class CreateStats < ActiveRecord::Migration[7.0]
       t.integer :energy_spent, default: 0
       t.integer :energy_given, default: 0
       t.integer :energy_received, default: 0
-      t.integer :highest_daily_energy_given, default: 0
+      t.integer :daily_energy_given, default: 0
       t.integer :hp_given, default: 0
       t.integer :hp_received, default: 0
       t.integer :highest_energy, default: 0
