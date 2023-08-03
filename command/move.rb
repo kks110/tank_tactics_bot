@@ -245,9 +245,9 @@ module Command
           new_y: y,
           server_id: event.server_id
         )
-        player.stats.update(energy_spent: player.stats.energy_spent + game_data.move_cost)
       end
 
+      player.stats.update(energy_spent: player.stats.energy_spent + game_data.move_cost)
       response = "Moved!"
 
       if Heart.first
