@@ -21,9 +21,9 @@ module Command
 
       if interested_player.validate
         interested_player.save
-        event.respond(content: "#{user.username}, registered your interest!")
+        event.respond(content: "#{user.username}, registered your interest!", ephemeral: true)
       else
-        event.respond(content: "An error occurred, likely you are already registered")
+        event.respond(content: "An error occurred, likely you are already registered", ephemeral: true)
       end
 
     rescue => e
