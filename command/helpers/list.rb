@@ -18,6 +18,7 @@ require_relative '../vote_for_peace'
 require_relative '../capture_city'
 require_relative '../game_settings'
 require_relative '../game_state'
+require_relative '../register_interest'
 
 
 module Command
@@ -42,7 +43,8 @@ module Command
       VoteForPeace.new,
       CaptureCity.new,
       GameSettings.new,
-      GameState.new
+      GameState.new,
+      RegisterInterest.new
     ]
   end
 end

@@ -4,8 +4,7 @@
 - Add a heart and energy cell spawn map to show previous locations
 - Come up with some kind of standard notation, and write something that can play out the the game a step at a time
 - Fog of war -> try just blocking out the cells completely
-- Add end of game stats:
-    t.integer :energy_spent, default: 0
+- Add a way to view stats + end game stats
 - Automate energy distribution
 - Line of sight block terrain?
 - Alliances? Win by alliance. Create alliance, gives code that allows people to join. Cost double to attach alliance?
@@ -21,6 +20,7 @@ New updates:
 - Add breaks so some commands can't run if game is running
 - Add battle log reset and more logging at game start
 - Fix heart being the wrong font size on the draw full board used for the final grid
+- Add ability for players to register interest
 
 Bug Fixes:
 - Fixed an bug with images where you could be sent someone else's view
