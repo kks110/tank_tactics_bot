@@ -26,7 +26,10 @@ module Command
       end
 
       player.update(energy: player.energy - game_data.increase_range_cost, range: player.range + 1)
-      player.stats.update(highest_range: player.range)
+      player.stats.update(
+        highest_range: player.range,
+        energy_spent: player.stats.energy_spent + game_data.increase_range_cost
+      )
 
       BattleLog.logger.info("#{player.username} increased their range to #{player.range}")
 

@@ -26,6 +26,7 @@ module Command
       end
 
       player.update(energy: player.energy - game_data.increase_hp_cost, hp: player.hp + 1)
+      player.stats.update(energy_spent: player.stats.energy_spent + game_data.increase_hp_cost)
 
       if player.hp > player.stats.highest_hp
         player.stats.update(highest_hp: player.hp)

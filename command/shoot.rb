@@ -60,7 +60,10 @@ module Command
       end
 
       player.update(energy: player.energy - game_data.shoot_cost)
-      player.stats.update(damage_done: player.stats.damage_done + 1)
+      player.stats.update(
+        damage_done: player.stats.damage_done + 1,
+        energy_spent: player.stats.energy_spent + game_data.shoot_cost
+      )
 
       target.update(hp: target.hp - 1)
       target.stats.update(damage_received: player.stats.damage_received + 1)
