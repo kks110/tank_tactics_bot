@@ -1,5 +1,6 @@
 -------------------------
 - change hp and energy cell spawns so they dont spawn within 2 of where they last were
+- have a history of hearts and cells and when collected update collected instead of deleting
 - Add a heart and energy cell spawn map to show previous locations
 - Come up with some kind of standard notation, and write something that can play out the the game a step at a time
 - Fog of war -> try just blocking out the cells completely

@@ -65,7 +65,7 @@ module Command
       end
 
       player.update(energy: player.energy - game_data.capture_city_cost)
-      player.stats.update(city_captures: player.stats.city_captures + 1)
+      player.stats.update(cities_captures: player.stats.cities_captures + 1)
 
       previous_owner = target.player
 

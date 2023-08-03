@@ -24,7 +24,8 @@ module Command
 
 
       user = event.user
-      Player.create!(discord_id: user.id, username: user.username)
+      player = Player.create!(discord_id: user.id, username: user.username)
+      Stats.create!(player_id: player.id, highest_hp: player.hp, highest_range: player.range)
       event.respond(content: "#{user.username} registered successfully!")
 
     rescue => e
