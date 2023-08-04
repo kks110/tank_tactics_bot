@@ -19,6 +19,7 @@ require_relative '../capture_city'
 require_relative '../game_settings'
 require_relative '../game_state'
 require_relative '../register_interest'
+require_relative '../show_pickup_history'
 
 
 module Command
@@ -44,7 +45,8 @@ module Command
       CaptureCity.new,
       GameSettings.new,
       GameState.new,
-      RegisterInterest.new
+      RegisterInterest.new,
+      ShowPickupHistory.new
     ]
   end
 end

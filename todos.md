@@ -21,6 +21,7 @@ New updates:
 - Add battle log reset and more logging at game start
 - Fix heart being the wrong font size on the draw full board used for the final grid
 - Add ability for players to register interest
+- There is a pickup history command which will show where heart and energy cells has spawned
 
 Bug Fixes:
 - Fixed an bug with images where you could be sent someone else's view

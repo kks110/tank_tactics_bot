@@ -157,9 +157,10 @@ module ImageGeneration
 
       draw.pointsize = 80
 
-      if Heart.first
+      heart = Heart.find_by(collected: false)
+      if heart
         draw.fill = 'green'
-        heart_coords = Heart.first.coords
+        heart_coords = heart.coords
 
         draw.annotate(
           image,
@@ -172,9 +173,10 @@ module ImageGeneration
       end
       draw.fill = 'black'
 
-      if EnergyCell.first
+      energy_cell = EnergyCell.find_by(collected: false)
+      if energy_cell
         draw.fill = 'blue'
-        energy_cell_coords = EnergyCell.first.coords
+        energy_cell_coords = energy_cell.coords
 
         draw.annotate(
           image,
@@ -251,9 +253,14 @@ module ImageGeneration
       draw.fill = 'black'
       range_list.each do |item|
         next if item == [player.y_position, player.x_position]
-        heart_coords = Heart.first.coords
-        next if item == [heart_coords[:y], heart_coords[:x]]
+
+        heart = Heart.find_by(collected: false)
+        if heart
+          heart_coords = heart.coords
+          next if item == [heart_coords[:y], heart_coords[:x]]
+        end
         next if players_positions.include?(item)
+
         cities.each do |city|
           next if item == [city.y_position, city.x_position]
         end
@@ -450,9 +457,10 @@ module ImageGeneration
       end
 
       draw.pointsize = 80
-      if EnergyCell.first
+      energy_cell = EnergyCell.find_by(collected: false)
+      if energy_cell
         draw.fill = 'blue'
-        energy_cell_coords = EnergyCell.first.coords
+        energy_cell_coords = energy_cell.coords
 
         draw.annotate(
           image,
@@ -464,9 +472,10 @@ module ImageGeneration
         )
       end
 
-      if Heart.first
+      heart = Heart.find_by(collected: false)
+      if heart
         draw.fill = 'green'
-        heart_coords = Heart.first.coords
+        heart_coords = heart.coords
 
         draw.annotate(
           image,
@@ -479,6 +488,121 @@ module ImageGeneration
       end
 
       image_location = "#{game_data.image_location}/#{player.username}_grid.png"
+      # Save the modified image
+      image.write(image_location)
+      image_location
+    end
+
+    def generate_pickup_board(grid_x:, grid_y:, game_data:)
+
+      grid_x = grid_x + 1
+      grid_y = grid_y + 1
+      # The size of each cell on the grid
+      cell_size = 100
+
+      # The height and width of the image
+      image_x = (grid_x * cell_size) + cell_size
+      image_y = (grid_y * cell_size) + cell_size
+
+      image = Image.new(image_x, image_y) { |options| options.background_color = "white" }
+
+      draw = Magick::Draw.new
+      draw.stroke('black')
+      draw.stroke_width(1)
+
+      # Draw the grid lines
+      (grid_x + 2).times do |row|
+        next if row.zero?
+
+        draw.line(0, row * cell_size, image_y, row * cell_size)
+      end
+
+      (grid_y + 2).times do |col|
+        next if col.zero?
+
+        draw.line(col * cell_size, 0, col * cell_size, image_x)
+      end
+
+      draw.draw(image)
+
+      image_font = game_data.image_font
+      draw.font = image_font + '/font.ttf'
+      draw.pointsize = 30
+      draw.fill = 'black'
+
+      # Add column and row headers
+      (grid_x + 1).times do |x_header|
+        next if x_header.zero?
+
+        draw.annotate(image, (x_header * cell_size) + cell_size/2, cell_size / 2, (x_header * cell_size) + cell_size/2, cell_size / 2, (x_header-1).to_s)
+      end
+
+      (grid_y + 1).times do |y_header|
+        next if y_header.zero?
+
+        draw.annotate(image, cell_size / 2, (y_header * cell_size) + cell_size/2, cell_size / 2, (y_header * cell_size) + cell_size/2, (y_header-1).to_s)
+      end
+
+      # Draw column and row labels
+      draw.annotate(
+        image,
+        cell_size - 60,
+        25,
+        cell_size - 60,
+        25,
+        "X "
+      )
+
+      draw.annotate(
+        image,
+        10,
+        cell_size - 45,
+        10,
+        cell_size - 35,
+        "Y"
+      )
+
+      draw.annotate(
+        image,
+        5,
+        cell_size - 5,
+        5,
+        cell_size - 5,
+        ""
+      )
+
+      draw.pointsize = 80
+
+
+      EnergyCell.all.each do |energy_cell|
+        draw.fill = energy_cell.collected ? 'gray' : 'blue'
+        energy_cell_coords = energy_cell.coords
+
+        draw.annotate(
+          image,
+          (energy_cell_coords[:x] * cell_size) + cell_size + 30,
+          (energy_cell_coords[:y] * cell_size) + cell_size + 80,
+          (energy_cell_coords[:x] * cell_size) + cell_size + 30,
+          (energy_cell_coords[:y] * cell_size) + cell_size + 80,
+          "󰂄"
+        )
+      end
+
+      Heart.all.each do |heart|
+        draw.fill = heart.collected ? 'gray' : 'green'
+        heart_coords = heart.coords
+
+        draw.annotate(
+          image,
+          (heart_coords[:x] * cell_size) + cell_size + 10,
+          (heart_coords[:y] * cell_size) + cell_size + 80,
+          (heart_coords[:x] * cell_size) + cell_size + 10,
+          (heart_coords[:y] * cell_size) + cell_size + 80,
+          ""
+        )
+      end
+
+      image_location = "#{game_data.image_location}/pickup_grid.png"
       # Save the modified image
       image.write(image_location)
       image_location
@@ -654,9 +778,11 @@ module ImageGeneration
 
       draw.pointsize = 80
 
-      if Heart.first
+
+      heart = Heart.find_by(collected: false)
+      if heart
         draw.fill = 'green'
-        heart_coords = Heart.first.coords
+        heart_coords = heart.coords
         if range_list.include?([heart_coords[:y], heart_coords[:x]])
           draw.annotate(
             image,
@@ -670,9 +796,10 @@ module ImageGeneration
       end
       draw.fill = 'black'
 
-      if EnergyCell.first
+      energy_cell = EnergyCell.find_by(collected: false)
+      if energy_cell
         draw.fill = 'blue'
-        energy_cell_coords = EnergyCell.first.coords
+        energy_cell_coords = energy_cell.coords
 
         if range_list.include?([energy_cell_coords[:y], energy_cell_coords[:x]])
           draw.annotate(
