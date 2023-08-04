@@ -17,10 +17,12 @@ module Command
     def execute(context:)
       game = context.game
       event = context.event
+      heart = Heart.find_by(collected: false)
+      energy_cell = EnergyCell.find_by(collected: false)
 
       response = ''
-      response << "Heart location: X:#{Heart.first.coords[:x]} Y:#{Heart.first.coords[:y]}\n" if Heart.first
-      response << "Energy Cell location: X:#{EnergyCell.first.coords[:x]} Y:#{EnergyCell.first.coords[:y]}\n" if EnergyCell.first
+      response << "Heart location: X:#{heart.coords[:x]} Y:#{heart.coords[:y]}\n" if heart
+      response << "Energy Cell location: X:#{energy_cell.coords[:x]} Y:#{energy_cell.coords[:y]}\n" if energy_cell
 
       response << "Player Count: #{Player.all.count}\n"
       response << "Players Alive: #{Player.all.select { |player| player.alive == true }.count}\n"

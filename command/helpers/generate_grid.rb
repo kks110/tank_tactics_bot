@@ -14,9 +14,11 @@ module Command
           grid[player.y_position][player.x_position] = player
         end
 
-        grid[Heart.first.y_position][Heart.first.x_position] = Heart.first if Heart.first
+        heart = Heart.find_by(collected: false)
+        grid[heart.y_position][heart.x_position] = heart if heart
 
-        grid[EnergyCell.first.y_position][EnergyCell.first.x_position] = EnergyCell.first if EnergyCell.first
+        energy_cell = EnergyCell.find_by(collected: false)
+        grid[energy_cell.y_position][energy_cell.x_position] = energy_cell if energy_cell
 
         if game.cities
           City.all.each do |city|
@@ -47,9 +49,11 @@ module Command
           list = modify_list(x, y, list, game)
         end
 
-        list = modify_list(Heart.first.x_position, Heart.first.y_position, list, game) if Heart.first
+        heart = Heart.order('created_at' => :desc).first
+        list = modify_list(heart.x_position, heart.y_position, list, game) if heart
 
-        list = modify_list(EnergyCell.first.x_position, EnergyCell.first.y_position, list, game) if EnergyCell.first
+        energy_cell = EnergyCell.order('created_at' => :desc).first
+        list = modify_list(energy_cell.x_position, energy_cell.y_position, list, game) if energy_cell
 
         City.all.each do |city|
           modify_list(city.x_position, city.y_position, list, game)
