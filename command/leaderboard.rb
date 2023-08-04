@@ -1,6 +1,5 @@
 require_relative './base'
-require_relative './helpers/generate_grid'
-require_relative './models/options'
+require_relative '../image_generation/leaderboard'
 
 module Command
   class Leaderboard < Command::Base
@@ -17,6 +16,7 @@ module Command
     end
 
     def execute(context:)
+      game_data = context.game_data
       game = context.game
       event = context.event
 
@@ -25,40 +25,20 @@ module Command
         return
       end
 
-      rank_by = event.options['rank_by']
-      rank_by = 'kills' if rank_by.nil?
+      stats = Stats.all
 
-      players = Player.order({rank_by => :desc})
+      image_location = ImageGeneration::Leaderboard.new.generate_leaderboard(
+        game_data: game_data,
+        stats:stats,
+        column_headings: Stats.column_headings,
+        column_names: Stats.column_names
+      )
 
-      response = "Players ordered by #{rank_by}\n"
-      players.each_with_index do |player, counter|
-        response << "#{counter + 1}) #{player.username} #{message_order_logic(player, rank_by)}"
-      end
-
-      event.respond(content: response)
-
-    rescue => e
-      ErrorLog.logger.error("An Error occurred: Command name: #{name}. Error #{e}")
-    end
-
-    def message_order_logic(player, rank_by)
-      case rank_by
-      when 'kills'
-        "K: #{player.kills} / D: #{player.deaths}\n"
-      when 'city_captures'
-        "City Captureas: #{player.city_captures}\n"
-      end
-    end
-
-    def options
-      [
-        Command::Models::Options.new(
-          type: 'string',
-          name: 'rank_by',
-          description: 'Pick the order that you want to rank people by',
-          choices: { kills: 'kills', city_captures: 'city_captures' }
-        )
-      ]
+      event.respond(content: "Generating the grid...", ephemeral: true)
+      event.channel.send_file File.new(image_location)
+      event.delete_response
+    # rescue => e
+    #   ErrorLog.logger.error("An Error occurred: Command name: #{name}. Error #{e}")
     end
   end
 end
