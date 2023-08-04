@@ -250,8 +250,8 @@ module Command
       player.stats.update(energy_spent: player.stats.energy_spent + game_data.move_cost)
       response = "Moved!"
 
-      if Heart.first
-        heart = Heart.first
+      heart = Heart.find_by(collected: false)
+      if heart
         if player.x_position == heart.x_position && player.y_position == heart.y_position
           player.update(hp: player.hp + game_data.heart_reward)
           player.stats.update(hearts_collected: player.stats.hearts_collected + 1)
@@ -260,7 +260,7 @@ module Command
             player.stats.update(highest_hp: player.hp)
           end
 
-          heart.destroy
+          heart.update(collected: true)
           response << " You picked up the heart! You now have #{player.hp}HP"
 
           event.channel.send_message 'Someone picked up the heart!' if game.fog_of_war
@@ -269,13 +269,13 @@ module Command
         end
       end
 
-      if EnergyCell.first
-        energy_call = EnergyCell.first
-        if player.x_position == energy_call.x_position && player.y_position == energy_call.y_position
+      energy_cell = Heart.find_by(collected: false)
+      if energy_cell
+        if player.x_position == energy_cell.x_position && player.y_position == energy_cell.y_position
           player.update(energy: player.energy + game_data.energy_cell_reward)
           player.stats.update(energy_cells_collected: player.stats.energy_cells_collected + 1)
 
-          energy_call.destroy
+          energy_call.update(collected: true)
           response << " You picked up the energy cell!"
 
           event.channel.send_message 'Someone picked up the energy cell!' if game.fog_of_war

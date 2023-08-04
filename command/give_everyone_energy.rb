@@ -54,7 +54,7 @@ module Command
 
       response = "Energy successfully distributed! #{mentions}"
 
-      if Heart.count == 0
+      unless Heart.find_by(collected: false)
         available_spawn_point = Command::Helpers::GenerateGrid.new.available_spawn_location(server_id: event.server_id)
         spawn_location = available_spawn_point.sample
 
@@ -64,7 +64,7 @@ module Command
         response << " A heart spawned at X:#{spawn_location[:x]}, Y:#{spawn_location[:y]}."
       end
 
-      if EnergyCell.count == 0
+      unless EnergyCell.find_by(collected: false)
         available_spawn_point = Command::Helpers::GenerateGrid.new.available_spawn_location(server_id: event.server_id)
         spawn_location = available_spawn_point.sample
 
