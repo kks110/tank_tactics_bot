@@ -269,13 +269,13 @@ module Command
         end
       end
 
-      energy_cell = Heart.find_by(collected: false)
+      energy_cell = EnergyCell.find_by(collected: false)
       if energy_cell
         if player.x_position == energy_cell.x_position && player.y_position == energy_cell.y_position
           player.update(energy: player.energy + game_data.energy_cell_reward)
           player.stats.update(energy_cells_collected: player.stats.energy_cells_collected + 1)
 
-          energy_call.update(collected: true)
+          energy_cell.update(collected: true)
           response << " You picked up the energy cell!"
 
           event.channel.send_message 'Someone picked up the energy cell!' if game.fog_of_war

@@ -16,9 +16,9 @@ module ImageGeneration
 
       players = players.select { |player_from_list| player_from_list.discord_id != player.discord_id }
       range_list = Command::Helpers::DetermineRange.new.build_range_list(
-        player_x: player.x_position,
-        player_y: player.y_position,
-        player_range: player.range,
+        x_position: player.x_position,
+        y_position: player.y_position,
+        range: player.range,
         max_x: game.max_x,
         max_y: game.max_y
       )
@@ -618,9 +618,9 @@ module ImageGeneration
       end
 
       range_list = Command::Helpers::DetermineRange.new.build_range_list(
-        player_x: player.x_position,
-        player_y: player.y_position,
-        player_range: player.range,
+        x_position: player.x_position,
+        y_position: player.y_position,
+        range: player.range,
         max_x: game.max_x,
         max_y: game.max_y
       )
@@ -640,9 +640,9 @@ module ImageGeneration
       cities.each do |city|
         if player.id == city.player_id
           city_view = Command::Helpers::DetermineRange.new.build_range_list(
-            player_x: city.x_position,
-            player_y: city.y_position,
-            player_range: 1,
+            x_position: city.x_position,
+            y_position: city.y_position,
+            range: 1,
             max_x: game.max_x,
             max_y: game.max_y
           )

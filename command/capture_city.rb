@@ -40,9 +40,9 @@ module Command
       grid = Command::Helpers::GenerateGrid.new.run(server_id: event.server_id)
 
       range_list = Command::Helpers::DetermineRange.new.build_range_list(
-        player_x: player.x_position,
-        player_y: player.y_position,
-        player_range: 1,
+        x_position: player.x_position,
+        y_position: player.y_position,
+        range: 1,
         max_x: game.max_x,
         max_y: game.max_y
       )

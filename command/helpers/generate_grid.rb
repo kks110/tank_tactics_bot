@@ -46,39 +46,58 @@ module Command
           x = player.x_position
           y = player.y_position
 
-          list = modify_list(x, y, list, game)
+          range_list = Command::Helpers::DetermineRange.new.build_range_list(
+            x_position: x,
+            y_position: y,
+            range: 1,
+            max_x: game.max_x,
+            max_y: game.max_y
+          )
+          modify_list(list, range_list)
         end
 
         heart = Heart.order('created_at' => :desc).first
-        list = modify_list(heart.x_position, heart.y_position, list, game) if heart
+        if heart
+          range_list = Command::Helpers::DetermineRange.new.build_range_list(
+            x_position: heart.x_position,
+            y_position: heart.y_position,
+            range: 2,
+            max_x: game.max_x,
+            max_y: game.max_y
+          )
+          modify_list(list, range_list)
+        end
 
         energy_cell = EnergyCell.order('created_at' => :desc).first
-        list = modify_list(energy_cell.x_position, energy_cell.y_position, list, game) if energy_cell
+        if energy_cell
+          range_list = Command::Helpers::DetermineRange.new.build_range_list(
+            x_position: energy_cell.x_position,
+            y_position: energy_cell.y_position,
+            range: 2,
+            max_x: game.max_x,
+            max_y: game.max_y
+          )
+          modify_list(list, range_list)
+        end
 
         City.all.each do |city|
-          modify_list(city.x_position, city.y_position, list, game)
+          range_list = Command::Helpers::DetermineRange.new.build_range_list(
+            x_position: city.x_position,
+            y_position: city.y_position,
+            range: 1,
+            max_x: game.max_x,
+            max_y: game.max_y
+          )
+          modify_list(list, range_list)
         end
 
         list
       end
 
-      def modify_list(x, y, list, game)
-        y_minus_1 = y == 0 ? game.max_y : y - 1
-        y_plus_1 = y == game.max_y ? 0 : y + 1
-
-        x_minus_1 = x == 0 ? game.max_x : x - 1
-        x_plus_1 = x == game.max_x ? 0 : x + 1
-
-        list.delete({ x: x, y: y })
-        list.delete({ x: x_plus_1, y: y_minus_1 })
-        list.delete({ x: x_plus_1, y: y })
-        list.delete({ x: x_plus_1, y: y_plus_1 })
-        list.delete({ x: x, y: y_minus_1 })
-        list.delete({ x: x, y: y_plus_1 })
-        list.delete({ x: x_minus_1, y: y_minus_1 })
-        list.delete({ x: x_minus_1, y: y })
-        list.delete({ x: x_minus_1, y: y_plus_1 })
-        list
+      def modify_list(list, range_list)
+        range_list.each do |item|
+          list.delete({ x: item[1], y: item[0] })
+        end
       end
     end
   end

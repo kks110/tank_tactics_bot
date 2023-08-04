@@ -2,10 +2,10 @@
 module Command
   module Helpers
     class DetermineRange
-      def build_range_list(player_x:, player_y:, player_range:, max_x:, max_y:)
+      def build_range_list(x_position:, y_position:, range:, max_x:, max_y:)
         list = []
 
-        if (player_range + player_range + 1) >= max_x + 1
+        if (range + range + 1) >= max_x + 1
           (0..max_y).to_a.each do |y_option|
             (0..max_x).to_a.each do |x_option|
               list << [y_option, x_option]
@@ -15,11 +15,11 @@ module Command
           return list
         end
 
-        range_right_x = (player_x + player_range) > max_x ? (player_x + player_range) - max_x - 1 : (player_x + player_range)
-        range_left_x = (player_x - player_range) < 0 ? (player_x - player_range) + max_x + 1 : (player_x - player_range)
+        range_right_x = (x_position + range) > max_x ? (x_position + range) - max_x - 1 : (x_position + range)
+        range_left_x = (x_position - range) < 0 ? (x_position - range) + max_x + 1 : (x_position - range)
 
-        range_down_y = (player_y + player_range) > max_y ? (player_y + player_range) - max_y - 1 : (player_y + player_range)
-        range_up_y = (player_y - player_range) < 0 ? (player_y - player_range) + max_y + 1 : (player_y - player_range)
+        range_down_y = (y_position + range) > max_y ? (y_position + range) - max_y - 1 : (y_position + range)
+        range_up_y = (y_position - range) < 0 ? (y_position - range) + max_y + 1 : (y_position - range)
 
         x_options = []
         if range_right_x < range_left_x

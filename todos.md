@@ -1,10 +1,7 @@
 -------------------------
-- change hp and energy cell spawns so they dont spawn within 2 of where they last were
-- have a history of hearts and cells and when collected update collected instead of deleting
-- Add a heart and energy cell spawn map to show previous locations
+- Add a way to view stats + end game stats
 - Come up with some kind of standard notation, and write something that can play out the the game a step at a time
 - Fog of war -> try just blocking out the cells completely
-- Add a way to view stats + end game stats
 - Automate energy distribution
 - Line of sight block terrain?
 - Alliances? Win by alliance. Create alliance, gives code that allows people to join. Cost double to attach alliance?
@@ -22,6 +19,7 @@ New updates:
 - Fix heart being the wrong font size on the draw full board used for the final grid
 - Add ability for players to register interest
 - There is a pickup history command which will show where heart and energy cells has spawned
+- Hearts and energy cells wont spawn within 2 of where they spawned previously
 
 Bug Fixes:
 - Fixed an bug with images where you could be sent someone else's view
