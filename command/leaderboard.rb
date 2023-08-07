@@ -40,7 +40,6 @@ module Command
           player_stat = stat.send(k.to_sym)
           highest_and_lowest[k][:low] = player_stat if highest_and_lowest[k][:low] > player_stat
           highest_and_lowest[k][:high] = player_stat if highest_and_lowest[k][:high] < player_stat
-          end
         end
       end
 
@@ -55,8 +54,8 @@ module Command
       event.respond(content: "Generating the grid...", ephemeral: true)
       event.channel.send_file File.new(image_location)
       event.delete_response
-    # rescue => e
-    #   ErrorLog.logger.error("An Error occurred: Command name: #{name}. Error #{e}")
+    rescue => e
+      ErrorLog.logger.error("An Error occurred: Command name: #{name}. Error #{e}")
     end
   end
 end
