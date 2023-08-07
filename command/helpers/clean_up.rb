@@ -2,10 +2,6 @@ module Command
   module Helpers
     class CleanUp
       def self.run(event:, game_data:, peace_vote: false)
-        most_kills = Player.order({'kills' => :desc}).first
-        most_deaths = Player.order({'deaths' => :desc}).first
-        most_captures = Player.order({'city_captures' => :desc}).first
-
         game = Game.find_by(server_id: event.server_id)
 
         winners = Player.where({ 'alive' => true })
@@ -22,23 +18,30 @@ module Command
 
         response << "\n"
 
-        response << "Most Kills: #{most_kills.username}: #{most_kills.kills}\n"
-        response << "Most Deaths: #{most_deaths.username}: #{most_deaths.deaths}\n"
-        response << "Most City Captures: #{most_captures.username}: #{most_captures.city_captures}\n" if game.cities
-
         event.respond(content: response)
+
+        stats = Stats.all
+
+        leaderboard_image_location = ImageGeneration::Leaderboard.new.generate_leaderboard(
+          game_data: game_data,
+          stats:stats,
+          column_headings: Stats.column_headings,
+          column_names: Stats.column_names,
+          high_and_low: Command::Helpers::HighestAndLowestStats.generate
+        )
+        event.channel.send_file File.new(leaderboard_image_location)
 
         players = Player.all
 
-        image_location = ImageGeneration::Grid.new.generate_game_board(
+        game_board_image_location = ImageGeneration::Grid.new.generate_game_board(
           grid_x: game.max_x,
           grid_y: game.max_y,
-          player: game_data.player,
+          player: players.first,
           players: players,
           game_data: game_data
         )
 
-        event.channel.send_file File.new(image_location)
+        event.channel.send_file File.new(game_board_image_location)
 
         log_location = BattleLog.log_path
         event.channel.send_file File.new(log_location)
@@ -48,22 +51,12 @@ module Command
           vote.destroy
         end
 
+        stats.each do |stat|
+          stat.destroy
+        end
+
         players.each do |player|
-          if player.admin
-            player.update(
-              x_position: nil,
-              y_position: nil,
-              energy: 0,
-              hp: 3,
-              range: 2,
-              alive: true,
-              kills: 0,
-              deaths: 0,
-              city_captures: 0
-            )
-          else
-            player.destroy
-          end
+          player.destroy
         end
 
         Game.first.destroy

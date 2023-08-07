@@ -1,5 +1,6 @@
 require_relative './base'
 require_relative '../image_generation/leaderboard'
+require_relative 'helpers/highest_and_lowest_stats'
 
 module Command
   class Leaderboard < Command::Base
@@ -27,26 +28,12 @@ module Command
 
       stats = Stats.all
 
-      highest_and_lowest = {}
-
-      Stats.column_names.each do |column|
-        min = Stats.minimum(column.to_sym)
-        max = Stats.maximum(column.to_sym)
-
-        highest_and_lowest[column] = {}
-        highest_and_lowest[column][:low] = nil
-        highest_and_lowest[column][:high] = nil
-
-        highest_and_lowest[column][:low] = min if min != 0
-        highest_and_lowest[column][:high] = max if max != 0
-      end
-
       image_location = ImageGeneration::Leaderboard.new.generate_leaderboard(
         game_data: game_data,
         stats:stats,
         column_headings: Stats.column_headings,
         column_names: Stats.column_names,
-        high_and_low: highest_and_lowest
+        high_and_low: Command::Helpers::HighestAndLowestStats.generate
       )
 
       event.respond(content: "Generating the grid...", ephemeral: true)
