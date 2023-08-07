@@ -5,7 +5,7 @@ module ImageGeneration
   class Leaderboard
     include Magick
 
-    def generate_leaderboard(game_data:, stats:, column_headings:, column_names:)
+    def generate_leaderboard(game_data:, stats:, column_headings:, column_names:, high_and_low:)
 
       x = column_headings.count - 1
       y = stats.count
@@ -75,7 +75,11 @@ module ImageGeneration
               players_stats.player.username[0...6]
             )
           else
+            draw.fill = 'black'
             text = players_stats.send(name.to_sym).to_s
+            draw.fill = 'red' if high_and_low[name][:low].to_s == text
+            draw.fill = 'green' if high_and_low[name][:high].to_s == text
+
             draw.annotate(
               image,
               ((column_index - 1) * x_cell_size) +  (x_cell_size/(text.length + 1)),

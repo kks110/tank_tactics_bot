@@ -27,11 +27,29 @@ module Command
 
       stats = Stats.all
 
+      highest_and_lowest = {}
+      Stats.column_names.each do |column|
+        highest_and_lowest[column] = {
+          low: 0,
+          high: 0
+        }
+      end
+
+      stats.each do |stat|
+        highest_and_lowest.each do |k,_|
+          player_stat = stat.send(k.to_sym)
+          highest_and_lowest[k][:low] = player_stat if highest_and_lowest[k][:low] > player_stat
+          highest_and_lowest[k][:high] = player_stat if highest_and_lowest[k][:high] < player_stat
+          end
+        end
+      end
+
       image_location = ImageGeneration::Leaderboard.new.generate_leaderboard(
         game_data: game_data,
         stats:stats,
         column_headings: Stats.column_headings,
-        column_names: Stats.column_names
+        column_names: Stats.column_names,
+        high_and_low: highest_and_lowest
       )
 
       event.respond(content: "Generating the grid...", ephemeral: true)
