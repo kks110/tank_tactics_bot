@@ -28,19 +28,17 @@ module Command
       stats = Stats.all
 
       highest_and_lowest = {}
-      Stats.column_names.each do |column|
-        highest_and_lowest[column] = {
-          low: 0,
-          high: 0
-        }
-      end
 
-      stats.each do |stat|
-        highest_and_lowest.each do |k,_|
-          player_stat = stat.send(k.to_sym)
-          highest_and_lowest[k][:low] = player_stat if highest_and_lowest[k][:low] > player_stat
-          highest_and_lowest[k][:high] = player_stat if highest_and_lowest[k][:high] < player_stat
-        end
+      Stats.column_names.each do |column|
+        min = Stats.minimum(column.to_sym)
+        max = Stats.maximum(column.to_sym)
+
+        highest_and_lowest[column] = {}
+        highest_and_lowest[column][:low] = nil
+        highest_and_lowest[column][:high] = nil
+
+        highest_and_lowest[column][:low] = min if min != 0
+        highest_and_lowest[column][:high] = max if max != 0
       end
 
       image_location = ImageGeneration::Leaderboard.new.generate_leaderboard(
