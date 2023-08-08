@@ -20,6 +20,8 @@ require_relative '../game_settings'
 require_relative '../game_state'
 require_relative '../register_interest'
 require_relative '../show_pickup_history'
+require_relative '../show_my_stats'
+require_relative '../send_message_to_interested'
 
 
 module Command
@@ -46,7 +48,9 @@ module Command
       GameSettings.new,
       GameState.new,
       RegisterInterest.new,
-      ShowPickupHistory.new
+      ShowPickupHistory.new,
+      ShowMyStats.new,
+      SendMessageToInterested.new
     ]
   end
 end

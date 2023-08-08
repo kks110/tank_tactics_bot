@@ -1,5 +1,4 @@
 -------------------------
-- Add a way to view stats
 - Come up with some kind of standard notation, and write something that can play out the the game a step at a time
 - Fog of war -> try just blocking out the cells completely
 - Automate energy distribution
@@ -21,6 +20,8 @@ New updates:
 - There is a pickup history command which will show where heart and energy cells has spawned
 - Hearts and energy cells wont spawn within 2 of where they spawned previously
 - There are now end game stats
+- Add the show_my_stats command. Amazingly, it will show your stats. It will also show if you are the highest or lowest of that stat
+- Added a send message to interested command for admins
 
 Bug Fixes:
 - Fixed an bug with images where you could be sent someone else's view
