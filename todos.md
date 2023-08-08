@@ -9,19 +9,3 @@
 - Run rubocop
 
 -------------------------
-New updates:
-- Fix vote for peace bugs
-  - You now can't vote if you are dead
-  - Will only send 'vote has started' message if there are no peace votes
-- Add breaks so some commands can't run if game is running
-- Add battle log reset and more logging at game start
-- Fix heart being the wrong font size on the draw full board used for the final grid
-- Add ability for players to register interest
-- There is a pickup history command which will show where heart and energy cells has spawned
-- Hearts and energy cells wont spawn within 2 of where they spawned previously
-- There are now end game stats
-- Add the show_my_stats command. Amazingly, it will show your stats. It will also show if you are the highest or lowest of that stat
-- Added a send message to interested command for admins
-
-Bug Fixes:
-- Fixed an bug with images where you could be sent someone else's view
