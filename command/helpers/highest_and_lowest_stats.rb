@@ -9,6 +9,7 @@ module Command
           min = Stats.minimum(column.to_sym)
           max = Stats.maximum(column.to_sym)
 
+          highest_and_lowest[column] = {}
           highest_and_lowest[column][:low] = min
           highest_and_lowest[column][:high] = max
         end

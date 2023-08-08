@@ -36,7 +36,7 @@ module Command
         high_and_low: Command::Helpers::HighestAndLowestStats.generate
       )
 
-      event.respond(content: "Generating the grid...", ephemeral: true)
+      event.respond(content: "Generating leaderboard...", ephemeral: true)
       event.channel.send_file File.new(image_location)
       event.delete_response
     rescue => e
