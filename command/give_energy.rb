@@ -101,7 +101,7 @@ module Command
         Command::Models::Options.new(
           type: 'integer',
           name: 'amount',
-          description: 'How much energy do you want to give (default is 1)',
+          description: 'How much energy do you want to give (default is 5)',
         )
       ]
     end
