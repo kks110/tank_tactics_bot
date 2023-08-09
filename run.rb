@@ -30,7 +30,7 @@ Command::Helpers::LIST.each do |command|
 
     player = Player.find_by(discord_id: event.user.id)
 
-    unless player
+    if player.nil? && !command.requires_game?
       event.respond(content: "You are not a player in this game!", ephemeral: true)
     else
 
