@@ -880,7 +880,7 @@ module ImageGeneration
         )
       end
 
-      image_location = "#{game_data.image_location}/#{player.username}_#{for_range ? '/range_grid.png' : '/grid.png'}"
+      image_location = "#{game_data.image_location}/#{player.username}_#{for_range ? 'range_grid.png' : 'grid.png'}"
       # Save the modified image
       image.write(image_location)
       image_location

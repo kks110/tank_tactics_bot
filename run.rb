@@ -29,6 +29,11 @@ Command::Helpers::LIST.each do |command|
     puts "#{event.user.username} executed command: #{command.name}"
 
     player = Player.find_by(discord_id: event.user.id)
+
+    if player.nil? && !command.requires_game?
+      event.respond(content: "You are not a player in this game!", ephemeral: true)
+    end
+
     game = Game.find_by(server_id: event.server_id)
 
     if command.requires_game? && game.nil?

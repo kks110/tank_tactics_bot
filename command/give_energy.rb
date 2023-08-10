@@ -25,7 +25,7 @@ module Command
       x = event.options['x']
       y = event.options['y']
       amount_to_give = event.options['amount']
-      amount_to_give = 10 if amount_to_give.nil?
+      amount_to_give = 5 if amount_to_give.nil?
 
       if [player.y_position, player.x_position] == [y,x]
         event.respond(content: "You can't give yourself energy!", ephemeral: true)
@@ -101,7 +101,7 @@ module Command
         Command::Models::Options.new(
           type: 'integer',
           name: 'amount',
-          description: 'How much energy do you want to give (default is 1)',
+          description: 'How much energy do you want to give (default is 5)',
         )
       ]
     end
