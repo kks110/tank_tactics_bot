@@ -275,6 +275,10 @@ module Command
           player.update(energy: player.energy + game_data.energy_cell_reward)
           player.stats.update(energy_cells_collected: player.stats.energy_cells_collected + 1)
 
+          if player.energy > player.stats.highest_energy
+            player.stats.update(highest_energy: player.energy)
+          end
+          
           energy_cell.update(collected: true)
           response << " You picked up the energy cell!"
 
