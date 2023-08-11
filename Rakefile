@@ -1,4 +1,5 @@
 
+require 'discordrb'
 require 'active_record'
 require 'yaml'
 require 'pry'
@@ -6,8 +7,12 @@ require_relative './initialise'
 require_relative './models/game'
 require_relative './models/player'
 require_relative './models/city'
+require_relative './models/stats'
+require_relative './models/heart'
+require_relative './models/energy_cell'
 require_relative './battle_log'
 require_relative './command/helpers/generate_grid'
+require_relative './config/game_data'
 
 namespace :db do
   desc 'Run database migrations'
@@ -20,6 +25,7 @@ namespace :bot do
   desc 'Distribute daily energy'
   task :distribute_energy do
     game = Game.first
+    game_data = Config::GameData.new
 
     return unless game
 
@@ -80,6 +86,6 @@ namespace :bot do
 
     bot = Discordrb::Bot.new(token: ENV.fetch('SLASH_COMMAND_BOT_TOKEN', nil), intents: [:server_messages])
 
-    bot.send_message(1123689138638569492, response)
+    bot.send_message(ENV.fetch('BOT_CHANNEL', nil), response)
   end
 end
