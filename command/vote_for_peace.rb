@@ -45,8 +45,6 @@ module Command
 
       votes = PeaceVote.all
 
-      event.channel.send_message 'A vote for peace has started!' if votes.nil?
-
       if player.peace_vote.nil?
         PeaceVote.create(player_id: player.id)
       else
@@ -59,7 +57,7 @@ module Command
       if (vote_count.to_f/alive_player_count.to_f) * 10 > 6
         Command::Helpers::CleanUp.run(event: event, game_data: game_data, peace_vote: true)
       else
-        event.respond(content: "Vote registered", ephemeral: true)
+        event.respond(content: "A vote for peace has been registered")
       end
 
     rescue => e
