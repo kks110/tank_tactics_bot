@@ -14,6 +14,8 @@ Nerfs:
 - Energy cell now gives 20 energy
 - Range increase now costs 30 + 10 per level
 
+New Commands:
+- `/show_spectator_board` - Spectator Mode! Will send a spectator a DM with the bord. Pls dont cheat
 
 Backend:
 - Starting range, hp and energy is noy configurable via config file.

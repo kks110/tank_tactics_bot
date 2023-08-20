@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'ostruct'
 require 'discordrb'
 require_relative './command/helpers/register_commands'
 require 'pry'
@@ -34,19 +35,24 @@ Command::Helpers::LIST.each do |command|
 
     player = Player.find_by(discord_id: event.user.id)
 
-    if player.nil? && command.name == :spectator_map
-      context = Command::Models::ExecuteParams.new(
-        event: event,
-        game_data: game_data,
-        bot: bot,
-        game: game,
-        player: OpenStruct.new(username: event.user.username)
-      )
+    if command.name == :show_spectator_board
+      if player.nil?
+        context = Command::Models::ExecuteParams.new(
+          event: event,
+          game_data: game_data,
+          bot: bot,
+          game: game,
+          player: OpenStruct.new(username: event.user.username)
+        )
 
-      command.execute(context: context)
-    elsif player.nil? && !command.requires_game?
-        event.respond(content: "You are not a player in this game!", ephemeral: true)
+        command.execute(context: context)
+      else
+        event.respond(content: "You cant 'spectate' if you are playing!", ephemeral: true)
+      end
     else
+      if player.nil? && command.requires_game?
+        event.respond(content: "You are not a player in this game!", ephemeral: true)
+      else command.name != :show_spectator_board
       context = Command::Models::ExecuteParams.new(
         event: event,
         game_data: game_data,
@@ -56,6 +62,7 @@ Command::Helpers::LIST.each do |command|
       )
 
       command.execute(context: context)
+      end
     end
   end
 end

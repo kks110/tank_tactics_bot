@@ -2,9 +2,9 @@ require_relative './base'
 require_relative '../image_generation/grid'
 
 module Command
-  class SpectatorBoard < Command::Base
+  class ShowSpectatorBoard < Command::Base
     def name
-      :spectator_board
+      :show_spectator_board
     end
 
     def requires_game?

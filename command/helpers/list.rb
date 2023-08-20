@@ -22,6 +22,7 @@ require_relative '../register_interest'
 require_relative '../show_pickup_history'
 require_relative '../show_my_stats'
 require_relative '../send_message_to_interested'
+require_relative '../show_spectator_board'
 
 
 module Command
@@ -50,7 +51,8 @@ module Command
       RegisterInterest.new,
       ShowPickupHistory.new,
       ShowMyStats.new,
-      SendMessageToInterested.new
+      SendMessageToInterested.new,
+      ShowSpectatorBoard.new
     ]
   end
 end
