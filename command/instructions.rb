@@ -24,7 +24,7 @@ module Command
         "You can use that energy to:\n" +
         "- shoot (#{game_data.shoot_cost} energy)\n" +
         "- move in any direction (#{game_data.move_cost} energy) The world is 'round' so going off the edge will put you the other side\n" +
-        "- upgrade your range (#{game_data.increase_range_cost} energy)\n" +
+        "- upgrade your range (#{game_data.increase_range_base_cost} energy + #{game_data.increase_range_per_level_cost})\n" +
         "- gain a HP (#{game_data.increase_hp_cost} energy)\n\n" +
         "You can also give energy and HP to other players within your range.\n" +
         "Just because you are dead, does not mean you are out. Someone can give you HP to revive you. You will return with however much HP was given to you\n" +

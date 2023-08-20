@@ -18,8 +18,12 @@ module Config
       config['costs']['increase_hp']
     end
 
-    def increase_range_cost
-      config['costs']['increase_range']
+    def increase_range_base_cost
+      config['costs']['increase_range_base']
+    end
+
+    def increase_range_per_level_cost
+      config['costs']['increase_range_per_level']
     end
 
     def shoot_cost
@@ -52,6 +56,17 @@ module Config
 
     def world_size_max(type: 'default')
       config['world_size_max'].fetch(type, 'default')
+    end
+
+    def starting_energy
+      config['starting']['energy']
+    end
+
+    def starting_hp
+      config['starting']['hp']
+    end
+    def starting_range
+      config['starting']['range']
     end
 
     private

@@ -20,15 +20,17 @@ module Command
       player = context.player
       game_data = context.game_data
 
-      unless player.energy >= game_data.increase_range_cost
+      range_increase_cost = game_data.increase_range_base_cost + ((player.range - game_data.starting_range) * game_data.increase_range_per_level_cost )
+
+      unless player.energy >= range_increase_cost
         event.respond(content: "Not enough energy!", ephemeral: true)
         return
       end
 
-      player.update(energy: player.energy - game_data.increase_range_cost, range: player.range + 1)
+      player.update(energy: player.energy - range_increase_cost, range: player.range + 1)
       player.stats.update(
         highest_range: player.range,
-        energy_spent: player.stats.energy_spent + game_data.increase_range_cost
+        energy_spent: player.stats.energy_spent + range_increase_cost
       )
 
       BattleLog.logger.info("#{player.username} increased their range to #{player.range}")

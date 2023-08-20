@@ -16,6 +16,7 @@ module Command
 
     def execute(context:)
       event = context.event
+      game_data = context.game_data
 
       if context.game
         event.respond(content: "You can't register when a game is running!", ephemeral: true)
@@ -24,7 +25,14 @@ module Command
 
 
       user = event.user
-      player = Player.create!(discord_id: user.id, username: user.username)
+      player = Player.create!(
+        discord_id: user.id,
+        username: user.username,
+        hp: game_data.starting_hp,
+        range: game_data.starting_range,
+        energy: game_data.starting_energy
+      )
+
       Stats.create!(player_id: player.id, highest_hp: player.hp, highest_range: player.range)
       event.respond(content: "#{user.username} registered successfully!")
 

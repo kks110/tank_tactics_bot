@@ -9,3 +9,11 @@
 - Run rubocop
 
 -------------------------
+
+Nerfs:
+- Energy cell now gives 20 energy
+- Range increase now costs 30 + 10 per level
+
+
+Backend:
+- Starting range, hp and energy is noy configurable via config file.

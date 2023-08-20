@@ -1,16 +1,22 @@
 
 costs:
   increase_hp: 30
-  increase_range: 30
+  increase_range_base: 30
+  increase_range_per_level: 10
   shoot: 10
   move: 5
   capture_city: 10
 
 daily_energy: 10
 
+starting:
+  energy: 0
+  hp: 3
+  range: 2
+
 rewards:
   heart: 3
-  energy_cell: 30
+  energy_cell: 20
   captured_city: 5
 
 # This is the max on the X and Y axis.
