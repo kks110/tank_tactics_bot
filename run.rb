@@ -28,16 +28,24 @@ Command::Helpers::LIST.each do |command|
   bot.application_command(command.name) do |event|
     puts "#{event.user.username} executed command: #{command.name}"
 
-    player = Player.find_by(discord_id: event.user.id)
-
-    if player.nil? && !command.requires_game?
-      event.respond(content: "You are not a player in this game!", ephemeral: true)
-    end
-
     game = Game.find_by(server_id: event.server_id)
 
-    if command.requires_game? && game.nil?
-      event.respond(content: "The game hasn't started yet!", ephemeral: true)
+    event.respond(content: "The game hasn't started yet!", ephemeral: true) if command.requires_game? && game.nil?
+
+    player = Player.find_by(discord_id: event.user.id)
+
+    if player.nil? && command.name == :spectator_map
+      context = Command::Models::ExecuteParams.new(
+        event: event,
+        game_data: game_data,
+        bot: bot,
+        game: game,
+        player: OpenStruct.new(username: event.user.username)
+      )
+
+      command.execute(context: context)
+    elsif player.nil? && !command.requires_game?
+        event.respond(content: "You are not a player in this game!", ephemeral: true)
     else
       context = Command::Models::ExecuteParams.new(
         event: event,
