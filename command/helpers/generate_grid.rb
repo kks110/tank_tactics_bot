@@ -1,3 +1,4 @@
+require_relative './determine_range'
 
 module Command
   module Helpers
