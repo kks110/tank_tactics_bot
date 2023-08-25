@@ -21,6 +21,13 @@ module Command
       player = context.player
       game_data = context.game_data
 
+      if player
+        event.respond(content: "You cant 'spectate' if you are playing!")
+        return
+      end
+
+      player = OpenStruct.new(username: event.user.username)
+
       players = Player.all
 
       image_location = ImageGeneration::Grid.new.generate_game_board(
