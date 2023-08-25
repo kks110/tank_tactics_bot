@@ -18,8 +18,10 @@ require_relative './config/game_data'
 game = Game.first
 game_data = Config::GameData.new
 
-puts 'No game running!'
-return unless game
+unless game
+  puts 'No game running!'
+  return
+end
 
 players = Player.all
 
@@ -51,7 +53,7 @@ end
 response = "Energy successfully distributed! #{mentions}"
 
 unless Heart.find_by(collected: false)
-  available_spawn_point = Command::Helpers::GenerateGrid.new.available_spawn_location(server_id: event.server_id)
+  available_spawn_point = Command::Helpers::GenerateGrid.new.available_spawn_location(server_id: game.server_id)
   spawn_location = available_spawn_point.sample
 
   Heart.create!(x_position: spawn_location[:x], y_position: spawn_location[:y])
@@ -61,7 +63,7 @@ unless Heart.find_by(collected: false)
 end
 
 unless EnergyCell.find_by(collected: false)
-  available_spawn_point = Command::Helpers::GenerateGrid.new.available_spawn_location(server_id: event.server_id)
+  available_spawn_point = Command::Helpers::GenerateGrid.new.available_spawn_location(server_id: game.server_id)
   spawn_location = available_spawn_point.sample
 
   EnergyCell.create!(x_position: spawn_location[:x], y_position: spawn_location[:y])
