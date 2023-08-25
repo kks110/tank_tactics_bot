@@ -3,7 +3,8 @@ costs:
   increase_hp: 30
   increase_range_base: 30
   increase_range_per_level: 10
-  shoot: 10
+  shoot_base: 10
+  shoot_increment: 5
   move: 5
   capture_city: 10
 

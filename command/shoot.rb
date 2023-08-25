@@ -27,8 +27,20 @@ module Command
       x = event.options['x']
       y = event.options['y']
 
-      unless player.energy >= game_data.shoot_cost
-        event.respond(content: "Not enough energy!", ephemeral: true)
+      yesterday = DateTime.now - 1
+
+      if player.shot
+        player.shot.update(created_at: Time.now, count: 0) if player.shot.created_at < yesterday
+      else
+        Shot.create!(player_id: player.id)
+      end
+
+      player = Player.find_by(id: player.id)
+
+      cost_to_shoot = game_data.shoot_base_cost + (game_data.shoot_increment_cost * (player.shot.count))
+
+      unless player.energy >= cost_to_shoot
+        event.respond(content: "Not enough energy! You need #{cost_to_shoot} for your next shot", ephemeral: true)
         return
       end
 
@@ -59,37 +71,38 @@ module Command
         return
       end
 
-      player.update(energy: player.energy - game_data.shoot_cost)
+      player.update(energy: player.energy - cost_to_shoot)
       player.stats.update(
         damage_done: player.stats.damage_done + 1,
-        energy_spent: player.stats.energy_spent + game_data.shoot_cost
+        energy_spent: player.stats.energy_spent + cost_to_shoot
       )
+      player.shot.update(count: player.shot.count + 1)
 
       target.update(hp: target.hp - 1)
       target.stats.update(damage_received: player.stats.damage_received + 1)
-
-
-      if game.fog_of_war
-        target_for_dm = bot.user(target.discord_id)
-        target_for_dm.pm("You were shot by #{player.username}")
-      end
+      #
+      #
+      # if game.fog_of_war
+      #   target_for_dm = bot.user(target.discord_id)
+      #   target_for_dm.pm("You were shot by #{player.username}")
+      # end
 
       if target.hp <= 0
         player.stats.update(kills: player.stats.kills + 1)
         target.update(alive: false, hp: 0)
         target.stats.update(deaths: target.stats.deaths + 1)
-        target_for_dm.pm("You are dead!") if game.fog_of_war
+        # target_for_dm.pm("You are dead!") if game.fog_of_war
 
         City.all.each do |city|
           city.update(player_id: nil) if city.player_id == target.id
         end
       end
 
-      BattleLog.logger.info("#{player.username} shot #{target.username}! #{target.username}: HP: #{target.hp}")
+      BattleLog.logger.info("#{player.username} shot #{target.username}! It cost #{cost_to_shoot} energy. #{target.username}: HP: #{target.hp}")
 
       if game.fog_of_war
         event.channel.send_message "Someone was shot! #{target.alive ? '' : 'They are dead!'}"
-        event.respond(content: "You shot #{target.username}! #{target.alive ? '' : 'They are dead!'}", ephemeral: true)
+        event.respond(content: "You shot #{target.username}! #{target.alive ? '' : 'They are dead!'}, it cost #{cost_to_shoot}", ephemeral: true)
       else
         event.respond(content: "<@#{target.discord_id}> was shot by #{player.username}! #{target.alive ? '' : 'They are dead!'}")
       end

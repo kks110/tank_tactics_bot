@@ -27,7 +27,7 @@ module Command
       response << "Costs:\n"
       response << "- Increase HP: #{game_data.increase_hp_cost} energy\n"
       response << "- Increase Range: #{game_data.increase_range_base_cost} energy + #{game_data.increase_range_per_level_cost} per level\n"
-      response << "- Shoot: #{game_data.shoot_cost} energy\n"
+      response << "- Shoot: #{game_data.shoot_base_cost} energy + #{game_data.shoot_increment_cost} per shot per 24 hours\n"
       response << "- Move: #{game_data.move_cost} energy\n"
       response << "- Capture City: #{game_data.capture_city_cost} energy\n" if game.cities
       response << "\n"

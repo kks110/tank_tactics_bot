@@ -3,6 +3,7 @@ require 'active_record'
 class Player < ActiveRecord::Base
   has_one :peace_vote
   has_one :stats
+  has_one :shot
   has_many :city
 
   validates :discord_id, :username, :energy, :hp, :range, presence: true

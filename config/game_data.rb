@@ -26,8 +26,12 @@ module Config
       config['costs']['increase_range_per_level']
     end
 
-    def shoot_cost
-      config['costs']['shoot']
+    def shoot_base_cost
+      config['costs']['shoot_base']
+    end
+
+    def shoot_increment_cost
+      config['costs']['shoot_increment']
     end
 
     def move_cost
