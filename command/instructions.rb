@@ -20,9 +20,8 @@ module Command
 
       instructions = "You are a tank and you have 3 HP, 2 range and 0 energy to start.\n" +
         "Everyone gets randomly placed on a grid. #{game_data.daily_energy_amount} energy a day gets distributed to everyone.\n" +
-        "When energy is distributed, a heart will spawn on the grid that can be picked up to increase your HP\n" +
         "You can use that energy to:\n" +
-        "- shoot (#{game_data.shoot_base_cost} base energy cost + #{game_data.shoot_incrment_cost} per shot per 24 hours) \n" +
+        "- shoot (#{game_data.shoot_base_cost} base energy cost + #{game_data.shoot_increment_cost} per shot per 24 hours) \n" +
         "- move in any direction (#{game_data.move_cost} energy) The world is 'round' so going off the edge will put you the other side\n" +
         "- upgrade your range (#{game_data.increase_range_base_cost} energy + #{game_data.increase_range_per_level_cost})\n" +
         "- gain a HP (#{game_data.increase_hp_cost} energy)\n\n" +

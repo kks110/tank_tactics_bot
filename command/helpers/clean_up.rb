@@ -55,6 +55,10 @@ module Command
           stat.destroy
         end
 
+        Shot.all.each do |shot|
+          shot.destroy
+        end
+
         players.each do |player|
           player.destroy
         end

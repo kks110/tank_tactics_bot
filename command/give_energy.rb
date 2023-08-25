@@ -13,7 +13,7 @@ module Command
     end
 
     def description
-      "Give energy to someone"
+      "Give energy to someone (default is 5)"
     end
 
     def execute(context:)

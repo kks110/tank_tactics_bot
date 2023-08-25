@@ -13,7 +13,7 @@ module Command
     end
 
     def description
-      "Give a heart to someone"
+      "Give a heart to someone (default is 1)"
     end
 
     def execute(context:)

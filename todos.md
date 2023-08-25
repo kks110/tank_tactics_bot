@@ -22,9 +22,10 @@ Changes:
   - The first shot cost 10, and will then increase by 5 for each additional shot resetting back to 10 after 24 hours.
 
 New Commands:
-- `/show_spectator_board` - Spectator Mode! Will send a spectator a DM with the bord. Pls dont cheat
+- `/show_spectator_board` - Spectator Mode! Will send a spectator a DM with the bord. Pls dont cheat.
 
 Backend:
+- Energy distribution is now automated (hopefully). It will give energy at 19:30 every day.
 - Starting range, hp and energy is now configurable via config file.
-- Base range and shot costs and incremental costs now configurable via file
-- Created the shots table to keep track of when people shoot
+- Base range and shot costs and incremental costs now configurable via file.
+- Created the shots table to keep track of when people shoot.

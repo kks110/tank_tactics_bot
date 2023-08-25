@@ -13,7 +13,7 @@ module Command
     end
 
     def description
-      "See who's on top"
+      "See who's on top (disabled in fog games)"
     end
 
     def execute(context:)

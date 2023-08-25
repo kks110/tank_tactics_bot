@@ -11,7 +11,7 @@ module Command
     end
 
     def description
-      "Increase range by 1 for 30 energy"
+      "Increase range by 1 for 30 energy + 10 for each level"
     end
 
     def execute(context:)
