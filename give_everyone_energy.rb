@@ -11,11 +11,14 @@ require_relative './models/stats'
 require_relative './models/heart'
 require_relative './models/energy_cell'
 require_relative './battle_log'
+require_relative './command/helpers/generate_grid'
 require_relative './config/game_data'
+
 
 game = Game.first
 game_data = Config::GameData.new
 
+puts 'No game running!'
 return unless game
 
 players = Player.all
