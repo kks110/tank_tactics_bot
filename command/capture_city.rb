@@ -23,6 +23,7 @@ module Command
       event = context.event
       player = context.player
       game_data = context.game_data
+      bot = context.bot
 
       unless game.cities
         event.respond(content: "Cities are not enabled!", ephemeral: true)
