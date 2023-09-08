@@ -79,7 +79,7 @@ module Command
       player.shot.update(count: player.shot.count + 1)
 
       target.update(hp: target.hp - 1)
-      target.stats.update(damage_received: player.stats.damage_received + 1)
+      target.stats.update(damage_received: target.stats.damage_received + 1)
 
       target_for_dm = bot.user(target.discord_id)
       if game.fog_of_war
