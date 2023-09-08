@@ -43,7 +43,7 @@ module Command
 
         event.channel.send_file File.new(game_board_image_location)
 
-        log_location = "#{BattleLog.log_path}battle_log.txt"
+        log_location = BattleLog.log_path
         event.channel.send_file File.new(log_location)
 
         peace_votes = PeaceVote.all
