@@ -92,7 +92,7 @@ module Command
           modify_list(list, range_list)
         end
 
-        list
+        list.shuffle!
       end
 
       def modify_list(list, range_list)
