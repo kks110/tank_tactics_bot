@@ -64,6 +64,7 @@ module ImageGeneration
       stats.each_with_index do |players_stats, index|
         column_names.each_with_index do |name, column_index|
           next if name == 'id'
+          draw.fill = 'black'
 
           if name == 'player_id'
             draw.annotate(
@@ -75,7 +76,6 @@ module ImageGeneration
               players_stats.player.username[0...6]
             )
           else
-            draw.fill = 'black'
             text = players_stats.send(name.to_sym).to_s
             draw.fill = 'red' if high_and_low[name][:low].to_s == text
             draw.fill = 'green' if high_and_low[name][:high].to_s == text
