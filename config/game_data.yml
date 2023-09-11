@@ -16,7 +16,7 @@ starting:
   range: 2
 
 rewards:
-  heart: 3
+  heart: 1
   energy_cell: 20
   captured_city: 5
 
