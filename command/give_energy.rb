@@ -22,6 +22,11 @@ module Command
       player = context.player
       bot = context.bot
 
+      unless player.alive
+        event.respond(content: "You can't give energy if you are dead!", ephemeral: true)
+        return
+      end
+
       x = event.options['x']
       y = event.options['y']
       amount_to_give = event.options['amount']
