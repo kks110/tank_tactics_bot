@@ -1,6 +1,6 @@
 
 costs:
-  increase_hp: 30
+  increase_hp: 20
   increase_range_base: 30
   increase_range_per_level: 10
   shoot_base: 10
