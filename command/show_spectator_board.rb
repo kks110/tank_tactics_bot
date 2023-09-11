@@ -22,7 +22,7 @@ module Command
       game_data = context.game_data
 
       if player
-        event.respond(content: "You cant 'spectate' if you are playing!")
+        event.respond(content: "You cant 'spectate' if you are playing!", ephemeral: true)
         return
       end
 
