@@ -21,9 +21,8 @@ module Command
 
       image_location = ImageGeneration::Grid.new.generate_pickup_board(grid_x: game.max_x, grid_y: game.max_y, game_data: game_data)
 
-      event.respond(content: "Generating the grid...", ephemeral: true)
+      event.respond(content: "Generating the grid...")
       event.channel.send_file File.new(image_location)
-      event.delete_response
 
     rescue => e
       ErrorLog.logger.error("An Error occurred: Command name: #{name}. Error #{e}")
