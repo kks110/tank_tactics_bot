@@ -26,8 +26,6 @@ module Command
 
       grid = Command::Helpers::GenerateGrid.new.run(server_id: event.server_id)
 
-      ephemeral = game.fog_of_war
-
       unless player.energy >= game_data.move_cost
         event.respond(content: "Not enough energy!", ephemeral: true)
         return
@@ -55,8 +53,7 @@ module Command
           old_x: x,
           old_y: old_y,
           new_x: x,
-          new_y: new_y,
-          server_id: event.server_id
+          new_y: new_y
         )
 
       when 'up_left'
@@ -84,8 +81,7 @@ module Command
           old_x: old_x,
           old_y: old_y,
           new_x: new_x,
-          new_y: new_y,
-          server_id: event.server_id
+          new_y: new_y
         )
 
       when 'up_right'
@@ -113,8 +109,7 @@ module Command
           old_x: old_x,
           old_y: old_y,
           new_x: new_x,
-          new_y: new_y,
-          server_id: event.server_id
+          new_y: new_y
         )
 
       when 'down_right'
@@ -142,8 +137,7 @@ module Command
           old_x: old_x,
           old_y: old_y,
           new_x: new_x,
-          new_y: new_y,
-          server_id: event.server_id
+          new_y: new_y
         )
 
       when 'down_left'
@@ -171,8 +165,7 @@ module Command
           old_x: old_x,
           old_y: old_y,
           new_x: new_x,
-          new_y: new_y,
-          server_id: event.server_id
+          new_y: new_y
         )
       when 'down'
         old_y = player.y_position
@@ -194,8 +187,7 @@ module Command
           old_x: x,
           old_y: old_y,
           new_x: x,
-          new_y: new_y,
-          server_id: event.server_id
+          new_y: new_y
         )
 
       when 'left'
@@ -218,8 +210,7 @@ module Command
           old_x: old_x,
           old_y: y,
           new_x: new_x,
-          new_y: y,
-          server_id: event.server_id
+          new_y: y
         )
 
       when 'right'
@@ -242,8 +233,7 @@ module Command
           old_x: old_x,
           old_y: y,
           new_x: new_x,
-          new_y: y,
-          server_id: event.server_id
+          new_y: y
         )
       end
 
@@ -263,7 +253,7 @@ module Command
           heart.update(collected: true)
           response << " You picked up the heart! You now have #{player.hp}HP"
 
-          event.channel.send_message 'Someone picked up the heart!' if game.fog_of_war
+          event.channel.send_message 'Someone picked up the heart!'
 
           BattleLog.logger.info("The heart was collected: #{player.username}: HP#{player.hp}")
         end
@@ -282,20 +272,20 @@ module Command
           energy_cell.update(collected: true)
           response << " You picked up the energy cell!"
 
-          event.channel.send_message 'Someone picked up the energy cell!' if game.fog_of_war
+          event.channel.send_message 'Someone picked up the energy cell!'
 
           BattleLog.logger.info("The energy cell was collected: #{player.username}: #{player.energy} energy")
         end
       end
 
       player.stats.update(times_moved: player.stats.times_moved + 1)
-      event.respond(content: response, ephemeral: ephemeral)
+      event.respond(content: response, ephemeral: true)
 
     rescue => e
       ErrorLog.logger.error("An Error occurred: Command name: #{name}. Error #{e}")
     end
 
-    def log(username:, old_x:, old_y:, new_x:, new_y:, server_id:)
+    def log(username:, old_x:, old_y:, new_x:, new_y:)
       BattleLog.logger.info("#{username} moved. X:#{old_x} Y:#{old_y} -> X:#{new_x} Y:#{new_y}")
     end
 

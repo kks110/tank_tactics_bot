@@ -15,7 +15,6 @@ module Command
     end
 
     def execute(context:)
-      game = context.game
       event = context.event
       heart = Heart.find_by(collected: false)
       energy_cell = EnergyCell.find_by(collected: false)
@@ -27,11 +26,8 @@ module Command
       response << "Player Count: #{Player.all.count}\n"
       response << "Players Alive: #{Player.all.select { |player| player.alive == true }.count}\n"
 
-      if game.cities
-        response << "City Count: #{City.all.count}\n" if game.cities
-
-        response << "Captures Cities: #{City.all.select { |city| city.player_id != nil }.count}"
-      end
+      response << "City Count: #{City.all.count}\n"
+      response << "Captures Cities: #{City.all.select { |city| city.player_id != nil }.count}"
 
       event.respond(content: response, ephemeral: true)
 

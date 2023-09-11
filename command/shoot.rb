@@ -99,12 +99,8 @@ module Command
 
       BattleLog.logger.info("#{player.username} shot #{target.username}! It cost #{cost_to_shoot} energy. #{target.username}: HP: #{target.hp}")
 
-      if game.fog_of_war
-        event.channel.send_message "Someone was shot! #{target.alive ? '' : 'They are dead!'}"
-        event.respond(content: "You shot #{target.username}! #{target.alive ? '' : 'They are dead!'}, it cost #{cost_to_shoot}", ephemeral: true)
-      else
-        event.respond(content: "<@#{target.discord_id}> was shot by #{player.username}! #{target.alive ? '' : 'They are dead!'}")
-      end
+      event.channel.send_message "Someone was shot! #{target.alive ? '' : 'They are dead!'}"
+      event.respond(content: "You shot #{target.username}! #{target.alive ? '' : 'They are dead!'}, it cost #{cost_to_shoot}", ephemeral: true)
 
     rescue => e
       ErrorLog.logger.error("An Error occurred: Command name: #{name}. Error #{e}")

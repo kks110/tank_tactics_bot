@@ -74,19 +74,14 @@ module Command
         target.update(alive: true)
       end
 
-      if game.fog_of_war
-        target_for_dm = bot.user(target.discord_id)
-        target_for_dm.pm("You were given #{amount_to_give}HP by #{player.username}")
-      end
+
+      target_for_dm = bot.user(target.discord_id)
+      target_for_dm.pm("You were given #{amount_to_give}HP by #{player.username}")
 
       BattleLog.logger.info("#{player.username} gave #{amount_to_give} HP to #{target.username}")
 
-      if game.fog_of_war
-        event.channel.send_message target_was_dead ? 'Someone has been revived!' : 'Someone was healed!'
-        event.respond(content: "#{target.username} was healed for #{amount_to_give}HP!", ephemeral: true)
-      else
-        event.respond(content: "#{target.username} was healed for #{amount_to_give}HP!")
-      end
+      event.channel.send_message target_was_dead ? 'Someone has been revived!' : 'Someone was healed!'
+      event.respond(content: "#{target.username} was healed for #{amount_to_give}HP!", ephemeral: true)
 
     rescue => e
       ErrorLog.logger.error("An Error occurred: Command name: #{name}. Error #{e}")

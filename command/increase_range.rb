@@ -35,12 +35,8 @@ module Command
 
       BattleLog.logger.info("#{player.username} increased their range to #{player.range}")
 
-      if game.fog_of_war
-        event.channel.send_message 'Someone increased their range!'
-        event.respond(content: "Range increased, you now have #{player.range} range", ephemeral: true)
-      else
-        event.respond(content: "Range increased, you now have #{player.range} range")
-      end
+      event.channel.send_message 'Someone increased their range!'
+      event.respond(content: "Range increased, you now have #{player.range} range", ephemeral: true)
 
     rescue => e
       ErrorLog.logger.error("An Error occurred: Command name: #{name}. Error #{e}")

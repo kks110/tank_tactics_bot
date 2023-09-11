@@ -34,12 +34,8 @@ module Command
 
       BattleLog.logger.info("#{player.username} Increased their HP to #{player.hp}")
 
-      if game.fog_of_war
-        event.channel.send_message 'Someone increased their HP!'
-        event.respond(content: "Health increased, you now have #{player.hp}HP", ephemeral: true)
-      else
-        event.respond(content: "Health increased, you now have #{player.hp}HP")
-      end
+      event.channel.send_message 'Someone increased their HP!'
+      event.respond(content: "Health increased, you now have #{player.hp}HP", ephemeral: true)
 
     rescue => e
       ErrorLog.logger.error("An Error occurred: Command name: #{name}. Error #{e}")

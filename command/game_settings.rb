@@ -20,8 +20,6 @@ module Command
       game_data = context.game_data
 
       response = "Game Settings:\n"
-      game.cities ? response << "- Cities: Enabled\n" : response << "- Cities: Disabled\n"
-      game.fog_of_war ? response << "- Fog of War: Enabled\n" : response << "- Fog of War: Disabled\n"
       response << "- Daily Energy: #{game_data.daily_energy_amount} energy\n"
       response << "\n"
       response << "Costs:\n"
@@ -29,12 +27,12 @@ module Command
       response << "- Increase Range: #{game_data.increase_range_base_cost} energy + #{game_data.increase_range_per_level_cost} per level\n"
       response << "- Shoot: #{game_data.shoot_base_cost} energy + #{game_data.shoot_increment_cost} per shot per 24 hours\n"
       response << "- Move: #{game_data.move_cost} energy\n"
-      response << "- Capture City: #{game_data.capture_city_cost} energy\n" if game.cities
+      response << "- Capture City: #{game_data.capture_city_cost} energy\n"
       response << "\n"
       response << "Rewards:\n"
       response << "- Heart Pickup: #{game_data.heart_reward}HP\n"
       response << "- Energy Pickup: #{game_data.energy_cell_reward} energy\n"
-      response << "- Captured City: #{game_data.captured_city_reward} energy per city per day\n"  if game.cities
+      response << "- Captured City: #{game_data.captured_city_reward} energy per city per day\n"
 
       event.respond(content: response, ephemeral: true)
 

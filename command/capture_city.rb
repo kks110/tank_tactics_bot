@@ -18,17 +18,11 @@ module Command
     end
 
     def execute(context:)
-
       game = context.game
       event = context.event
       player = context.player
       game_data = context.game_data
       bot = context.bot
-
-      unless game.cities
-        event.respond(content: "Cities are not enabled!", ephemeral: true)
-        return
-      end
 
       x = event.options['x']
       y = event.options['y']
@@ -81,17 +75,14 @@ module Command
 
       BattleLog.logger.info("#{player.username} captures a city. City X:#{target.x_position} Y:#{target.y_position}")
 
-      if game.fog_of_war
-        if previous_owner
-          target_for_dm = bot.user(previous_owner.discord_id)
-          target_for_dm.pm("#{player.username} has captured your city at X:#{target.x_position} Y:#{target.y_position}")
-        end
-
-        event.channel.send_message 'Someone captured a city!'
-        event.respond(content: "You have captured a city at X:#{target.x_position} Y:#{target.y_position}", ephemeral: true)
-      else
-        event.respond(content: "<@#{player.discord_id}> has captured a city at X:#{target.x_position} Y:#{target.y_position}")
+      if previous_owner
+        target_for_dm = bot.user(previous_owner.discord_id)
+        target_for_dm.pm("#{player.username} has captured your city at X:#{target.x_position} Y:#{target.y_position}")
       end
+
+      event.channel.send_message 'Someone captured a city!'
+      event.respond(content: "You have captured a city at X:#{target.x_position} Y:#{target.y_position}", ephemeral: true)
+
 
       cities_owned_count = player.city.count
       if cities_owned_count > player.stats.most_cities_held
