@@ -21,11 +21,6 @@ module Command
       game = context.game
       event = context.event
 
-      if game.fog_of_war
-        event.respond(content: 'Leaderboard is disabled in fog of war games')
-        return
-      end
-
       stats = Stats.all
 
       image_location = ImageGeneration::Leaderboard.new.generate_leaderboard(
