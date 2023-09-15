@@ -10,6 +10,10 @@ module Command
       true
     end
 
+    def requires_player_alive?
+      false
+    end
+
     def description
       "Distribute daily energy"
     end
@@ -32,13 +36,11 @@ module Command
         BattleLog.logger.info("#{player.username} X: #{player.x_position} Y: #{player.y_position} Energy: #{player.energy}")
       end
 
-      if game.cities
-        City.all.each do |city|
-          if city.player
-            city.player.update(energy: city.player.energy + game_data.captured_city_reward) if city.player.alive
-            city.player.stats.update(daily_energy_given: city.player.stats.daily_energy_given + game_data.captured_city_reward) if city.player.alive
-            BattleLog.logger.info("#{city.player.username} has a city. Giving energy. New energy: #{city.player.energy}")
-          end
+      City.all.each do |city|
+        if city.player
+          city.player.update(energy: city.player.energy + game_data.captured_city_reward) if city.player.alive
+          city.player.stats.update(daily_energy_given: city.player.stats.daily_energy_given + game_data.captured_city_reward) if city.player.alive
+          BattleLog.logger.info("#{city.player.username} has a city. Giving energy. New energy: #{city.player.energy}")
         end
       end
 

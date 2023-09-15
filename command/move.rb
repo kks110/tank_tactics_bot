@@ -16,6 +16,10 @@ module Command
       "Move your tank"
     end
 
+    def requires_player_alive?
+      true
+    end
+
     def execute(context:)
       game = context.game
       event = context.event

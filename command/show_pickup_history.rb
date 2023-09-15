@@ -10,6 +10,10 @@ module Command
       true
     end
 
+    def requires_player_alive?
+      false
+    end
+
     def description
       "Show where Hearts and Energy cells have spawned"
     end

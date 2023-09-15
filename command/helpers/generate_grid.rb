@@ -21,10 +21,8 @@ module Command
         energy_cell = EnergyCell.find_by(collected: false)
         grid[energy_cell.y_position][energy_cell.x_position] = energy_cell if energy_cell
 
-        if game.cities
-          City.all.each do |city|
-            grid[city.y_position][city.x_position] = city
-          end
+        City.all.each do |city|
+          grid[city.y_position][city.x_position] = city
         end
 
         grid

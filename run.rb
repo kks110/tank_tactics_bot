@@ -38,6 +38,8 @@ Command::Helpers::LIST.each do |command|
 
     if player.nil? && command.requires_game? && command.name != :show_spectator_board
       event.respond(content: "You are not a player in this game!", ephemeral: true)
+    elsif command.requires_player_alive? && !player.alive
+      event.respond(content: "You're dead, you cant do that!", ephemeral: true)
     else
       context = Command::Models::ExecuteParams.new(
         event: event,

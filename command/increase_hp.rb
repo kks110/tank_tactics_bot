@@ -10,6 +10,10 @@ module Command
       true
     end
 
+    def requires_player_alive?
+      false
+    end
+
     def description
       'Increase HP by 1 for 30 energy'
     end

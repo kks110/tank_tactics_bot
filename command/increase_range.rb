@@ -10,6 +10,10 @@ module Command
       true
     end
 
+    def requires_player_alive?
+      true
+    end
+
     def description
       "Increase range by 1 for 30 energy + 10 for each level"
     end

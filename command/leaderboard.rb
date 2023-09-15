@@ -12,6 +12,10 @@ module Command
       true
     end
 
+    def requires_player_alive?
+      false
+    end
+
     def description
       "See who's on top (disabled in fog games)"
     end

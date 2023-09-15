@@ -12,6 +12,10 @@ module Command
       true
     end
 
+    def requires_player_alive?
+      true
+    end
+
     def description
       "Start vote if more than 50% of players are dead. 60% of living players required to end game"
     end
@@ -20,11 +24,6 @@ module Command
       event = context.event
       player = context.player
       game_data = context.game_data
-
-      unless player.alive
-        event.respond(content: "You can't vote if you are dead!", ephemeral: true)
-        return
-      end
 
       full_player_count = Player.all.count
       alive_player_count = Player.where({ 'alive' => true }).count

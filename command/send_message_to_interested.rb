@@ -10,6 +10,10 @@ module Command
       false
     end
 
+    def requires_player_alive?
+      false
+    end
+
     def description
       "Send a message to interested parties"
     end

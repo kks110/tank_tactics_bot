@@ -13,6 +13,10 @@ module Command
       true
     end
 
+    def requires_player_alive?
+      true
+    end
+
     def description
       "Capture a city within 1 range!"
     end
