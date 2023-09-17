@@ -21,6 +21,7 @@ require_relative '../show_pickup_history'
 require_relative '../show_my_stats'
 require_relative '../send_message_to_interested'
 require_relative '../show_spectator_board'
+require_relative '../show_shot_timer'
 
 
 module Command
@@ -48,7 +49,8 @@ module Command
       ShowPickupHistory.new,
       ShowMyStats.new,
       SendMessageToInterested.new,
-      ShowSpectatorBoard.new
+      ShowSpectatorBoard.new,
+      ShowShotTimer.new
     ]
   end
 end
