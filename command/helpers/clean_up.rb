@@ -24,7 +24,7 @@ module Command
 
         leaderboard_image_location = ImageGeneration::Leaderboard.new.generate_leaderboard(
           game_data: game_data,
-          stats:stats,
+          stats: stats,
           column_headings: Stats.column_headings,
           column_names: Stats.column_names,
           high_and_low: Command::Helpers::HighestAndLowestStats.generate

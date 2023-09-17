@@ -1,5 +1,6 @@
 require_relative './base'
 require_relative '../image_generation/grid'
+require_relative '../image_generation/leaderboard'
 
 module Command
   class ShowSpectatorBoard < Command::Base
@@ -42,8 +43,25 @@ module Command
         game_data: game_data
       )
 
+      stats = Stats.all
+      leaderboard_image_location = ImageGeneration::Leaderboard.new.generate_leaderboard(
+        game_data: game_data,
+        stats: stats,
+        column_headings: Stats.column_headings,
+        column_names: Stats.column_names,
+        high_and_low: Command::Helpers::HighestAndLowestStats.generate
+      )
+
+      energy_message = "Player Energy: \n"
+
+      players.each do |player|
+        energy_message << "#{player.username}: #{player.energy}\n"
+      end
+
       event.respond(content: "Sending you a dm", ephemeral: true)
       event.user.send_file File.new(image_location)
+      event.user.send_file File.new(leaderboard_image_location)
+      event.user.pm energy_message
 
     rescue => e
       ErrorLog.logger.error("An Error occurred: Command name: #{name}. Error #{e}")
