@@ -15,7 +15,7 @@ module Command
     end
 
     def description
-      'Increase HP by 1 for 30 energy'
+      'Increase HP by 1 for 20 energy'
     end
 
     def execute(context:)
