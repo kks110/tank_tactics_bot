@@ -31,6 +31,8 @@ module Command
         return
       end
 
+      event.respond(content: "Sending you a dm", ephemeral: true)
+
       player = OpenStruct.new(username: event.user.username)
 
       players = Player.all
@@ -58,7 +60,6 @@ module Command
         energy_message << "#{player.username}: #{player.energy}\n"
       end
 
-      event.respond(content: "Sending you a dm", ephemeral: true)
       event.user.send_file File.new(image_location)
       event.user.send_file File.new(leaderboard_image_location)
       event.user.pm energy_message
