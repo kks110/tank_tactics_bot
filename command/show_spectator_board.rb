@@ -63,8 +63,8 @@ module Command
       event.user.send_file File.new(leaderboard_image_location)
       event.user.pm energy_message
 
-    rescue => e
-      ErrorLog.logger.error("An Error occurred: Command name: #{name}. Error #{e}")
+    # rescue => e
+    #   ErrorLog.logger.error("An Error occurred: Command name: #{name}. Error #{e}")
     end
   end
 end
