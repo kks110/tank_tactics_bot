@@ -52,13 +52,15 @@ module Command
         City.create!(x_position: spawn_location[:x], y_position: spawn_location[:y])
       end
 
+      mentions = ''
       players.each do |player|
         available_spawn_point = Command::Helpers::GenerateGrid.new.available_spawn_location(server_id: event.server_id)
         spawn_location = available_spawn_point.sample
         player.update(x_position: spawn_location[:x], y_position: spawn_location[:y])
+        mentions << "<@#{player.discord_id}> "
       end
 
-      event.respond(content: "The game has begun, what lurks beyond the clouds...")
+      event.respond(content: "The game has begun, what lurks beyond the clouds... #{mentions}")
 
       BattleLog.reset_log
       BattleLog.logger.info("The game has begun!")
