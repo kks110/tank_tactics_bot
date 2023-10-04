@@ -38,7 +38,7 @@ module Command
       )
 
       Stats.create!(player_id: player.id, highest_hp: player.hp, highest_range: player.range)
-      event.respond(content: "#{user.username} registered successfully!")
+      event.respond(content: "#{user.username} registered successfully! Welcome to the game! You can use `/help` for a list of commands, or `/instructions` for some more info about the game.", ephemeral: true)
 
     rescue => e
       ErrorLog.logger.error("An Error occurred: Command name: #{name}. Error #{e}")

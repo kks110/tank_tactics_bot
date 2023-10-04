@@ -28,14 +28,14 @@ module Command
         "- shoot (#{game_data.shoot_base_cost} base energy cost + #{game_data.shoot_increment_cost} per shot per 24 hours) \n" +
         "- move in any direction (#{game_data.move_cost} energy) The world is 'round' so going off the edge will put you the other side\n" +
         "- upgrade your range (#{game_data.increase_range_base_cost} energy + #{game_data.increase_range_per_level_cost})\n" +
-        "- gain a HP (#{game_data.increase_hp_cost} energy)\n\n" +
+        "- gain a HP (#{game_data.increase_hp_cost} energy). You can also do this whilst dead to revive yourself.\n\n" +
         "You can also give energy and HP to other players within your range.\n" +
         "Just because you are dead, does not mean you are out. Someone can give you HP to revive you. You will return with however much HP was given to you\n" +
         "And the energy you died with.\n" +
-        "When energy is distributed daily, if none exist, a heart and an energy call will spawn.\n" +
-        "The heart will give #{game_data.heart_reward}HP on pick up and the energy cell gives #{game_data.energy_cell_reward} energy.\n" +
-        "If cities are enables, you can capture them. You need to be in 1 range and it costs #{game_data.capture_city_cost}.\n" +
-        "Capturing a city will give you #{game_data.captured_city_reward} energy per day per city that you own.\n"
+        "When energy is distributed daily, if none exist, an energy call will spawn.\n" +
+        "The energy cell gives #{game_data.energy_cell_reward} energy when picked up.\n" +
+        "Cities can be captured. You need to be in 1 range and it costs #{game_data.capture_city_cost}.\n" +
+        "Capturing a city will give you #{game_data.captured_city_reward} energy per day per city that you own when energy is distributged.\n"
 
       event.respond(content: instructions, ephemeral: true)
 
