@@ -29,7 +29,9 @@ module Command
         return
       end
 
-      player.update(energy: player.energy - game_data.increase_hp_cost, hp: player.hp + 1)
+      was_dead = !player.alive
+
+      player.update(energy: player.energy - game_data.increase_hp_cost, hp: player.hp + 1, alive: true)
       player.stats.update(energy_spent: player.stats.energy_spent + game_data.increase_hp_cost)
 
       if player.hp > player.stats.highest_hp
@@ -38,7 +40,7 @@ module Command
 
       BattleLog.logger.info("#{player.username} Increased their HP to #{player.hp}")
 
-      event.channel.send_message 'Someone increased their HP!'
+      event.channel.send_message "#{was_dead ? 'Someone has revived themselves!' : 'Someone increased their HP!'}"
       event.respond(content: "Health increased, you now have #{player.hp}HP", ephemeral: true)
 
     rescue => e
