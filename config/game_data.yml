@@ -7,6 +7,7 @@ costs:
   shoot_increment: 5
   move: 5
   capture_city: 10
+  ramming_speed: 10
 
 daily_energy: 10
 

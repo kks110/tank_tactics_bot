@@ -22,6 +22,7 @@ require_relative '../show_my_stats'
 require_relative '../send_message_to_interested'
 require_relative '../show_spectator_board'
 require_relative '../show_shot_timer'
+require_relative '../ramming_speed'
 
 
 module Command
@@ -50,7 +51,8 @@ module Command
       ShowMyStats.new,
       SendMessageToInterested.new,
       ShowSpectatorBoard.new,
-      ShowShotTimer.new
+      ShowShotTimer.new,
+      RammingSpeed.new
     ]
   end
 end

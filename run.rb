@@ -20,6 +20,7 @@ require_relative './error_log'
 require_relative './config/game_data'
 require_relative './command/models/execute_params'
 require_relative './config/initializers/inflections'
+require_relative './command/helpers/time'
 
 bot = Discordrb::Bot.new(token: ENV.fetch('SLASH_COMMAND_BOT_TOKEN', nil), intents: [:server_messages])
 Command::Helpers::RegisterCommands.run(bot: bot)

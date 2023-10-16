@@ -42,6 +42,10 @@ module Config
       config['costs']['capture_city']
     end
 
+    def ramming_speed_cost
+      config['costs']['ramming_speed']
+    end
+
     def daily_energy_amount
       config['daily_energy']
     end

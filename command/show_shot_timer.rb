@@ -30,17 +30,13 @@ module Command
       else
         cost_to_shoot = game_data.shoot_base_cost + (game_data.shoot_increment_cost * (player.shot.count))
         seconds_until_reset = (player.shot.created_at + 1.day) - Time.now
-        message = "Your next shot will cost #{cost_to_shoot}. It will reset in #{seconds_to_hms(seconds_until_reset)}"
+        message = "Your next shot will cost #{cost_to_shoot}. It will reset in #{Command::Helpers::Time.seconds_to_hms(seconds_until_reset)}"
       end
 
       event.respond(content: message, ephemeral: true)
 
     rescue => e
       ErrorLog.logger.error("An Error occurred: Command name: #{name}. Error #{e}")
-    end
-
-    def seconds_to_hms(sec)
-      "#{(sec / 3600).to_i} hours, #{(sec / 60 % 60).to_i} mins and #{(sec % 60).to_i} seconds"
     end
   end
 end
