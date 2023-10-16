@@ -16,6 +16,10 @@ module Command
       true
     end
 
+    def requires_player_not_disabled?
+      true
+    end
+
     def description
       "Give a heart to someone (default is 1)"
     end

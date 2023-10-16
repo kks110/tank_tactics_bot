@@ -16,6 +16,10 @@ module Command
       true
     end
 
+    def requires_player_not_disabled?
+      false
+    end
+
     def description
       "Start vote if more than 50% of players are dead. 60% of living players required to end game"
     end

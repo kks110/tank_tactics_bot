@@ -17,6 +17,10 @@ module Command
       true
     end
 
+    def requires_player_not_disabled?
+      true
+    end
+
     def description
       "Drives in to someone. Does 2 damage to them, 1 damage to you. Disables you for 24 hours"
     end
@@ -30,12 +34,6 @@ module Command
 
       x = event.options['x']
       y = event.options['y']
-
-      if player.disabled?
-        seconds_until_reset = player.disabled_until - Time.now
-        event.respond(content: "You are disabled and will able to move in #{Command::Helpers::Time.seconds_to_hms(seconds_until_reset)}", ephemeral: true)
-        return
-      end
 
       cost_to_ram = game_data.ramming_speed_cost
 

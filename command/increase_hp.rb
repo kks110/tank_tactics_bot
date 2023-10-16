@@ -14,6 +14,10 @@ module Command
       false
     end
 
+    def requires_player_not_disabled?
+      true
+    end
+
     def description
       'Increase HP by 1 for 20 energy'
     end

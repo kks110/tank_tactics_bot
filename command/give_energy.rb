@@ -16,6 +16,10 @@ module Command
       true
     end
 
+    def requires_player_not_disabled?
+      true
+    end
+
     def description
       "Give energy to someone (default is 5)"
     end

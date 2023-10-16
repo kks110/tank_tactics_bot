@@ -14,6 +14,10 @@ module Command
       false
     end
 
+    def requires_player_not_disabled?
+      false
+    end
+
     def description
       "Send a message to interested parties"
     end
