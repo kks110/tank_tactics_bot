@@ -45,9 +45,7 @@ module Command
       game = Game.create!(
         server_id: event.server_id,
         max_x: world_max,
-        max_y: world_max,
-        cities: true,
-        fog_of_war: true
+        max_y: world_max
       )
 
       city_count.times do
