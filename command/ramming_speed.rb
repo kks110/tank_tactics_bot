@@ -72,15 +72,15 @@ module Command
       player.update(
         energy: player.energy - cost_to_ram,
         disabled_until: DateTime.now + 1,
-        hp: target.hp - 1
+        hp: player.hp - 1
       )
 
       if player.hp <= 0
-        target.update(alive: false, hp: 0)
-        target.stats.update(deaths: target.stats.deaths + 1)
+        player.update(alive: false, hp: 0)
+        player.stats.update(deaths: player.stats.deaths + 1)
 
         City.all.each do |city|
-          city.update(player_id: nil) if city.player_id == target.id
+          city.update(player_id: nil) if city.player_id == player.id
         end
       end
 
