@@ -363,8 +363,14 @@ module ImageGeneration
 
       # Draw the players on the board
       players.each do |player|
-        draw.fill = player.alive ? 'black' : 'red'
-        draw.fill = player.disabled? ? 'brown' : 'black'
+
+        draw.fill = if !player.alive?
+          'red'
+        elsif player.disabled? && player.alive?
+          'brown'
+        else
+          'black'
+        end
 
         draw.annotate(
           image,
@@ -737,8 +743,13 @@ module ImageGeneration
 
       # Draw the players on the board
       players.each do |player|
-        draw.fill = player.alive ? 'black' : 'red'
-        draw.fill = player.disabled? ? 'brown' : 'black'
+        draw.fill = if !player.alive?
+          'red'
+        elsif player.disabled? && player.alive?
+          'brown'
+        else
+          'black'
+        end
 
         if range_list.include?([player.y_position, player.x_position])
           draw.annotate(
