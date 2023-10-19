@@ -42,7 +42,6 @@ Command::Helpers::LIST.each do |command|
     elsif command.requires_player_alive? && !player.alive
       event.respond(content: "You're dead, you cant do that!", ephemeral: true)
     elsif command.requires_player_not_disabled? && player.disabled?
-      binding.pry
       seconds_until_reset = player.disabled_until - Time.now
       event.respond(content: "You are disabled and will able to move in #{Command::Helpers::Time.seconds_to_hms(seconds_until_reset)}", ephemeral: true)
     else
