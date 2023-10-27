@@ -28,7 +28,7 @@ module Command
         grid
       end
 
-      def available_spawn_location(server_id:)
+      def available_spawn_location(server_id:, spawning_cities: false)
         players = Player.all
         game = Game.find_by(server_id: server_id)
 
@@ -83,7 +83,7 @@ module Command
           range_list = Command::Helpers::DetermineRange.new.build_range_list(
             x_position: city.x_position,
             y_position: city.y_position,
-            range: 1,
+            range: spawning_cities ? 2 : 1,
             max_x: game.max_x,
             max_y: game.max_y
           )

@@ -49,7 +49,7 @@ module Command
       )
 
       city_count.times do
-        available_spawn_point = Command::Helpers::GenerateGrid.new.available_spawn_location(server_id: event.server_id)
+        available_spawn_point = Command::Helpers::GenerateGrid.new.available_spawn_location(server_id: event.server_id, spawning_cities: true)
         spawn_location = available_spawn_point.sample
         City.create!(x_position: spawn_location[:x], y_position: spawn_location[:y])
       end
