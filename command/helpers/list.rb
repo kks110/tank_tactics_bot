@@ -22,7 +22,7 @@ require_relative '../show_spectator_board'
 require_relative '../show_shot_timer'
 require_relative '../ramming_speed'
 require_relative '../create_game'
-
+require_relative '../deregister_interest'
 
 module Command
   module Helpers
@@ -50,7 +50,8 @@ module Command
       ShowSpectatorBoard.new,
       ShowShotTimer.new,
       RammingSpeed.new,
-      CreateGame.new
+      CreateGame.new,
+      DeregisterInterest.new
     ]
   end
 end

@@ -27,7 +27,7 @@ module Command
       game_data = context.game_data
 
       if context.game
-        event.respond(content: "A game is already running!", ephemeral: true)
+        event.respond(content: "A game is already created for this server!", ephemeral: true)
         return
       end
 
