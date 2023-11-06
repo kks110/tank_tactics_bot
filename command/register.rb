@@ -26,7 +26,12 @@ module Command
       event = context.event
       game_data = context.game_data
 
-      if context.game
+      if context.game.nil?
+        event.respond(content: "You can't register when there is no game!", ephemeral: true)
+        return
+      end
+
+      if context.game.started
         event.respond(content: "You can't register when a game is running!", ephemeral: true)
         return
       end
