@@ -11,7 +11,6 @@ require_relative '../give_heart'
 require_relative '../give_energy'
 require_relative '../help'
 require_relative '../instructions'
-require_relative '../reset_game'
 require_relative '../vote_for_peace'
 require_relative '../capture_city'
 require_relative '../game_settings'
@@ -41,7 +40,6 @@ module Command
       IncreaseRange.new,
       GiveHeart.new,
       GiveEnergy.new,
-      ResetGame.new,
       VoteForPeace.new,
       CaptureCity.new,
       GameSettings.new,
