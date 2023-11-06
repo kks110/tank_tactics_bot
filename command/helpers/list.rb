@@ -19,10 +19,10 @@ require_relative '../game_state'
 require_relative '../register_interest'
 require_relative '../show_pickup_history'
 require_relative '../show_my_stats'
-require_relative '../send_message_to_interested'
 require_relative '../show_spectator_board'
 require_relative '../show_shot_timer'
 require_relative '../ramming_speed'
+require_relative '../create_game'
 
 
 module Command
@@ -49,10 +49,10 @@ module Command
       RegisterInterest.new,
       ShowPickupHistory.new,
       ShowMyStats.new,
-      SendMessageToInterested.new,
       ShowSpectatorBoard.new,
       ShowShotTimer.new,
-      RammingSpeed.new
+      RammingSpeed.new,
+      CreateGame.new
     ]
   end
 end

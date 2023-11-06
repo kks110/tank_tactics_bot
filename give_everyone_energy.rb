@@ -23,6 +23,11 @@ unless game
   return
 end
 
+unless game.started
+  puts 'Game has not started!'
+  return
+end
+
 players = Player.all
 
 BattleLog.logger.info("Daily energy:")

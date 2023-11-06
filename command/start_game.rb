@@ -7,7 +7,7 @@ module Command
     end
 
     def requires_game?
-      false
+      true
     end
 
     def requires_player_alive?
@@ -26,11 +26,7 @@ module Command
       event = context.event
       player = context.player
       game_data = context.game_data
-
-      if context.game
-        event.respond(content: "A game is already running!", ephemeral: true)
-        return
-      end
+      game = context.game
 
       unless player.admin
         event.respond(content: "Sorry! Only admins can do this!", ephemeral: true)
@@ -42,7 +38,7 @@ module Command
 
       city_count = players.count / 2
 
-      game = Game.create!(
+      game.update!(
         server_id: event.server_id,
         max_x: world_max,
         max_y: world_max

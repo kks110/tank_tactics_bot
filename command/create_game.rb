@@ -1,9 +1,9 @@
 require_relative './base'
 
 module Command
-  class Register < Command::Base
+  class CreateGame < Command::Base
     def name
-      :register
+      :create_game
     end
 
     def requires_game?
@@ -19,7 +19,7 @@ module Command
     end
 
     def description
-      "Register to play!"
+      "Create a game!"
     end
 
     def execute(context:)
@@ -27,7 +27,7 @@ module Command
       game_data = context.game_data
 
       if context.game
-        event.respond(content: "You can't register when a game is running!", ephemeral: true)
+        event.respond(content: "A game is already running!", ephemeral: true)
         return
       end
 
@@ -37,11 +37,27 @@ module Command
         username: user.username,
         hp: game_data.starting_hp,
         range: game_data.starting_range,
-        energy: game_data.starting_energy
+        energy: game_data.starting_energy,
+        admin: true
       )
 
       Stats.create!(player_id: player.id, highest_hp: player.hp, highest_range: player.range)
-      event.respond(content: "#{user.username} registered successfully! Welcome to the game! You can use `/help` for a list of commands, or `/instructions` for some more info about the game.", ephemeral: true)
+
+      Game.create!(
+        server_id: event.server_id,
+        max_x: 0,
+        max_y: 0
+      )
+
+      interested_players = InterestedPlayer.all
+
+      response = "A game has been created. Register up! "
+
+      interested_players.each do |interested_player|
+        response << "<@#{interested_player.discord_id}> "
+      end
+
+      event.respond(content: response)
 
     rescue => e
       ErrorLog.logger.error("An Error occurred: Command name: #{name}. Error #{e}")

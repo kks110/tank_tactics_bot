@@ -28,8 +28,13 @@ module Command
       player = context.player
       game_data = context.game_data
 
-      unless player.admin
-        event.respond(content: "Sorry! Only admins can do this!")
+      unless game.started
+        puts 'Game has not started!'
+        return
+      end
+
+      unless player.username == 'kks110'
+        event.respond(content: "Sorry! Only kks110 can do this!")
         return
       end
 

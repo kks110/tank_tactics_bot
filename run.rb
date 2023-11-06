@@ -33,7 +33,7 @@ Command::Helpers::LIST.each do |command|
 
     game = Game.find_by(server_id: event.server_id)
 
-    event.respond(content: "The game hasn't started yet!", ephemeral: true) if command.requires_game? && game.nil?
+    event.respond(content: "The game hasn't started yet!", ephemeral: true) if command.requires_game? && ( game.nil? || !game.started )
 
     player = Player.find_by(discord_id: event.user.id)
 
