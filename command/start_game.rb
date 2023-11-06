@@ -34,6 +34,12 @@ module Command
       end
 
       players = Player.all
+
+      unless players.count > 5
+        event.respond(content: "You need at least 6 players to start the game!", ephemeral: true)
+        return
+      end
+
       world_max = players.count + game_data.world_size_max
 
       city_count = players.count / 2
