@@ -45,9 +45,9 @@ module Command
       city_count = players.count / 2
 
       game.update!(
-        server_id: event.server_id,
         max_x: world_max,
-        max_y: world_max
+        max_y: world_max,
+        started: true
       )
 
       city_count.times do
