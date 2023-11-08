@@ -33,11 +33,13 @@ Command::Helpers::LIST.each do |command|
 
     game = Game.find_by(server_id: event.server_id)
 
-    event.respond(content: "The game hasn't started yet!", ephemeral: true) if command.requires_game? && ( game.nil? || !game.started )
+    event.respond(content: "The game hasn't started yet!", ephemeral: true) if command.requires_game? && ( game.nil? || !game.started ) && command.name != :start_game
 
     player = Player.find_by(discord_id: event.user.id)
 
-    if player.nil? && command.requires_game? && command.name != :show_spectator_board
+    if command.name == :start_game && game.nil?
+      event.respond(content: "There is not game to start!", ephemeral: true)
+    elsif player.nil? && command.requires_game? && command.name != :show_spectator_board
       event.respond(content: "You are not a player in this game!", ephemeral: true)
     elsif command.requires_player_alive? && !player.alive
       event.respond(content: "You're dead, you cant do that!", ephemeral: true)
