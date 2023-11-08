@@ -13,7 +13,7 @@ daily_energy: 10
 
 starting:
   energy: 0
-  hp: 3
+  hp: 4
   range: 2
 
 rewards:
