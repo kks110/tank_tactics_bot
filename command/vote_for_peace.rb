@@ -30,10 +30,11 @@ module Command
       game_data = context.game_data
 
       full_player_count = Player.all.count
+      allowed_vote_threshold = (full_player_count.to_f / 4.0).ceil
       alive_player_count = Player.where({ 'alive' => true }).count
 
-      if (alive_player_count.to_f/full_player_count.to_f) * 10 > 5
-        event.respond(content: "You cannot start a vote for peace with more than 50% of players alive", ephemeral: true)
+      if alive_player_count > allowed_vote_threshold
+        event.respond(content: "You cannot start a vote for peace with more than 25% (rounded up) of players alive", ephemeral: true)
         return
       end
 
@@ -46,8 +47,6 @@ module Command
         vote.destroy unless vote.player.alive
       end
 
-      votes = PeaceVote.all
-
       if player.peace_vote.nil?
         PeaceVote.create(player_id: player.id)
       else
@@ -57,7 +56,7 @@ module Command
 
       vote_count = PeaceVote.all.count
 
-      if (vote_count.to_f/alive_player_count.to_f) * 10 > 6
+      if vote_count == alive_player_count
         Command::Helpers::CleanUp.run(event: event, game_data: game_data, peace_vote: true)
       else
         event.respond(content: "A vote for peace has been registered")
