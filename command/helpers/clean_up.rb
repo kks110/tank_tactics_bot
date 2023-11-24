@@ -33,12 +33,10 @@ module Command
 
         players = Player.all
 
-        game_board_image_location = ImageGeneration::Grid.new.generate_game_board(
-          grid_x: game.max_x,
-          grid_y: game.max_y,
-          player: players.first,
+        game_board_image_location = ImageGeneration::Grid.new.generate_spectator_game_board(
           players: players,
-          game_data: game_data
+          game_data: game_data,
+          server_id: game.server_id
         )
 
         event.channel.send_file File.new(game_board_image_location)

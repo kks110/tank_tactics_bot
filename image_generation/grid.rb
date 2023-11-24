@@ -74,186 +74,89 @@ module ImageGeneration
     end
 
     # Used for spectators and the final board
-    def generate_game_board(grid_x:, grid_y:, player:, players:, game_data:)
+    def generate_spectator_game_board(players:, game_data:, server_id:)
 
-      grid_x = grid_x + 1
-      grid_y = grid_y + 1
-      # The size of each cell on the grid
-      cell_size = 100
-
-      # The height and width of the image
-      image_x = (grid_x * cell_size) + cell_size
-      image_y = (grid_y * cell_size) + cell_size
-
-      image = Image.new(image_x, image_y) { |options| options.background_color = "white" }
+      image = Image.read("#{game_data.image_location}/#{server_id}_grid.png").first
 
       draw = Magick::Draw.new
-      draw.stroke('black')
-      draw.stroke_width(1)
-
-      # Draw the grid lines
-      (grid_x + 2).times do |row|
-        next if row.zero?
-
-        draw.line(0, row * cell_size, image_y, row * cell_size)
-      end
-
-      (grid_y + 2).times do |col|
-        next if col.zero?
-
-        draw.line(col * cell_size, 0, col * cell_size, image_x)
-      end
-
-      draw.draw(image)
-
-      image_font = game_data.image_font
-      draw.font = image_font + '/font.ttf'
-      draw.pointsize = 30
-      draw.fill = 'black'
-
-      # Add column and row headers
-      (grid_x + 1).times do |x_header|
-        next if x_header.zero?
-
-        draw.annotate(image, (x_header * cell_size) + cell_size/2, cell_size / 2, (x_header * cell_size) + cell_size/2, cell_size / 2, (x_header-1).to_s)
-      end
-
-      (grid_y + 1).times do |y_header|
-        next if y_header.zero?
-
-        draw.annotate(image, cell_size / 2, (y_header * cell_size) + cell_size/2, cell_size / 2, (y_header * cell_size) + cell_size/2, (y_header-1).to_s)
-      end
-
-      # Draw column and row labels
-      draw.annotate(
-        image,
-        cell_size - 60,
-        25,
-        cell_size - 60,
-        25,
-        "X "
-      )
-
-      draw.annotate(
-        image,
-        10,
-        cell_size - 45,
-        10,
-        cell_size - 35,
-        "Y"
-      )
-
-      draw.annotate(
-        image,
-        5,
-        cell_size - 5,
-        5,
-        cell_size - 5,
-        ""
-      )
-
-      draw.pointsize = 22
+      draw.font = game_data.image_font + '/font.ttf'
 
       # Draw the players on the board
       players.each do |player|
-
-        draw.fill = if !player.alive?
-          'red'
-        elsif player.disabled? && player.alive?
+        draw.pointsize = 22
+        draw.fill = if player.disabled? && player.alive
           'brown'
-        else
+        elsif player.alive
           'black'
+        else
+          'red'
         end
 
-        draw.annotate(
-          image,
-          (player.x_position * cell_size) + cell_size + 11,
-          (player.y_position * cell_size) + cell_size + 27,
-          (player.x_position * cell_size) + cell_size + 11,
-          (player.y_position * cell_size) + cell_size + 27,
+        draw.annotate(image, 0, 0,
+          (player.x_position * CELL_SIZE) + CELL_SIZE + 11,
+          (player.y_position * CELL_SIZE) + CELL_SIZE + 27,
           player.username[0...7]
         )
 
-        hp_text = player.alive ? "  #{player.hp}" : "Dead!󰯈"
+        hp_text = player.alive ? "  #{player.hp}" : "󰯈"
         hp_text << " 󰂭" if player.disabled?
-        draw.annotate(
-          image,
-          (player.x_position * cell_size) + cell_size + 11,
-          (player.y_position * cell_size) + cell_size + 50,
-          (player.x_position * cell_size) + cell_size + 11,
-          (player.y_position * cell_size) + cell_size + 50,
+        draw.annotate(image, 0, 0,
+          (player.x_position * CELL_SIZE) + CELL_SIZE + 11,
+          (player.y_position * CELL_SIZE) + CELL_SIZE + 50,
           hp_text
         )
 
-        draw.annotate(
-          image,
-          (player.x_position * cell_size) + cell_size + 11,
-          (player.y_position * cell_size) + cell_size + 71,
-          (player.x_position * cell_size) + cell_size + 11,
-          (player.y_position * cell_size) + cell_size + 71,
+        draw.annotate(image, 0, 0,
+          (player.x_position * CELL_SIZE) + CELL_SIZE + 11,
+          (player.y_position * CELL_SIZE) + CELL_SIZE + 71,
           "󰆤  #{player.range}"
         )
 
-        draw.annotate(
-          image,
-          (player.x_position * cell_size) + cell_size + 11,
-          (player.y_position * cell_size) + cell_size + 93,
-          (player.x_position * cell_size) + cell_size + 11,
-          (player.y_position * cell_size) + cell_size + 93,
+        draw.pointsize = 18
+        draw.annotate(image, 0, 0,
+          (player.x_position * CELL_SIZE) + CELL_SIZE + 11,
+          (player.y_position * CELL_SIZE) + CELL_SIZE + 93,
           "X:#{player.x_position} Y:#{player.y_position}"
         )
       end
 
-      draw.pointsize = 80
-
       cities = City.all
       cities.each do |city|
-        message = ''
+        message = 'Unowned'
+
+        # Should be able to do city.player, rather than a DB call
         if city.player_id
           draw.fill = 'silver'
           player = Player.find_by(id: city.player_id)
-          message << player.username[0...7]
+          message = player.username[0...7]
         else
           draw.fill = 'goldenrod'
-          message << 'Unowned'
         end
 
-        draw.pointsize = 80
-        draw.annotate(
-          image,
-          (city.x_position * cell_size) + cell_size + 15,
-          (city.y_position * cell_size) + cell_size + 70,
-          (city.x_position * cell_size) + cell_size + 15,
-          (city.y_position * cell_size) + cell_size + 70,
+        draw.pointsize = 60
+        draw.annotate(image, 0, 0,
+          (city.x_position * CELL_SIZE) + CELL_SIZE + 35,
+          (city.y_position * CELL_SIZE) + CELL_SIZE + 70,
           "󰄚"
         )
 
         draw.fill = 'black'
         draw.pointsize = 22
-        draw.annotate(
-          image,
-          (city.x_position * cell_size) + cell_size + 11,
-          (city.y_position * cell_size) + cell_size + 20,
-          (city.x_position * cell_size) + cell_size + 11,
-          (city.y_position * cell_size) + cell_size + 20,
+        draw.annotate(image, 0, 0,
+          (city.x_position * CELL_SIZE) + CELL_SIZE + 11,
+          (city.y_position * CELL_SIZE) + CELL_SIZE + 25,
           "X: #{city.x_position}"
         )
 
-        draw.annotate(
-          image,
-          (city.x_position * cell_size) + cell_size + 11,
-          (city.y_position * cell_size) + cell_size + 40,
-          (city.x_position * cell_size) + cell_size + 11,
-          (city.y_position * cell_size) + cell_size + 40,
+        draw.annotate(image, 0, 0,
+          (city.x_position * CELL_SIZE) + CELL_SIZE + 11,
+          (city.y_position * CELL_SIZE) + CELL_SIZE + 45,
           "Y: #{city.y_position}"
         )
 
-        draw.annotate(
-          image,
-          (city.x_position * cell_size) + cell_size + 11,
-          (city.y_position * cell_size) + cell_size + 95,
-          (city.x_position * cell_size) + cell_size + 11,
-          (city.y_position * cell_size) + cell_size + 95,
+        draw.annotate(image, 0, 0,
+          (city.x_position * CELL_SIZE) + CELL_SIZE + 11,
+          (city.y_position * CELL_SIZE) + CELL_SIZE + 95,
           message
         )
       end
@@ -264,17 +167,14 @@ module ImageGeneration
         draw.fill = 'blue'
         energy_cell_coords = energy_cell.coords
 
-        draw.annotate(
-          image,
-          (energy_cell_coords[:x] * cell_size) + cell_size + 30,
-          (energy_cell_coords[:y] * cell_size) + cell_size + 80,
-          (energy_cell_coords[:x] * cell_size) + cell_size + 30,
-          (energy_cell_coords[:y] * cell_size) + cell_size + 80,
+        draw.annotate(image, 0, 0,
+          (energy_cell_coords[:x] * CELL_SIZE) + CELL_SIZE + 30,
+          (energy_cell_coords[:y] * CELL_SIZE) + CELL_SIZE + 80,
           "󰂄"
         )
       end
 
-      image_location = "#{game_data.image_location}/#{player.username}_grid.png"
+      image_location = "#{game_data.image_location}/#{server_id}_spectator_grid.png"
       # Save the modified image
       image.write(image_location)
       image_location
