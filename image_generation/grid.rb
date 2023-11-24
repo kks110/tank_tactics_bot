@@ -61,9 +61,9 @@ module ImageGeneration
       end
 
       # Draw column and row labels
-      draw.annotate(image, 0, 0, cell_size - 60, 25, "X ")
-      draw.annotate(image, 0, 0, 10, cell_size - 35, "Y")
-      draw.annotate(image, 0, 0, 5, cell_size - 5, "")
+      draw.annotate(image, 0, 0, CELL_SIZE - 60, 25, "X ")
+      draw.annotate(image, 0, 0, 10, CELL_SIZE - 35, "Y")
+      draw.annotate(image, 0, 0, 5, CELL_SIZE - 5, "")
 
       draw.pointsize = 60
       draw.annotate(image, 0, 0, 40, 85, "")
@@ -293,10 +293,10 @@ module ImageGeneration
         text.fill = energy_cell.collected ? 'gray' : 'blue'
         energy_cell_coords = energy_cell.coords
 
-        text.annotate(image, 0, 0, (energy_cell_coords[:x] * cell_size) + cell_size + 30, (energy_cell_coords[:y] * cell_size) + cell_size + 80, "󰂄")
+        text.annotate(image, 0, 0, (energy_cell_coords[:x] * CELL_SIZE) + CELL_SIZE + 30, (energy_cell_coords[:y] * CELL_SIZE) + CELL_SIZE + 80, "󰂄")
       end
 
-      image_location = "#{game_data.image_location}/#{game_id}_pickup_grid.png"
+      image_location = "#{game_data.image_location}/#{server_id}_pickup_grid.png"
       # Save the modified image
       image.write(image_location)
       image_location
