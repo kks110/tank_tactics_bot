@@ -63,10 +63,6 @@ module Command
 
         Game.first.destroy
 
-        Heart.all.each do |heart|
-          heart.destroy
-        end
-
         EnergyCell.all.each do |energy_cell|
           energy_cell.destroy
         end

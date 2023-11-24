@@ -8,7 +8,6 @@ require_relative './models/game'
 require_relative './models/player'
 require_relative './models/city'
 require_relative './models/stats'
-require_relative './models/heart'
 require_relative './models/energy_cell'
 require_relative './battle_log'
 require_relative './command/helpers/generate_grid'
@@ -54,16 +53,6 @@ players.each do |player|
 end
 
 response = "Energy successfully distributed! #{mentions}"
-
-# unless Heart.find_by(collected: false)
-#   available_spawn_point = Command::Helpers::GenerateGrid.new.available_spawn_location(server_id: game.server_id)
-#   spawn_location = available_spawn_point.sample
-#
-#   Heart.create!(x_position: spawn_location[:x], y_position: spawn_location[:y])
-#
-#   BattleLog.logger.info("A heart spawned at X:#{spawn_location[:x]}, Y:#{spawn_location[:y]}")
-#   response << " A heart spawned at X:#{spawn_location[:x]}, Y:#{spawn_location[:y]}."
-# end
 
 unless EnergyCell.find_by(collected: false)
   available_spawn_point = Command::Helpers::GenerateGrid.new.available_spawn_location(server_id: game.server_id)

@@ -49,7 +49,7 @@ module Command
           new_y = game.max_y
         end
 
-        if grid[new_y][x].class != Heart && !grid[new_y][x].nil? && grid[new_y][x].class != EnergyCell || grid[new_y][x].class == City
+        if !grid[new_y][x].nil? && grid[new_y][x].class != EnergyCell || grid[new_y][x].class == City
           event.respond(content: "You can't move up, there is something in the way!", ephemeral: true)
           return
         end
@@ -78,7 +78,7 @@ module Command
           new_x = game.max_x
         end
 
-        if grid[new_y][new_x].class != Heart && !grid[new_y][new_x].nil? && grid[new_y][new_x].class != EnergyCell || grid[new_y][new_x].class == City
+        if !grid[new_y][new_x].nil? && grid[new_y][new_x].class != EnergyCell || grid[new_y][new_x].class == City
           event.respond(content: "You can't move up to the left, there is something in the way!", ephemeral: true)
           return
         end
@@ -106,7 +106,7 @@ module Command
           new_x = 0
         end
 
-        if grid[new_y][new_x].class != Heart && !grid[new_y][new_x].nil? && grid[new_y][new_x].class != EnergyCell || grid[new_y][new_x].class == City
+        if !grid[new_y][new_x].nil? && grid[new_y][new_x].class != EnergyCell || grid[new_y][new_x].class == City
           event.respond(content: "You can't move up and to the right, there is something in the way!", ephemeral: true)
           return
         end
@@ -134,7 +134,7 @@ module Command
           new_x = 0
         end
 
-        if grid[new_y][new_x].class != Heart && !grid[new_y][new_x].nil? && grid[new_y][new_x].class != EnergyCell || grid[new_y][new_x].class == City
+        if !grid[new_y][new_x].nil? && grid[new_y][new_x].class != EnergyCell || grid[new_y][new_x].class == City
           event.respond(content: "You can't move down and to the right, there is something in the way!", ephemeral: true)
           return
         end
@@ -162,7 +162,7 @@ module Command
           new_x = game.max_x
         end
 
-        if grid[new_y][new_x].class != Heart && !grid[new_y][new_x].nil? && grid[new_y][new_x].class != EnergyCell || grid[new_y][new_x].class == City
+        if !grid[new_y][new_x].nil? && grid[new_y][new_x].class != EnergyCell || grid[new_y][new_x].class == City
           event.respond(content: "You can't move down and to the left, there is something in the way!", ephemeral: true)
           return
         end
@@ -184,7 +184,7 @@ module Command
           new_y = 0
         end
 
-        if grid[new_y][x].class != Heart && !grid[new_y][x].nil? && grid[new_y][x].class != EnergyCell || grid[new_y][x].class == City
+        if !grid[new_y][x].nil? && grid[new_y][x].class != EnergyCell || grid[new_y][x].class == City
           event.respond(content: "You can't move down, there is something in the way!", ephemeral: true)
           return
         end
@@ -207,7 +207,7 @@ module Command
           new_x = game.max_x
         end
 
-        if grid[y][new_x].class != Heart && !grid[y][new_x].nil? && grid[y][new_x].class != EnergyCell || grid[y][new_x].class == City
+        if !grid[y][new_x].nil? && grid[y][new_x].class != EnergyCell || grid[y][new_x].class == City
           event.respond(content: "You can't move left, there is something in the way!", ephemeral: true)
           return
         end
@@ -230,7 +230,7 @@ module Command
           new_x = 0
         end
 
-        if grid[y][new_x].class != Heart && !grid[y][new_x].nil? && grid[y][new_x].class != EnergyCell || grid[y][new_x].class == City
+        if !grid[y][new_x].nil? && grid[y][new_x].class != EnergyCell || grid[y][new_x].class == City
           event.respond(content: "You can't move right, there is something in the way!", ephemeral: true)
           return
         end
@@ -247,25 +247,6 @@ module Command
 
       player.stats.update(energy_spent: player.stats.energy_spent + game_data.move_cost)
       response = "Moved!"
-
-      heart = Heart.find_by(collected: false)
-      if heart
-        if player.x_position == heart.x_position && player.y_position == heart.y_position
-          player.update(hp: player.hp + game_data.heart_reward)
-          player.stats.update(hearts_collected: player.stats.hearts_collected + 1)
-
-          if player.hp > player.stats.highest_hp
-            player.stats.update(highest_hp: player.hp)
-          end
-
-          heart.update(collected: true)
-          response << " You picked up the heart! You now have #{player.hp}HP"
-
-          event.channel.send_message 'Someone picked up the heart!'
-
-          BattleLog.logger.info("The heart was collected: #{player.username}: HP#{player.hp}")
-        end
-      end
 
       energy_cell = EnergyCell.find_by(collected: false)
       if energy_cell

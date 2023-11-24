@@ -24,11 +24,9 @@ module Command
 
     def execute(context:)
       event = context.event
-      heart = Heart.find_by(collected: false)
       energy_cell = EnergyCell.find_by(collected: false)
 
       response = ''
-      response << "Heart location: X:#{heart.coords[:x]} Y:#{heart.coords[:y]}\n" if heart
       response << "Energy Cell location: X:#{energy_cell.coords[:x]} Y:#{energy_cell.coords[:y]}\n" if energy_cell
 
       response << "Player Count: #{Player.all.count}\n"

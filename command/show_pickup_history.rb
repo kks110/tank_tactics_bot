@@ -19,7 +19,7 @@ module Command
     end
 
     def description
-      "Show where Hearts and Energy cells have spawned"
+      "Show where Energy cells have spawned"
     end
 
     def execute(context:)

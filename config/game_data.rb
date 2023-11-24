@@ -50,10 +50,6 @@ module Config
       config['daily_energy']
     end
 
-    def heart_reward
-      config['rewards']['heart']
-    end
-
     def energy_cell_reward
       config['rewards']['energy_cell']
     end
