@@ -21,7 +21,7 @@ module Command
     end
 
     def description
-      "Start vote if more than 50% of players are dead. 60% of living players required to end game"
+      "Start vote if more than 25% (rounded up) of players are dead. Everyone left must agree"
     end
 
     def execute(context:)
@@ -29,12 +29,14 @@ module Command
       player = context.player
       game_data = context.game_data
 
-      full_player_count = Player.all.count
+      players = Player.all
+
+      full_player_count = players.count
       allowed_vote_threshold = (full_player_count.to_f / 4.0).ceil
-      alive_player_count = Player.where({ 'alive' => true }).count
+      alive_player_count = players.select { |player| player.alive? }.count
 
       if alive_player_count > allowed_vote_threshold
-        event.respond(content: "You cannot start a vote for peace with more than 25% (rounded up) of players alive", ephemeral: true)
+        event.respond(content: "You cannot start a vote for peace with more than #{allowed_vote_threshold} (25% rounded up) of players alive", ephemeral: true)
         return
       end
 

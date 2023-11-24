@@ -4,7 +4,7 @@ module Command
       def self.run(event:, game_data:, peace_vote: false)
         game = Game.find_by(server_id: event.server_id)
 
-        winners = Player.where({ 'alive' => true })
+        winners = Player.all.select { |player| player.alive? }
 
         response = ""
 
