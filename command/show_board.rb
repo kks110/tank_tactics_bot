@@ -29,10 +29,12 @@ module Command
       player = context.player
       game_data = context.game_data
 
-      image_location = ImageGeneration::Grid.new.generate_fog_of_war_board(
-        grid_x: game.max_x,
-        grid_y: game.max_y,
+      players = Player.all
+
+      image_location = ImageGeneration::Grid.new.generate_player_board(
         player: player,
+        players: players,
+        game: game,
         server_id: event.server_id,
         game_data: game_data
       )
