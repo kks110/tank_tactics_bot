@@ -21,7 +21,7 @@ module Command
     end
 
     def description
-      "Start vote if more than 50% of players are dead. 60% of living players required to end game"
+      "Start vote if more than 25% (rounded up) of players are dead. Everyone left must agree"
     end
 
     def execute(context:)
@@ -29,11 +29,14 @@ module Command
       player = context.player
       game_data = context.game_data
 
-      full_player_count = Player.all.count
-      alive_player_count = Player.where({ 'alive' => true }).count
+      players = Player.all
 
-      if (alive_player_count.to_f/full_player_count.to_f) * 10 > 5
-        event.respond(content: "You cannot start a vote for peace with more than 50% of players alive", ephemeral: true)
+      full_player_count = players.count
+      allowed_vote_threshold = (full_player_count.to_f / 4.0).ceil
+      alive_player_count = players.select { |player| player.alive? }.count
+
+      if alive_player_count > allowed_vote_threshold
+        event.respond(content: "You cannot start a vote for peace with more than #{allowed_vote_threshold} (25% rounded up) of players alive", ephemeral: true)
         return
       end
 
@@ -43,10 +46,8 @@ module Command
 
       votes.each do |vote|
         vote.destroy if vote.created_at < yesterday
-        vote.destroy unless vote.player.alive
+        vote.destroy unless vote.player.alive?
       end
-
-      votes = PeaceVote.all
 
       if player.peace_vote.nil?
         PeaceVote.create(player_id: player.id)
@@ -57,11 +58,13 @@ module Command
 
       vote_count = PeaceVote.all.count
 
-      if (vote_count.to_f/alive_player_count.to_f) * 10 > 6
+      if vote_count == alive_player_count
         Command::Helpers::CleanUp.run(event: event, game_data: game_data, peace_vote: true)
       else
         event.respond(content: "A vote for peace has been registered")
       end
+
+      BattleLog.logger.info("#{player.username} voted for peace")
 
     rescue => e
       ErrorLog.logger.error("An Error occurred: Command name: #{name}. Error #{e}")

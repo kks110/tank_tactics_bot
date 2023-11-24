@@ -37,16 +37,12 @@ module Command
 
       event.respond(content: "Sending you a dm", ephemeral: true)
 
-      player = OpenStruct.new(username: event.user.username)
-
       players = Player.all
 
-      image_location = ImageGeneration::Grid.new.generate_game_board(
-        grid_x: game.max_x,
-        grid_y: game.max_y,
-        player: player,
+      image_location = ImageGeneration::Grid.new.generate_spectator_game_board(
         players: players,
-        game_data: game_data
+        game_data: game_data,
+        server_id: game.server_id
       )
 
       stats = Stats.all

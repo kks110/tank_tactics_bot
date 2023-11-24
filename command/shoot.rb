@@ -67,14 +67,14 @@ module Command
         return
       end
 
-      if grid[y][x].nil? || grid[y][x] == 'heart' || grid[y][x] == 'energy_cell'
+      if grid[y][x].nil? || grid[y][x] == 'energy_cell'
         event.respond(content:"No tank at that location!", ephemeral: true)
         return
       end
 
       target = grid[y][x]
 
-      unless target.alive
+      unless target.alive?
         event.respond(content:"Tank is already dead!", ephemeral: true)
         return
       end
@@ -94,7 +94,7 @@ module Command
 
       if target.hp <= 0
         player.stats.update(kills: player.stats.kills + 1)
-        target.update(alive: false, hp: 0)
+        target.update(hp: 0)
         target.stats.update(deaths: target.stats.deaths + 1)
         target_for_dm.pm("You are dead!")
 
@@ -105,8 +105,8 @@ module Command
 
       BattleLog.logger.info("#{player.username} shot #{target.username}! It cost #{cost_to_shoot} energy. #{target.username}: HP: #{target.hp}")
 
-      event.channel.send_message "Someone was shot! #{target.alive ? '' : 'They are dead!'}"
-      event.respond(content: "You shot #{target.username}! #{target.alive ? '' : 'They are dead!'}, it cost #{cost_to_shoot}", ephemeral: true)
+      event.channel.send_message "Someone was shot! #{target.alive? ? '' : 'They are dead!'}"
+      event.respond(content: "You shot #{target.username}! #{target.alive? ? '' : 'They are dead!'}, it cost #{cost_to_shoot}", ephemeral: true)
 
     rescue => e
       ErrorLog.logger.error("An Error occurred: Command name: #{name}. Error #{e}")

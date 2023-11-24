@@ -15,9 +15,6 @@ module Command
           grid[player.y_position][player.x_position] = player
         end
 
-        heart = Heart.find_by(collected: false)
-        grid[heart.y_position][heart.x_position] = heart if heart
-
         energy_cell = EnergyCell.find_by(collected: false)
         grid[energy_cell.y_position][energy_cell.x_position] = energy_cell if energy_cell
 
@@ -49,18 +46,6 @@ module Command
             x_position: x,
             y_position: y,
             range: 1,
-            max_x: game.max_x,
-            max_y: game.max_y
-          )
-          modify_list(list, range_list)
-        end
-
-        heart = Heart.order('created_at' => :desc).first
-        if heart
-          range_list = Command::Helpers::DetermineRange.new.build_range_list(
-            x_position: heart.x_position,
-            y_position: heart.y_position,
-            range: 2,
             max_x: game.max_x,
             max_y: game.max_y
           )

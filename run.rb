@@ -6,7 +6,6 @@ require_relative './command/helpers/register_commands'
 require 'pry'
 require_relative './models/player'
 require_relative './models/game'
-require_relative './models/heart'
 require_relative './models/energy_cell'
 require_relative './models/peace_vote'
 require_relative './models/city'
@@ -41,7 +40,7 @@ Command::Helpers::LIST.each do |command|
       event.respond(content: "There is not game to start!", ephemeral: true)
     elsif player.nil? && command.requires_game? && command.name != :show_spectator_board
       event.respond(content: "You are not a player in this game!", ephemeral: true)
-    elsif command.requires_player_alive? && !player.alive
+    elsif command.requires_player_alive? && !player.alive?
       event.respond(content: "You're dead, you cant do that!", ephemeral: true)
     elsif command.requires_player_not_disabled? && player.disabled?
       seconds_until_reset = player.disabled_until - Time.now

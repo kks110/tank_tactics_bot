@@ -66,6 +66,7 @@ module Command
 
       event.respond(content: "The game has begun, what lurks beyond the clouds... #{mentions}")
 
+      ImageGeneration::Grid.new.generate_game_start_board(grid_x: game.max_x, grid_y: game.max_y, game_data: game_data, server_id: game.server_id)
       BattleLog.reset_log
       BattleLog.logger.info("The game has begun!")
       players = Player.all

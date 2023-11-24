@@ -60,14 +60,14 @@ module Command
         return
       end
 
-      if grid[y][x].nil? || grid[y][x] == 'heart' || grid[y][x] == 'energy_cell'
+      if grid[y][x].nil? || grid[y][x] == 'energy_cell'
         event.respond(content:"No tank at that location!", ephemeral: true)
         return
       end
 
       target = grid[y][x]
 
-      unless target.alive
+      unless target.alive?
         event.respond(content:"You can't give energy to a dead player!", ephemeral: true)
         return
       end

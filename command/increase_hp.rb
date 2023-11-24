@@ -33,9 +33,9 @@ module Command
         return
       end
 
-      was_dead = !player.alive
+      was_dead = !player.alive?
 
-      player.update(energy: player.energy - game_data.increase_hp_cost, hp: player.hp + 1, alive: true)
+      player.update(energy: player.energy - game_data.increase_hp_cost, hp: player.hp + 1)
       player.stats.update(energy_spent: player.stats.energy_spent + game_data.increase_hp_cost)
 
       if player.hp > player.stats.highest_hp

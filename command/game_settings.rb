@@ -38,7 +38,6 @@ module Command
       response << "- Capture City: #{game_data.capture_city_cost} energy\n"
       response << "\n"
       response << "Rewards:\n"
-      response << "- Heart Pickup: #{game_data.heart_reward}HP\n"
       response << "- Energy Pickup: #{game_data.energy_cell_reward} energy\n"
       response << "- Captured City: #{game_data.captured_city_reward} energy per city per day\n"
 

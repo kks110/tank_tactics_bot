@@ -4,7 +4,7 @@ module Command
       def self.run(event:, game_data:, peace_vote: false)
         game = Game.find_by(server_id: event.server_id)
 
-        winners = Player.where({ 'alive' => true })
+        winners = Player.all.select { |player| player.alive? }
 
         response = ""
 
@@ -33,12 +33,10 @@ module Command
 
         players = Player.all
 
-        game_board_image_location = ImageGeneration::Grid.new.generate_game_board(
-          grid_x: game.max_x,
-          grid_y: game.max_y,
-          player: players.first,
+        game_board_image_location = ImageGeneration::Grid.new.generate_spectator_game_board(
           players: players,
-          game_data: game_data
+          game_data: game_data,
+          server_id: game.server_id
         )
 
         event.channel.send_file File.new(game_board_image_location)
@@ -64,10 +62,6 @@ module Command
         end
 
         Game.first.destroy
-
-        Heart.all.each do |heart|
-          heart.destroy
-        end
 
         EnergyCell.all.each do |energy_cell|
           energy_cell.destroy
