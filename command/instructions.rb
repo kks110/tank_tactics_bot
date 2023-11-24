@@ -26,7 +26,7 @@ module Command
       event = context.event
       game_data = context.game_data
 
-      instructions = "You are a tank and you have 3 HP, 2 range and 0 energy to start.\n" +
+      instructions = "You are a tank and you have #{game_data.starting_hp} HP, #{game_data.starting_range} range and #{game_data.starting_energy} energy to start.\n" +
         "Everyone gets randomly placed on a grid. #{game_data.daily_energy_amount} energy a day gets distributed to everyone.\n" +
         "You can use that energy to:\n" +
         "- shoot (#{game_data.shoot_base_cost} base energy cost + #{game_data.shoot_increment_cost} per shot per 24 hours) \n" +
@@ -39,7 +39,8 @@ module Command
         "When energy is distributed daily, if none exist, an energy call will spawn.\n" +
         "The energy cell gives #{game_data.energy_cell_reward} energy when picked up.\n" +
         "Cities can be captured. You need to be in 1 range and it costs #{game_data.capture_city_cost}.\n" +
-        "Capturing a city will give you #{game_data.captured_city_reward} energy per day per city that you own when energy is distributged.\n"
+        "Capturing a city will give you #{game_data.captured_city_reward} energy per day per city that you own when energy is distributged.\n" +
+        "The game ends when there is 1 person left alive or the remaining 25% (rounded up) of players vote to end the game.\n"
 
       event.respond(content: instructions, ephemeral: true)
 
