@@ -120,10 +120,9 @@ module ImageGeneration
         message = 'Unowned'
 
         # Should be able to do city.player, rather than a DB call
-        if city.player_id
+        if city.player
           draw.fill = 'silver'
-          player = Player.find_by(id: city.player_id)
-          message = player.username[0...7]
+          message = city.player.username[0...7]
         else
           draw.fill = 'goldenrod'
         end
