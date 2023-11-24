@@ -5,6 +5,75 @@ module ImageGeneration
   class Grid
     include Magick
 
+    # The size of each cell on the grid
+    CELL_SIZE = 100
+
+    def generate_game_start_board(grid_x:, grid_y:, game_data:, server_id:)
+      grid_x = grid_x + 1
+      grid_y = grid_y + 1
+
+      # The height and width of the image
+      image_x = (grid_x * CELL_SIZE) + CELL_SIZE
+      image_y = (grid_y * CELL_SIZE) + CELL_SIZE
+
+      image = Image.new(image_x, image_y) { |options| options.background_color = "white" }
+
+      draw = Magick::Draw.new
+
+      green_background = "#E8EAE7"
+      draw.stroke(green_background)
+      draw.stroke_width(image_y)
+      draw.line((image_y / 2) + CELL_SIZE, CELL_SIZE, (image_y / 2) + CELL_SIZE, image_y)
+
+      draw.stroke('black')
+      draw.stroke_width(1)
+
+      # Draw the grid lines
+      (grid_x + 2).times do |row|
+        next if row.zero?
+
+        draw.line(0, row * CELL_SIZE, image_y, row * CELL_SIZE)
+      end
+
+      (grid_y + 2).times do |col|
+        next if col.zero?
+
+        draw.line(col * CELL_SIZE, 0, col * CELL_SIZE, image_x)
+      end
+
+      draw.draw(image)
+
+      draw.font = game_data.image_font + '/font.ttf'
+      draw.pointsize = 30
+      draw.fill = 'black'
+
+      # Add column and row headers
+      (grid_x + 1).times do |x_header|
+        next if x_header.zero?
+
+        draw.annotate(image, 0, 0, (x_header * CELL_SIZE) + CELL_SIZE/2, CELL_SIZE / 2, (x_header-1).to_s)
+      end
+
+      (grid_y + 1).times do |y_header|
+        next if y_header.zero?
+
+        draw.annotate(image, 0, 0, CELL_SIZE / 2, (y_header * CELL_SIZE) + CELL_SIZE/2, (y_header-1).to_s)
+      end
+
+      # Draw column and row labels
+      draw.annotate(image, 0, 0, cell_size - 60, 25, "X ")
+      draw.annotate(image, 0, 0, 10, cell_size - 35, "Y")
+      draw.annotate(image, 0, 0, 5, cell_size - 5, "")
+
+      draw.pointsize = 60
+      draw.annotate(image, 0, 0, 40, 85, "")
+
+      image_location = "#{game_data.image_location}/#{server_id}_grid.png"
+      # Save the modified image
+      image.write(image_location)
+    end
+
+    # Used for spectators and the final board
     def generate_game_board(grid_x:, grid_y:, player:, players:, game_data:)
 
       grid_x = grid_x + 1
@@ -211,107 +280,29 @@ module ImageGeneration
       image_location
     end
 
-    def generate_pickup_board(grid_x:, grid_y:, game_data:)
+    # Just shows the pickups
+    def generate_pickup_board(game_data:, server_id:)
+      text = Magick::Draw.new
 
-      grid_x = grid_x + 1
-      grid_y = grid_y + 1
-      # The size of each cell on the grid
-      cell_size = 100
+      image = Image.read("#{game_data.image_location}/#{server_id}_grid.png").first
 
-      # The height and width of the image
-      image_x = (grid_x * cell_size) + cell_size
-      image_y = (grid_y * cell_size) + cell_size
-
-      image = Image.new(image_x, image_y) { |options| options.background_color = "white" }
-
-      draw = Magick::Draw.new
-      draw.stroke('black')
-      draw.stroke_width(1)
-
-      # Draw the grid lines
-      (grid_x + 2).times do |row|
-        next if row.zero?
-
-        draw.line(0, row * cell_size, image_y, row * cell_size)
-      end
-
-      (grid_y + 2).times do |col|
-        next if col.zero?
-
-        draw.line(col * cell_size, 0, col * cell_size, image_x)
-      end
-
-      draw.draw(image)
-
-      image_font = game_data.image_font
-      draw.font = image_font + '/font.ttf'
-      draw.pointsize = 30
-      draw.fill = 'black'
-
-      # Add column and row headers
-      (grid_x + 1).times do |x_header|
-        next if x_header.zero?
-
-        draw.annotate(image, (x_header * cell_size) + cell_size/2, cell_size / 2, (x_header * cell_size) + cell_size/2, cell_size / 2, (x_header-1).to_s)
-      end
-
-      (grid_y + 1).times do |y_header|
-        next if y_header.zero?
-
-        draw.annotate(image, cell_size / 2, (y_header * cell_size) + cell_size/2, cell_size / 2, (y_header * cell_size) + cell_size/2, (y_header-1).to_s)
-      end
-
-      # Draw column and row labels
-      draw.annotate(
-        image,
-        cell_size - 60,
-        25,
-        cell_size - 60,
-        25,
-        "X "
-      )
-
-      draw.annotate(
-        image,
-        10,
-        cell_size - 45,
-        10,
-        cell_size - 35,
-        "Y"
-      )
-
-      draw.annotate(
-        image,
-        5,
-        cell_size - 5,
-        5,
-        cell_size - 5,
-        ""
-      )
-
-      draw.pointsize = 80
-
+      text.font = game_data.image_font + '/font.ttf'
+      text.pointsize = 80
 
       EnergyCell.all.each do |energy_cell|
-        draw.fill = energy_cell.collected ? 'gray' : 'blue'
+        text.fill = energy_cell.collected ? 'gray' : 'blue'
         energy_cell_coords = energy_cell.coords
 
-        draw.annotate(
-          image,
-          (energy_cell_coords[:x] * cell_size) + cell_size + 30,
-          (energy_cell_coords[:y] * cell_size) + cell_size + 80,
-          (energy_cell_coords[:x] * cell_size) + cell_size + 30,
-          (energy_cell_coords[:y] * cell_size) + cell_size + 80,
-          "󰂄"
-        )
+        text.annotate(image, 0, 0, (energy_cell_coords[:x] * cell_size) + cell_size + 30, (energy_cell_coords[:y] * cell_size) + cell_size + 80, "󰂄")
       end
 
-      image_location = "#{game_data.image_location}/pickup_grid.png"
+      image_location = "#{game_data.image_location}/#{game_id}_pickup_grid.png"
       # Save the modified image
       image.write(image_location)
       image_location
     end
 
+    # Used to show the board to players during games
     def generate_fog_of_war_board(grid_x:, grid_y:, player:, server_id:, game_data:, for_range: false)
       game = Game.find_by(server_id: server_id)
       players = Player.all

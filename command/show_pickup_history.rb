@@ -27,7 +27,7 @@ module Command
       event = context.event
       game_data = context.game_data
 
-      image_location = ImageGeneration::Grid.new.generate_pickup_board(grid_x: game.max_x, grid_y: game.max_y, game_data: game_data)
+      image_location = ImageGeneration::Grid.new.generate_pickup_board(game_data: game_data, server_id: game.server_id)
 
       event.respond(content: "Generating the grid...")
       event.channel.send_file File.new(image_location)
