@@ -70,18 +70,14 @@ module Command
       player.update(hp: player.hp - amount_to_give)
       player.stats.update(hp_given: player.stats.hp_given + amount_to_give)
 
+      target_was_dead = !target.alive?
+
       target.update(hp: target.hp + amount_to_give)
       target.stats.update(hp_received: target.stats.hp_received + amount_to_give)
 
       if target.hp > target.stats.highest_hp
         target.stats.update(highest_hp: target.hp)
       end
-
-      target_was_dead = !target.alive
-      unless target.alive
-        target.update(alive: true)
-      end
-
 
       target_for_dm = bot.user(target.discord_id)
       target_for_dm.pm("You were given #{amount_to_give}HP by #{player.username}")

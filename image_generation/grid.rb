@@ -79,9 +79,9 @@ module ImageGeneration
       # Draw the players on the board
       players.each do |player|
         draw.pointsize = 22
-        draw.fill = if player.disabled? && player.alive
+        draw.fill = if player.disabled? && player.alive?
           'brown'
-        elsif player.alive
+        elsif player.alive?
           'black'
         else
           'red'
@@ -93,7 +93,7 @@ module ImageGeneration
           player.username[0...7]
         )
 
-        hp_text = player.alive ? "  #{player.hp}" : "󰯈"
+        hp_text = player.alive? ? "  #{player.hp}" : "󰯈"
         hp_text << " 󰂭" if player.disabled?
         draw.annotate(image, 0, 0,
           (player.x_position * CELL_SIZE) + CELL_SIZE + 11,
@@ -231,9 +231,9 @@ module ImageGeneration
       # Draw the players on the board
       players.each do |player|
         draw.pointsize = 22
-        draw.fill = if player.disabled? && player.alive
+        draw.fill = if player.disabled? && player.alive?
           'brown'
-        elsif player.alive
+        elsif player.alive?
           'black'
         else
           'red'
@@ -247,7 +247,7 @@ module ImageGeneration
           player.username[0...7]
         )
 
-        hp_text = player.alive ? "  #{player.hp}" : "󰯈"
+        hp_text = player.alive? ? "  #{player.hp}" : "󰯈"
         hp_text << " 󰂭" if player.disabled?
         draw.annotate(image, 0, 0,
           (player.x_position * CELL_SIZE) + CELL_SIZE + 11,

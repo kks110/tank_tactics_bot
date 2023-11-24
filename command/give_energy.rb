@@ -67,7 +67,7 @@ module Command
 
       target = grid[y][x]
 
-      unless target.alive
+      unless target.alive?
         event.respond(content:"You can't give energy to a dead player!", ephemeral: true)
         return
       end

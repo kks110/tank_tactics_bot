@@ -9,6 +9,11 @@ class Player < ActiveRecord::Base
   validates :discord_id, :username, :energy, :hp, :range, presence: true
   validates :discord_id, :username, uniqueness: true
 
+
+  def alive?
+    hp > 0
+  end
+
   def disabled?
     return false if disabled_until.nil?
 

@@ -64,7 +64,7 @@ module Command
 
       target = grid[y][x]
 
-      unless target.alive
+      unless target.alive?
         event.respond(content:"Tank is already dead!", ephemeral: true)
         return
       end
@@ -76,7 +76,7 @@ module Command
       )
 
       if player.hp <= 0
-        player.update(alive: false, hp: 0)
+        player.update(hp: 0)
         player.stats.update(deaths: player.stats.deaths + 1)
 
         City.all.each do |city|
@@ -97,7 +97,7 @@ module Command
 
       if target.hp <= 0
         player.stats.update(kills: player.stats.kills + 1)
-        target.update(alive: false, hp: 0)
+        target.update(hp: 0)
         target.stats.update(deaths: target.stats.deaths + 1)
         target_for_dm.pm("You are dead!")
 
@@ -108,8 +108,8 @@ module Command
 
       BattleLog.logger.info("#{player.username} rammed #{target.username}! #{player.username} has #{player.hp} HP. #{target.username}: HP: #{target.hp}")
 
-      event.respond(content: "You rammed #{target.username}! You are disabled for 24 hours. #{target.alive ? '' : 'They are dead!'} #{player.alive ? '' : 'You are dead!'}", ephemeral: true)
-      event.channel.send_message "Someone was rammed! #{target.alive ? '' : 'The target is dead!'} #{player.alive ? '' : 'The aggressor is dead!'}"
+      event.respond(content: "You rammed #{target.username}! You are disabled for 24 hours. #{target.alive? ? '' : 'They are dead!'} #{player.alive? ? '' : 'You are dead!'}", ephemeral: true)
+      event.channel.send_message "Someone was rammed! #{target.alive? ? '' : 'The target is dead!'} #{player.alive? ? '' : 'The aggressor is dead!'}"
 
     rescue => e
       ErrorLog.logger.error("An Error occurred: Command name: #{name}. Error #{e}")

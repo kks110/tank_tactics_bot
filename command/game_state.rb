@@ -30,7 +30,7 @@ module Command
       response << "Energy Cell location: X:#{energy_cell.coords[:x]} Y:#{energy_cell.coords[:y]}\n" if energy_cell
 
       response << "Player Count: #{Player.all.count}\n"
-      response << "Players Alive: #{Player.all.select { |player| player.alive == true }.count}\n"
+      response << "Players Alive: #{Player.all.select { |player| player.alive? }.count}\n"
 
       response << "City Count: #{City.all.count}\n"
       response << "Captures Cities: #{City.all.select { |city| city.player_id != nil }.count}"
