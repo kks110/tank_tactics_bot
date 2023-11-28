@@ -16,10 +16,7 @@ error_log.txt
 /test/tmp/
 /test/version_tmp/
 /tmp/
-!image_templates/*
-!image_templates/icons/*
-!image_templates/rank_cards/*
-!image_templates/rank_shields/*
+!image_templates/*.png
 
 # Used by dotenv library to load environment variables.
 # .env
