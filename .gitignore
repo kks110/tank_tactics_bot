@@ -16,6 +16,7 @@ error_log.txt
 /test/tmp/
 /test/version_tmp/
 /tmp/
+!image_templates/*.png
 
 # Used by dotenv library to load environment variables.
 # .env
