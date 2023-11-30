@@ -79,23 +79,36 @@ module Command
         return
       end
 
+      player_global_stats = GlobalStats.find_by(player_discord_id: player.discord_id)
+
       player.update(energy: player.energy - cost_to_shoot)
       player.stats.update(
         damage_done: player.stats.damage_done + 1,
         energy_spent: player.stats.energy_spent + cost_to_shoot
       )
+
+      player_global_stats.update(
+        damage_done: player_global_stats.damage_done + 1,
+        energy_spent: player_global_stats.energy_spent + cost_to_shoot
+      )
+
       player.shot.update(count: player.shot.count + 1)
+
+      target_global_stats = GlobalStats.find_by(player_discord_id: target.discord_id)
 
       target.update(hp: target.hp - 1)
       target.stats.update(damage_received: target.stats.damage_received + 1)
+      target_global_stats.update(damage_received: target_global_stats.damage_received + 1)
 
       target_for_dm = bot.user(target.discord_id)
       target_for_dm.pm("You were shot by #{player.username}")
 
       if target.hp <= 0
         player.stats.update(kills: player.stats.kills + 1)
+        player_global_stats.update(kills: player_global_stats.kills + 1)
         target.update(hp: 0)
         target.stats.update(deaths: target.stats.deaths + 1)
+        target_global_stats.update(deaths: target_global_stats.deaths + 1)
         target_for_dm.pm("You are dead!")
 
         City.all.each do |city|

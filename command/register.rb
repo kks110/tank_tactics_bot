@@ -46,6 +46,11 @@ module Command
       )
 
       Stats.create!(player_id: player.id, highest_hp: player.hp, highest_range: player.range)
+
+      if GlobalStats.find_by(player_discord_id: user.id).nil?
+        GlobalStats.create!(player_discord_id: user.id, username: user.username, highest_hp: player.hp, highest_range: player.range)
+      end
+
       event.respond(content: "You registered successfully! Welcome to the game! You can use `/help` for a list of commands, or `/instructions` for some more info about the game.", ephemeral: true)
       event.channel.send_message "#{user.username} has registered!"
       

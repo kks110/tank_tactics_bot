@@ -245,7 +245,10 @@ module Command
         )
       end
 
+      global_player_stats = GlobalStats.find_by(player_discord_id: player.discord_id)
+
       player.stats.update(energy_spent: player.stats.energy_spent + game_data.move_cost)
+      global_player_stats.update(energy_spent: global_player_stats.energy_spent + game_data.move_cost)
       response = "Moved!"
 
       energy_cell = EnergyCell.find_by(collected: false)
@@ -253,9 +256,14 @@ module Command
         if player.x_position == energy_cell.x_position && player.y_position == energy_cell.y_position
           player.update(energy: player.energy + game_data.energy_cell_reward)
           player.stats.update(energy_cells_collected: player.stats.energy_cells_collected + 1)
+          global_player_stats.update(energy_cells_collected: global_player_stats.energy_cells_collected + 1)
 
           if player.energy > player.stats.highest_energy
             player.stats.update(highest_energy: player.energy)
+          end
+
+          if player.energy > global_player_stats.highest_energy
+            global_player_stats.update(highest_energy: player.energy)
           end
           
           energy_cell.update(collected: true)
@@ -268,6 +276,7 @@ module Command
       end
 
       player.stats.update(times_moved: player.stats.times_moved + 1)
+      global_player_stats.update(times_moved: global_player_stats.times_moved + 1)
       event.respond(content: response, ephemeral: true)
 
     rescue => e

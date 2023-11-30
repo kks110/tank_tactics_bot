@@ -75,11 +75,21 @@ module Command
       player.update(energy: player.energy - amount_to_give)
       player.stats.update(energy_given: player.stats.energy_given + amount_to_give)
 
+      player_global_stats = GlobalStats.find_by(player_discord_id: player.discord_id)
+      player_global_stats.update(energy_given: player_global_stats.energy_given + amount_to_give)
+
       target.update(energy: target.energy + amount_to_give)
       target.stats.update(energy_received: target.stats.energy_received + amount_to_give)
 
+      target_global_stats = GlobalStats.find_by(player_discord_id: target.discord_id)
+      target_global_stats.update(energy_given: target_global_stats.energy_given + amount_to_give)
+
       if target.energy > target.stats.highest_energy
         target.stats.update(highest_energy: target.energy)
+      end
+
+      if target.energy > target_global_stats.highest_energy
+        target_global_stats.update(highest_energy: target.energy)
       end
 
       target_for_dm = bot.user(target.discord_id)

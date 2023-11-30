@@ -42,6 +42,15 @@ module Command
         energy_spent: player.stats.energy_spent + range_increase_cost
       )
 
+      player_global_stats = GlobalStats.find_by(player_discord_id: player.discord_id)
+      player_global_stats.update(
+        energy_spent: player_global_stats.energy_spent + range_increase_cost
+      )
+
+      if player.range > player_global_stats.highest_range
+        player_global_stats.update(highest_range: player.range)
+      end
+
       BattleLog.logger.info("#{player.username} increased their range to #{player.range}")
 
       event.channel.send_message 'Someone increased their range!'
