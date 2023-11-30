@@ -69,7 +69,7 @@ module Command
 
       player.update(energy: player.energy - game_data.capture_city_cost)
       player.stats.update(
-        cities_captures: player.stats.cities_captures + 1,
+        cities_captured: player.stats.cities_captured + 1,
         energy_spent: player.stats.energy_spent + game_data.capture_city_cost
       )
 
