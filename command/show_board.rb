@@ -31,6 +31,8 @@ module Command
 
       players = Player.all
 
+      event.respond(content: "Sending you a dm", ephemeral: true)
+
       image_location = ImageGeneration::Grid.new.generate_player_board(
         player: player,
         players: players,
@@ -39,7 +41,6 @@ module Command
         game_data: game_data
       )
 
-      event.respond(content: "Sending you a dm", ephemeral: true)
       event.user.send_file File.new(image_location)
 
     rescue => e

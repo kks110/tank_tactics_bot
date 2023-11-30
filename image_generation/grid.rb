@@ -46,13 +46,13 @@ module ImageGeneration
       (grid_x + 1).times do |x_header|
         next if x_header.zero?
 
-        draw.annotate(image, 0, 0, (x_header * CELL_SIZE) + CELL_SIZE/2, CELL_SIZE / 2, (x_header-1).to_s)
+        draw.annotate(image, 0, 0, ((x_header * CELL_SIZE) + CELL_SIZE/2) - 10, CELL_SIZE / 2, (x_header-1).to_s)
       end
 
       (grid_y + 1).times do |y_header|
         next if y_header.zero?
 
-        draw.annotate(image, 0, 0, CELL_SIZE / 2, (y_header * CELL_SIZE) + CELL_SIZE/2, (y_header-1).to_s)
+        draw.annotate(image, 0, 0, CELL_SIZE / 2, ((y_header * CELL_SIZE) + CELL_SIZE/2) + 10, (y_header-1).to_s)
       end
 
       # Draw column and row labels
@@ -60,8 +60,8 @@ module ImageGeneration
       draw.annotate(image, 0, 0, 10, CELL_SIZE - 35, "Y")
       draw.annotate(image, 0, 0, 5, CELL_SIZE - 5, "")
 
-      draw.pointsize = 60
-      draw.annotate(image, 0, 0, 40, 85, "")
+      compass_image = Image.read("#{game_data.image_location}/image_templates/icons/compass.png").first
+      image = image.composite(compass_image, 40, 40 , OverCompositeOp)
 
       image_location = "#{game_data.image_location}/#{server_id}_grid.png"
       # Save the modified image
@@ -75,6 +75,12 @@ module ImageGeneration
 
       draw = Magick::Draw.new
       draw.font = game_data.image_font + '/font.ttf'
+
+
+      heart_image = Image.read("#{game_data.image_location}/image_templates/icons/heart.png").first
+      target_image = Image.read("#{game_data.image_location}/image_templates/icons/target.png").first
+      disabled_image = Image.read("#{game_data.image_location}/image_templates/icons/disabled.png").first
+      skull_image = Image.read("#{game_data.image_location}/image_templates/icons/skull.png").first
 
       # Draw the players on the board
       players.each do |player|
@@ -93,18 +99,29 @@ module ImageGeneration
           player.username[0...7]
         )
 
-        hp_text = player.alive? ? "  #{player.hp}" : "󰯈"
-        hp_text << " 󰂭" if player.disabled?
+        if player.alive?
+          image = image.composite(heart_image, (player.x_position * CELL_SIZE) + CELL_SIZE + 11, (player.y_position * CELL_SIZE) + CELL_SIZE + 30, OverCompositeOp)
+        else
+          image = image.composite(skull_image, (player.x_position * CELL_SIZE) + CELL_SIZE + 11, (player.y_position * CELL_SIZE) + CELL_SIZE + 30, OverCompositeOp)
+        end
+
+        if player.disabled?
+          image = image.composite(disabled_image, (player.x_position * CELL_SIZE) + CELL_SIZE + CELL_SIZE - 30, (player.y_position * CELL_SIZE) + CELL_SIZE + 30 , OverCompositeOp)
+        end
+
+        hp_text = player.alive? ? "#{player.hp}" : ""
         draw.annotate(image, 0, 0,
-          (player.x_position * CELL_SIZE) + CELL_SIZE + 11,
-          (player.y_position * CELL_SIZE) + CELL_SIZE + 50,
+          (player.x_position * CELL_SIZE) + CELL_SIZE + 40,
+          (player.y_position * CELL_SIZE) + CELL_SIZE + 47,
           hp_text
         )
 
+        image = image.composite(target_image, (player.x_position * CELL_SIZE) + CELL_SIZE + 11, (player.y_position * CELL_SIZE) + CELL_SIZE + 55 , OverCompositeOp)
+
         draw.annotate(image, 0, 0,
-          (player.x_position * CELL_SIZE) + CELL_SIZE + 11,
-          (player.y_position * CELL_SIZE) + CELL_SIZE + 71,
-          "󰆤  #{player.range}"
+          (player.x_position * CELL_SIZE) + CELL_SIZE + 40,
+          (player.y_position * CELL_SIZE) + CELL_SIZE + 73,
+          "#{player.range}"
         )
 
         draw.pointsize = 18
@@ -115,39 +132,30 @@ module ImageGeneration
         )
       end
 
+      captured_city_image = Image.read("#{game_data.image_location}/image_templates/icons/city-captured.png").first
+      city_image = Image.read("#{game_data.image_location}/image_templates/icons/city.png").first
+
       cities = City.all
       cities.each do |city|
         message = 'Unowned'
 
         # Should be able to do city.player, rather than a DB call
         if city.player
-          draw.fill = 'silver'
+          image = image.composite(captured_city_image, (city.x_position * CELL_SIZE) + CELL_SIZE + 27, (city.y_position * CELL_SIZE) + CELL_SIZE + 30 , OverCompositeOp)
           message = city.player.username[0...7]
         else
-          draw.fill = 'goldenrod'
+          image = image.composite(city_image, (city.x_position * CELL_SIZE) + CELL_SIZE + 27, (city.y_position * CELL_SIZE) + CELL_SIZE + 30 , OverCompositeOp)
         end
 
-        draw.pointsize = 60
-        draw.annotate(image, 0, 0,
-          (city.x_position * CELL_SIZE) + CELL_SIZE + 35,
-          (city.y_position * CELL_SIZE) + CELL_SIZE + 70,
-          "󰄚"
-        )
-
         draw.fill = 'black'
-        draw.pointsize = 22
+        draw.pointsize = 18
         draw.annotate(image, 0, 0,
           (city.x_position * CELL_SIZE) + CELL_SIZE + 11,
           (city.y_position * CELL_SIZE) + CELL_SIZE + 25,
-          "X: #{city.x_position}"
+          "X:#{city.x_position} Y:#{city.y_position}"
         )
 
-        draw.annotate(image, 0, 0,
-          (city.x_position * CELL_SIZE) + CELL_SIZE + 11,
-          (city.y_position * CELL_SIZE) + CELL_SIZE + 45,
-          "Y: #{city.y_position}"
-        )
-
+        draw.pointsize = 22
         draw.annotate(image, 0, 0,
           (city.x_position * CELL_SIZE) + CELL_SIZE + 11,
           (city.y_position * CELL_SIZE) + CELL_SIZE + 95,
@@ -155,17 +163,13 @@ module ImageGeneration
         )
       end
 
-      draw.pointsize = 80
       energy_cell = EnergyCell.find_by(collected: false)
       if energy_cell
-        draw.fill = 'blue'
+        energy_cell_image = Image.read("#{game_data.image_location}/image_templates/icons/energy-cell.png").first
+
         energy_cell_coords = energy_cell.coords
 
-        draw.annotate(image, 0, 0,
-          (energy_cell_coords[:x] * CELL_SIZE) + CELL_SIZE + 30,
-          (energy_cell_coords[:y] * CELL_SIZE) + CELL_SIZE + 80,
-          "󰂄"
-        )
+        image = image.composite(energy_cell_image, (energy_cell_coords[:x] * CELL_SIZE) + CELL_SIZE + 10, (energy_cell_coords[:y] * CELL_SIZE) + CELL_SIZE + 10, OverCompositeOp)
       end
 
       image_location = "#{game_data.image_location}/#{server_id}_spectator_grid.png"
@@ -176,18 +180,16 @@ module ImageGeneration
 
     # Just shows the pickups
     def generate_pickup_board(game_data:, server_id:)
-      text = Magick::Draw.new
-
       image = Image.read("#{game_data.image_location}/#{server_id}_grid.png").first
 
-      text.font = game_data.image_font + '/font.ttf'
-      text.pointsize = 80
+      energy_cell_image = Image.read("#{game_data.image_location}/image_templates/icons/energy-cell.png").first
+      collected_energy_cell_image = Image.read("#{game_data.image_location}/image_templates/icons/collected-energy-cell.png").first
 
       EnergyCell.all.each do |energy_cell|
-        text.fill = energy_cell.collected ? 'gray' : 'blue'
+        img = energy_cell.collected ? collected_energy_cell_image : energy_cell_image
         energy_cell_coords = energy_cell.coords
 
-        text.annotate(image, 0, 0, (energy_cell_coords[:x] * CELL_SIZE) + CELL_SIZE + 30, (energy_cell_coords[:y] * CELL_SIZE) + CELL_SIZE + 80, "󰂄")
+        image = image.composite(img,  (energy_cell_coords[:x] * CELL_SIZE) + CELL_SIZE + 10, (energy_cell_coords[:y] * CELL_SIZE) + CELL_SIZE + 10, OverCompositeOp)
       end
 
       image_location = "#{game_data.image_location}/#{server_id}_pickup_grid.png"
@@ -228,6 +230,11 @@ module ImageGeneration
       image_font = game_data.image_font
       draw.font = image_font + '/font.ttf'
 
+      heart_image = Image.read("#{game_data.image_location}/image_templates/icons/heart.png").first
+      target_image = Image.read("#{game_data.image_location}/image_templates/icons/target.png").first
+      disabled_image = Image.read("#{game_data.image_location}/image_templates/icons/disabled.png").first
+      skull_image = Image.read("#{game_data.image_location}/image_templates/icons/skull.png").first
+
       # Draw the players on the board
       players.each do |player|
         draw.pointsize = 22
@@ -247,80 +254,77 @@ module ImageGeneration
           player.username[0...7]
         )
 
-        hp_text = player.alive? ? "  #{player.hp}" : "󰯈"
-        hp_text << " 󰂭" if player.disabled?
+        if player.alive?
+          image = image.composite(heart_image, (player.x_position * CELL_SIZE) + CELL_SIZE + 11, (player.y_position * CELL_SIZE) + CELL_SIZE + 30, OverCompositeOp)
+        else
+          image = image.composite(skull_image, (player.x_position * CELL_SIZE) + CELL_SIZE + 11, (player.y_position * CELL_SIZE) + CELL_SIZE + 30, OverCompositeOp)
+        end
+
+        if player.disabled?
+          image = image.composite(disabled_image, (player.x_position * CELL_SIZE) + CELL_SIZE + CELL_SIZE - 30, (player.y_position * CELL_SIZE) + CELL_SIZE + 30 , OverCompositeOp)
+        end
+
+        hp_text = player.alive? ? "#{player.hp}" : ""
         draw.annotate(image, 0, 0,
-          (player.x_position * CELL_SIZE) + CELL_SIZE + 11,
-          (player.y_position * CELL_SIZE) + CELL_SIZE + 50,
-          hp_text
+        (player.x_position * CELL_SIZE) + CELL_SIZE + 40,
+        (player.y_position * CELL_SIZE) + CELL_SIZE + 47,
+        hp_text
         )
 
+        image = image.composite(target_image, (player.x_position * CELL_SIZE) + CELL_SIZE + 11, (player.y_position * CELL_SIZE) + CELL_SIZE + 55 , OverCompositeOp)
+
         draw.annotate(image, 0, 0,
-          (player.x_position * CELL_SIZE) + CELL_SIZE + 11,
-          (player.y_position * CELL_SIZE) + CELL_SIZE + 71,
-          "󰆤  #{player.range}"
+        (player.x_position * CELL_SIZE) + CELL_SIZE + 40,
+        (player.y_position * CELL_SIZE) + CELL_SIZE + 73,
+        "#{player.range}"
         )
 
         draw.pointsize = 18
         draw.annotate(image, 0, 0,
-          (player.x_position * CELL_SIZE) + CELL_SIZE + 11,
-          (player.y_position * CELL_SIZE) + CELL_SIZE + 93,
-          "X:#{player.x_position} Y:#{player.y_position}"
+        (player.x_position * CELL_SIZE) + CELL_SIZE + 11,
+        (player.y_position * CELL_SIZE) + CELL_SIZE + 93,
+        "X:#{player.x_position} Y:#{player.y_position}"
         )
       end
+
+      captured_city_image = Image.read("#{game_data.image_location}/image_templates/icons/city-captured.png").first
+      city_image = Image.read("#{game_data.image_location}/image_templates/icons/city.png").first
 
       cities.each do |city|
         next unless range_list.include?([city.y_position, city.x_position])
 
         message = 'Unowned'
 
-        # Should be able to do city.player, rather than a DB call
         if city.player
-          draw.fill = 'silver'
+          image = image.composite(captured_city_image, (city.x_position * CELL_SIZE) + CELL_SIZE + 27, (city.y_position * CELL_SIZE) + CELL_SIZE + 30 , OverCompositeOp)
           message = city.player.username[0...7]
         else
-          draw.fill = 'goldenrod'
+          image = image.composite(city_image, (city.x_position * CELL_SIZE) + CELL_SIZE + 27, (city.y_position * CELL_SIZE) + CELL_SIZE + 30 , OverCompositeOp)
         end
 
-        draw.pointsize = 60
+        draw.fill = 'black'
+        draw.pointsize = 18
         draw.annotate(image, 0, 0,
-          (city.x_position * CELL_SIZE) + CELL_SIZE + 35,
-          (city.y_position * CELL_SIZE) + CELL_SIZE + 70,
-          "󰄚"
+        (city.x_position * CELL_SIZE) + CELL_SIZE + 11,
+        (city.y_position * CELL_SIZE) + CELL_SIZE + 25,
+        "X:#{city.x_position} Y:#{city.y_position}"
         )
 
-        draw.fill = 'black'
         draw.pointsize = 22
         draw.annotate(image, 0, 0,
-          (city.x_position * CELL_SIZE) + CELL_SIZE + 11,
-          (city.y_position * CELL_SIZE) + CELL_SIZE + 25,
-          "X: #{city.x_position}"
-        )
-
-        draw.annotate(image, 0, 0,
-          (city.x_position * CELL_SIZE) + CELL_SIZE + 11,
-          (city.y_position * CELL_SIZE) + CELL_SIZE + 45,
-          "Y: #{city.y_position}"
-        )
-
-        draw.annotate(image, 0, 0,
-          (city.x_position * CELL_SIZE) + CELL_SIZE + 11,
-          (city.y_position * CELL_SIZE) + CELL_SIZE + 95,
-          message
+        (city.x_position * CELL_SIZE) + CELL_SIZE + 11,
+        (city.y_position * CELL_SIZE) + CELL_SIZE + 95,
+        message
         )
       end
 
-      draw.pointsize = 80
       energy_cell = EnergyCell.find_by(collected: false)
-      if energy_cell && range_list.include?([energy_cell.coords[:y], energy_cell.coords[:x]])
-        draw.fill = 'blue'
+      if energy_cell
+        energy_cell_image = Image.read("#{game_data.image_location}/image_templates/icons/energy-cell.png").first
+
         energy_cell_coords = energy_cell.coords
 
-        draw.annotate(image, 0, 0,
-          (energy_cell_coords[:x] * CELL_SIZE) + CELL_SIZE + 30,
-          (energy_cell_coords[:y] * CELL_SIZE) + CELL_SIZE + 80,
-          "󰂄"
-        )
+        image = image.composite(energy_cell_image, (energy_cell_coords[:x] * CELL_SIZE) + CELL_SIZE + 10, (energy_cell_coords[:y] * CELL_SIZE) + CELL_SIZE + 10, OverCompositeOp)
       end
 
       all_cells = []
@@ -333,14 +337,10 @@ module ImageGeneration
         all_cells.delete(range_item)
       end
 
-      draw.fill = 'black'
-      draw.pointsize = 90
+      fog_image = Image.read("#{game_data.image_location}/image_templates/icons/fog.png").first
+
       all_cells.each do |fog_cell|
-        draw.annotate(image, 0, 0,
-          (fog_cell[1] * CELL_SIZE) + CELL_SIZE + 8,
-          (fog_cell[0] * CELL_SIZE) + CELL_SIZE + 80,
-          ""
-        )
+        image = image.composite(fog_image, (fog_cell[1] * CELL_SIZE) + CELL_SIZE + 2, (fog_cell[0] * CELL_SIZE) + CELL_SIZE , OverCompositeOp)
       end
 
       image_location = "#{game_data.image_location}/#{server_id}_#{player.username}_grid.png"
