@@ -14,6 +14,9 @@ module Command
 
         winners.each do |winner|
           response << " <@#{winner.discord_id}>"
+
+          winner_global_stats = GlobalStats.find_by(player_discord_id: winner.discord_id)
+          winner_global_stats.update(games_won: winner_global_stats.games_won + 1)
         end
 
         response << "\n"
