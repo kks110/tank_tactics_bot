@@ -76,12 +76,6 @@ module ImageGeneration
       draw = Magick::Draw.new
       draw.font = game_data.image_font + '/font.ttf'
 
-
-      heart_image = Image.read("#{game_data.image_location}/image_templates/icons/heart.png").first
-      target_image = Image.read("#{game_data.image_location}/image_templates/icons/target.png").first
-      disabled_image = Image.read("#{game_data.image_location}/image_templates/icons/disabled.png").first
-      skull_image = Image.read("#{game_data.image_location}/image_templates/icons/skull.png").first
-
       # Draw the players on the board
       players.each do |player|
         draw.pointsize = 22
@@ -99,29 +93,18 @@ module ImageGeneration
           player.username[0...7]
         )
 
-        if player.alive?
-          image = image.composite(heart_image, (player.x_position * CELL_SIZE) + CELL_SIZE + 11, (player.y_position * CELL_SIZE) + CELL_SIZE + 30, OverCompositeOp)
-        else
-          image = image.composite(skull_image, (player.x_position * CELL_SIZE) + CELL_SIZE + 11, (player.y_position * CELL_SIZE) + CELL_SIZE + 30, OverCompositeOp)
-        end
-
-        if player.disabled?
-          image = image.composite(disabled_image, (player.x_position * CELL_SIZE) + CELL_SIZE + CELL_SIZE - 30, (player.y_position * CELL_SIZE) + CELL_SIZE + 30 , OverCompositeOp)
-        end
-
-        hp_text = player.alive? ? "#{player.hp}" : ""
+        hp_text = player.alive? ? "  #{player.hp}" : "󰯈"
+        hp_text << " 󰂭" if player.disabled?
         draw.annotate(image, 0, 0,
-          (player.x_position * CELL_SIZE) + CELL_SIZE + 40,
-          (player.y_position * CELL_SIZE) + CELL_SIZE + 47,
+          (player.x_position * CELL_SIZE) + CELL_SIZE + 11,
+          (player.y_position * CELL_SIZE) + CELL_SIZE + 50,
           hp_text
         )
 
-        image = image.composite(target_image, (player.x_position * CELL_SIZE) + CELL_SIZE + 11, (player.y_position * CELL_SIZE) + CELL_SIZE + 55 , OverCompositeOp)
-
         draw.annotate(image, 0, 0,
-          (player.x_position * CELL_SIZE) + CELL_SIZE + 40,
-          (player.y_position * CELL_SIZE) + CELL_SIZE + 73,
-          "#{player.range}"
+          (player.x_position * CELL_SIZE) + CELL_SIZE + 11,
+          (player.y_position * CELL_SIZE) + CELL_SIZE + 71,
+          "󰆤  #{player.range}"
         )
 
         draw.pointsize = 18
@@ -230,11 +213,6 @@ module ImageGeneration
       image_font = game_data.image_font
       draw.font = image_font + '/font.ttf'
 
-      heart_image = Image.read("#{game_data.image_location}/image_templates/icons/heart.png").first
-      target_image = Image.read("#{game_data.image_location}/image_templates/icons/target.png").first
-      disabled_image = Image.read("#{game_data.image_location}/image_templates/icons/disabled.png").first
-      skull_image = Image.read("#{game_data.image_location}/image_templates/icons/skull.png").first
-
       # Draw the players on the board
       players.each do |player|
         draw.pointsize = 22
@@ -254,36 +232,25 @@ module ImageGeneration
           player.username[0...7]
         )
 
-        if player.alive?
-          image = image.composite(heart_image, (player.x_position * CELL_SIZE) + CELL_SIZE + 11, (player.y_position * CELL_SIZE) + CELL_SIZE + 30, OverCompositeOp)
-        else
-          image = image.composite(skull_image, (player.x_position * CELL_SIZE) + CELL_SIZE + 11, (player.y_position * CELL_SIZE) + CELL_SIZE + 30, OverCompositeOp)
-        end
-
-        if player.disabled?
-          image = image.composite(disabled_image, (player.x_position * CELL_SIZE) + CELL_SIZE + CELL_SIZE - 30, (player.y_position * CELL_SIZE) + CELL_SIZE + 30 , OverCompositeOp)
-        end
-
-        hp_text = player.alive? ? "#{player.hp}" : ""
+        hp_text = player.alive? ? "  #{player.hp}" : "󰯈"
+        hp_text << " 󰂭" if player.disabled?
         draw.annotate(image, 0, 0,
-        (player.x_position * CELL_SIZE) + CELL_SIZE + 40,
-        (player.y_position * CELL_SIZE) + CELL_SIZE + 47,
-        hp_text
+          (player.x_position * CELL_SIZE) + CELL_SIZE + 11,
+          (player.y_position * CELL_SIZE) + CELL_SIZE + 50,
+          hp_text
         )
 
-        image = image.composite(target_image, (player.x_position * CELL_SIZE) + CELL_SIZE + 11, (player.y_position * CELL_SIZE) + CELL_SIZE + 55 , OverCompositeOp)
-
         draw.annotate(image, 0, 0,
-        (player.x_position * CELL_SIZE) + CELL_SIZE + 40,
-        (player.y_position * CELL_SIZE) + CELL_SIZE + 73,
-        "#{player.range}"
+          (player.x_position * CELL_SIZE) + CELL_SIZE + 11,
+          (player.y_position * CELL_SIZE) + CELL_SIZE + 71,
+          "󰆤  #{player.range}"
         )
 
         draw.pointsize = 18
         draw.annotate(image, 0, 0,
-        (player.x_position * CELL_SIZE) + CELL_SIZE + 11,
-        (player.y_position * CELL_SIZE) + CELL_SIZE + 93,
-        "X:#{player.x_position} Y:#{player.y_position}"
+          (player.x_position * CELL_SIZE) + CELL_SIZE + 11,
+          (player.y_position * CELL_SIZE) + CELL_SIZE + 93,
+          "X:#{player.x_position} Y:#{player.y_position}"
         )
       end
 
@@ -337,10 +304,14 @@ module ImageGeneration
         all_cells.delete(range_item)
       end
 
-      fog_image = Image.read("#{game_data.image_location}/image_templates/icons/fog.png").first
-
+      draw.fill = 'black'
+      draw.pointsize = 90
       all_cells.each do |fog_cell|
-        image = image.composite(fog_image, (fog_cell[1] * CELL_SIZE) + CELL_SIZE + 2, (fog_cell[0] * CELL_SIZE) + CELL_SIZE , OverCompositeOp)
+        draw.annotate(image, 0, 0,
+          (fog_cell[1] * CELL_SIZE) + CELL_SIZE + 8,
+          (fog_cell[0] * CELL_SIZE) + CELL_SIZE + 80,
+          ""
+        )
       end
 
       image_location = "#{game_data.image_location}/#{server_id}_#{player.username}_grid.png"
