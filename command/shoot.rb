@@ -106,10 +106,10 @@ module Command
       if target.hp <= 0
         unless game.first_blood
           player.stats.update(first_blood: player.stats.first_blood + 1)
-          target.stats.update(first_death: player.stats.first_death + 1)
+          target.stats.update(first_death: target.stats.first_death + 1)
 
-          global_player_stats.update(first_blood: player.stats.first_blood + 1)
-          global_target_stats.update(first_death: player.stats.first_death + 1)
+          player_global_stats.update(first_blood: player_global_stats.first_blood + 1)
+          target_global_stats.update(first_death: target_global_stats.first_death + 1)
 
           game.update(first_blood: true)
         end
