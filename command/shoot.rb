@@ -104,11 +104,23 @@ module Command
       target_for_dm.pm("You were shot by #{player.username}")
 
       if target.hp <= 0
+        unless game.first_blood
+          player.stats.update(first_blood: player.stats.first_blood + 1)
+          target.stats.update(first_death: player.stats.first_death + 1)
+
+          global_player_stats.update(first_blood: player.stats.first_blood + 1)
+          global_target_stats.update(first_death: player.stats.first_death + 1)
+
+          game.update(first_blood: true)
+        end
+
         player.stats.update(kills: player.stats.kills + 1)
         player_global_stats.update(kills: player_global_stats.kills + 1)
+
         target.update(hp: 0)
         target.stats.update(deaths: target.stats.deaths + 1)
         target_global_stats.update(deaths: target_global_stats.deaths + 1)
+
         target_for_dm.pm("You are dead!")
 
         City.all.each do |city|
