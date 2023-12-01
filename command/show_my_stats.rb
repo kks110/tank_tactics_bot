@@ -27,7 +27,7 @@ module Command
       player = context.player
       event = context.event
 
-      high_and_low = Command::Helpers::HighestAndLowestStats.generate
+      high_and_low = Command::Helpers::HighestAndLowestStats.generate_for_game_stats
 
       response = "```#{player.username}'s stats:\n"
 

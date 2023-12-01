@@ -23,6 +23,7 @@ require_relative '../show_shot_timer'
 require_relative '../ramming_speed'
 require_relative '../create_game'
 require_relative '../deregister_interest'
+require_relative '../show_all_time_stats'
 
 module Command
   module Helpers
@@ -51,7 +52,8 @@ module Command
       ShowShotTimer.new,
       RammingSpeed.new,
       CreateGame.new,
-      DeregisterInterest.new
+      DeregisterInterest.new,
+      ShowAllTimeStats.new
     ]
   end
 end
