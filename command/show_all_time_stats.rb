@@ -28,7 +28,7 @@ module Command
 
       high_and_low = Command::Helpers::HighestAndLowestStats.generate_for_global_stats
 
-      players_username = event.options['username']
+      players_username = event.options['username'].downcase
       players_username = event.user.username if players_username.nil?
 
       stats = GlobalStats.find_by(username: players_username)

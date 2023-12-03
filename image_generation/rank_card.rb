@@ -10,6 +10,7 @@ module ImageGeneration
 
     def generate_rank_card(game_data:, stats:, high_and_low:)
 
+      username = stats.username
       games_won = stats.games_won
       kills = stats.kills
       deaths = stats.deaths
@@ -77,10 +78,40 @@ module ImageGeneration
       damage_medals = add_damage_medals(card_template: card_template, damage_done: damage_done, game_data: game_data)
       card_template = damage_medals if damage_medals
 
+      draw = Magick::Draw.new
+      image_font = game_data.image_font
+      draw.font = image_font + '/font.ttf'
+      draw.pointsize = 48
+      draw.fill = 'black'
+
+      draw.pointsize = 35
+      draw.annotate(card_template, 0, 0, 24, 615, '╭─────────────────────────────────────────╮')
+      draw.annotate(card_template, 0, 0, 24, 650, table_title_value_builder(username: username, rank: "#{rank_mappings[games_won][:template].capitalize} #{rank_mappings[games_won][:rank]}"))
+      draw.annotate(card_template, 0, 0, 24, 685, "├────────────────────┬────────────────────┤")
+      draw.annotate(card_template, 0, 0, 24, 720, "│ Games Won:         │#{table_value_builder(value: games_won)}│")
+      draw.annotate(card_template, 0, 0, 24, 755, "│ Kills:             │#{table_value_builder(value: kills)}│")
+      draw.annotate(card_template, 0, 0, 24, 790, "│ Deaths:            │#{table_value_builder(value: deaths)}│")
+      draw.annotate(card_template, 0, 0, 24, 825, "│ Damage Done:       │#{table_value_builder(value: damage_done)}│")
+      draw.annotate(card_template, 0, 0, 24, 860, "│ Damage Received:   │#{table_value_builder(value: damage_received)}│")
+      draw.annotate(card_template, 0, 0, 24, 895, "│ First Bloods:      │#{table_value_builder(value: first_blood)}│")
+      draw.annotate(card_template, 0, 0, 24, 930, "│ First deaths:      │#{table_value_builder(value: first_death)}│")
+      draw.annotate(card_template, 0, 0, 24, 965, '╰────────────────────┴────────────────────╯')
+
       image_location = "#{game_data.image_location}/output.png"
       # Save the modified image
       card_template.write(image_location)
       image_location
+    end
+
+    def table_title_value_builder(username:, rank:)
+      text = "│ #{username} (#{rank})"
+      (37 - username.length - rank.length).times{ text << ' ' }
+      text << '│'
+    end
+    def table_value_builder(value:)
+      text = " #{value.to_s}"
+      (19 - value.to_s.length).times{ text << ' ' }
+      text
     end
 
     def add_kill_medals(card_template:, kills:, game_data:)
