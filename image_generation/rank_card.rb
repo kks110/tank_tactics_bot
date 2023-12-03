@@ -5,6 +5,9 @@ module ImageGeneration
   class RankCard
     include Magick
 
+    KILLS_PER_MEDAL = 5
+    DAMAGE_PER_MEDAL = 10
+
     def generate_rank_card(game_data:, stats:, high_and_low:)
 
       games_won = stats.games_won
@@ -14,19 +17,31 @@ module ImageGeneration
       damage_received = stats.damage_received
       first_blood = stats.first_blood
       first_death = stats.first_death
-      
-      games_won_adjusted = games_won - 1  # Adjusting for 0-based indexing
-      template_type = case games_won_adjusted / 3
-                      when 0 then "bronze"
-                      when 1 then "gold"
-                      when 2 then "emerald"
-                      when 3 then "sapphire"
-                      else "ruby"
-                      end
 
-      template_number = (games_won_adjusted % 3) + 1
-      card_template_image = "#{template_type}_template.png"
-      card_shield_image = "#{template_type}_#{template_number}.png"
+      rank_mappings = {
+        1 => { template: 'bronze', rank: 1 },
+        2 => { template: 'bronze', rank: 2 },
+        3 => { template: 'bronze', rank: 3 },
+        4 => { template: 'gold', rank: 1 },
+        5 => { template: 'gold', rank: 2 },
+        6 => { template: 'gold', rank: 3 },
+        7 => { template: 'emerald', rank: 1 },
+        8 => { template: 'emerald', rank: 2 },
+        9 => { template: 'emerald', rank: 3 },
+        10 => { template: 'sapphire', rank: 1 },
+        11 => { template: 'sapphire', rank: 2 },
+        12 => { template: 'sapphire', rank: 3 },
+        13 => { template: 'ruby', rank: 1 },
+        14 => { template: 'ruby', rank: 2 },
+        15 => { template: 'ruby', rank: 3 }
+      }
+      rank_mappings.default = {
+        template: 'ruby',
+        rank: 3
+      }
+
+      card_template_image = "#{rank_mappings[games_won][:template]}_template.png"
+      card_shield_image = "#{rank_mappings[games_won][:template]}_#{rank_mappings[games_won][:rank]}.png"
 
       # Add logic for which card template
       card_template = Image.read("#{game_data.image_location}/image_templates/rank_cards/#{card_template_image}").first
@@ -56,11 +71,75 @@ module ImageGeneration
         card_template = card_template.composite(most_kills_image, 290, 495 - 20, OverCompositeOp)
       end
 
+      kill_medals = add_kill_medals(card_template: card_template, kills: kills, game_data: game_data)
+      card_template = kill_medals if kill_medals
+
+      damage_medals = add_damage_medals(card_template: card_template, damage_done: damage_done, game_data: game_data)
+      card_template = damage_medals if damage_medals
+
       image_location = "#{game_data.image_location}/output.png"
       # Save the modified image
       card_template.write(image_location)
       image_location
     end
 
+    def add_kill_medals(card_template:, kills:, game_data:)
+      left_margin = 74
+      top_margin = 65
+      down_spacing = 143
+      right_spacing = 97
+
+      kill_medal_position = [
+        [left_margin, top_margin],
+        [left_margin, top_margin + down_spacing],
+        [left_margin, top_margin + 2 * down_spacing],
+        [left_margin + right_spacing, top_margin],
+        [left_margin + right_spacing, top_margin + down_spacing],
+        [left_margin + right_spacing, top_margin + 2 * down_spacing],
+      ]
+
+      medals_to_display = kills / KILLS_PER_MEDAL
+      medals_to_display = 6 if medals_to_display > 6
+
+      return if medals_to_display < 1
+
+      kill_medal = Image.read("#{game_data.image_location}/image_templates/icons/kill_medal.png").first
+
+      (1..medals_to_display).to_a.each do |pos|
+        card_template = card_template.composite(kill_medal, kill_medal_position[pos - 1][0], kill_medal_position[pos - 1][1], OverCompositeOp)
+      end
+
+      card_template
+    end
+
+    def add_damage_medals(card_template:, damage_done:, game_data:)
+      left_margin = 74
+      top_margin = 65
+      down_spacing = 143
+      right_spacing = 97
+      shield_spacing = 289
+
+      damage_medal_positions = [
+        [left_margin + 2 * right_spacing + shield_spacing, top_margin],
+        [left_margin + 2 * right_spacing + shield_spacing, top_margin + down_spacing],
+        [left_margin + 2 * right_spacing + shield_spacing, top_margin + 2 * down_spacing],
+        [left_margin + 3 * right_spacing + shield_spacing, top_margin],
+        [left_margin + 3 * right_spacing + shield_spacing, top_margin + down_spacing],
+        [left_margin + 3 * right_spacing + shield_spacing, top_margin + 2 * down_spacing],
+      ]
+
+      medals_to_display = damage_done / DAMAGE_PER_MEDAL
+      medals_to_display = 6 if medals_to_display > 6
+
+      return if medals_to_display < 1
+
+      damage_medal = Image.read("#{game_data.image_location}/image_templates/icons/damage_medal.png").first
+
+      (1..medals_to_display).to_a.each do |pos|
+        card_template = card_template.composite(damage_medal, damage_medal_positions[pos - 1][0], damage_medal_positions[pos - 1][1], OverCompositeOp)
+      end
+
+      card_template
+    end
   end
 end
