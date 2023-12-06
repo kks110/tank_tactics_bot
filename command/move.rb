@@ -249,7 +249,7 @@ module Command
 
       player.stats.update(energy_spent: player.stats.energy_spent + game_data.move_cost)
       global_player_stats.update(energy_spent: global_player_stats.energy_spent + game_data.move_cost)
-      response = "Moved!"
+      response = "Moved! Sending you an updated map."
 
       energy_cell = EnergyCell.find_by(collected: false)
       if energy_cell
@@ -278,6 +278,18 @@ module Command
       player.stats.update(times_moved: player.stats.times_moved + 1)
       global_player_stats.update(times_moved: global_player_stats.times_moved + 1)
       event.respond(content: response, ephemeral: true)
+
+      players = Player.all
+
+      image_location = ImageGeneration::Grid.new.generate_player_board(
+        player: player,
+        players: players,
+        game: game,
+        server_id: event.server_id,
+        game_data: game_data
+      )
+
+      event.user.send_file File.new(image_location)
 
     rescue => e
       ErrorLog.logger.error("An Error occurred: Command name: #{name}. Error #{e}")
