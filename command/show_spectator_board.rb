@@ -51,7 +51,7 @@ module Command
         stats: stats,
         column_headings: Stats.column_headings,
         column_names: Stats.column_names,
-        high_and_low: Command::Helpers::HighestAndLowestStats.generate
+        high_and_low: Command::Helpers::HighestAndLowestStats.generate_for_game_stats
       )
 
       energy_message = "Player Energy: \n"

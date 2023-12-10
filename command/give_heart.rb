@@ -70,13 +70,23 @@ module Command
       player.update(hp: player.hp - amount_to_give)
       player.stats.update(hp_given: player.stats.hp_given + amount_to_give)
 
+      player_global_stats = GlobalStats.find_by(player_discord_id: player.discord_id)
+      player_global_stats.update(hp_given: player_global_stats.hp_given + amount_to_give)
+
       target_was_dead = !target.alive?
 
       target.update(hp: target.hp + amount_to_give)
       target.stats.update(hp_received: target.stats.hp_received + amount_to_give)
 
+      target_global_stats = GlobalStats.find_by(player_discord_id: target.discord_id)
+      target_global_stats.update(hp_received: target_global_stats.hp_received + amount_to_give)
+
       if target.hp > target.stats.highest_hp
         target.stats.update(highest_hp: target.hp)
+      end
+
+      if target.hp > target_global_stats.highest_hp
+        target_global_stats.update(highest_hp: target.hp)
       end
 
       target_for_dm = bot.user(target.discord_id)

@@ -75,9 +75,12 @@ module Command
         hp: player.hp - 1
       )
 
+      global_player_stats = GlobalStats.find_by(player_discord_id: player.discord_id)
+
       if player.hp <= 0
         player.update(hp: 0)
         player.stats.update(deaths: player.stats.deaths + 1)
+        global_player_stats.update(deaths: global_player_stats.deaths + 1)
 
         City.all.each do |city|
           city.update(player_id: nil) if city.player_id == player.id
@@ -89,16 +92,38 @@ module Command
         energy_spent: player.stats.energy_spent + cost_to_ram
       )
 
+      global_player_stats.update(
+        damage_done: global_player_stats.damage_done + 2,
+        energy_spent: global_player_stats.energy_spent + cost_to_ram
+      )
+
+      global_target_stats = GlobalStats.find_by(player_discord_id: target.discord_id)
+
       target.update(hp: target.hp - 2)
       target.stats.update(damage_received: target.stats.damage_received + 2)
+      global_target_stats.update(damage_received: global_target_stats.damage_received + 2)
 
       target_for_dm = bot.user(target.discord_id)
       target_for_dm.pm("You were rammed by #{player.username}")
 
       if target.hp <= 0
+        unless game.first_blood
+          player.stats.update(first_blood: player.stats.first_blood + 1)
+          target.stats.update(first_death: target.stats.first_death + 1)
+
+          global_player_stats.update(first_blood: global_player_stats.first_blood + 1)
+          global_target_stats.update(first_death: global_target_stats.first_death + 1)
+
+          game.update(first_blood: true)
+        end
+
         player.stats.update(kills: player.stats.kills + 1)
+        global_player_stats.update(kills: global_player_stats.kills + 1)
+
         target.update(hp: 0)
         target.stats.update(deaths: target.stats.deaths + 1)
+        global_target_stats.update(deaths: global_target_stats.deaths + 1)
+
         target_for_dm.pm("You are dead!")
 
         City.all.each do |city|

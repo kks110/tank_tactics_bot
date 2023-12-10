@@ -14,11 +14,14 @@ module Command
 
         winners.each do |winner|
           response << " <@#{winner.discord_id}>"
+
+          winner_global_stats = GlobalStats.find_by(player_discord_id: winner.discord_id)
+          winner_global_stats.update(games_won: winner_global_stats.games_won + 1)
         end
 
         response << "\n"
 
-        event.respond(content: response)
+        event.channel.send_message response
 
         stats = Stats.all
 
@@ -27,7 +30,7 @@ module Command
           stats: stats,
           column_headings: Stats.column_headings,
           column_names: Stats.column_names,
-          high_and_low: Command::Helpers::HighestAndLowestStats.generate
+          high_and_low: Command::Helpers::HighestAndLowestStats.generate_for_game_stats
         )
         event.channel.send_file File.new(leaderboard_image_location)
 

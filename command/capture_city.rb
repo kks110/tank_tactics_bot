@@ -67,16 +67,25 @@ module Command
         return
       end
 
+      player_global_stats = GlobalStats.find_by(player_discord_id: player.discord_id)
+
       player.update(energy: player.energy - game_data.capture_city_cost)
       player.stats.update(
-        cities_captures: player.stats.cities_captures + 1,
+        cities_captured: player.stats.cities_captured + 1,
         energy_spent: player.stats.energy_spent + game_data.capture_city_cost
+      )
+
+      player_global_stats.update(
+        cities_captured: player_global_stats.cities_captured + 1,
+        energy_spent: player_global_stats.energy_spent + game_data.capture_city_cost
       )
 
       previous_owner = target.player
 
       if previous_owner
         previous_owner.stats.update(cities_lost: previous_owner.stats.cities_lost + 1)
+        previous_owner_global_stats = GlobalStats.find_by(player_discord_id: previous_owner.discord_id)
+        previous_owner_global_stats.update(cities_lost: previous_owner_global_stats.cities_lost + 1)
       end
 
       target.update(player_id: player.id)
@@ -95,6 +104,10 @@ module Command
       cities_owned_count = player.city.count
       if cities_owned_count > player.stats.most_cities_held
         player.stats.update(most_cities_held: cities_owned_count)
+      end
+
+      if cities_owned_count > player_global_stats.most_cities_held
+        player_global_stats.update(most_cities_held: cities_owned_count)
       end
 
     rescue => e
