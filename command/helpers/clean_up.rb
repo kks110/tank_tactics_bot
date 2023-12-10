@@ -21,7 +21,7 @@ module Command
 
         response << "\n"
 
-        event.respond(content: response)
+        event.channel.send_message response
 
         stats = Stats.all
 
