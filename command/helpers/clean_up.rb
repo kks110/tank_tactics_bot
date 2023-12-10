@@ -61,6 +61,8 @@ module Command
         end
 
         players.each do |player|
+          player_global_stats = GlobalStats.find_by(player_discord_id: player.discord_id)
+          player_global_stats.update(games_played: player_global_stats.games_played + 1)
           player.destroy
         end
 

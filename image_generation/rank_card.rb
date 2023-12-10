@@ -12,6 +12,7 @@ module ImageGeneration
 
       username = stats.username
       games_won = stats.games_won
+      games_played = stats.games_played
       kills = stats.kills
       deaths = stats.deaths
       damage_done = stats.damage_done
@@ -20,21 +21,21 @@ module ImageGeneration
       first_death = stats.first_death
 
       rank_mappings = {
-        1 => { template: 'bronze', rank: 1 },
-        2 => { template: 'bronze', rank: 2 },
-        3 => { template: 'bronze', rank: 3 },
-        4 => { template: 'gold', rank: 1 },
-        5 => { template: 'gold', rank: 2 },
-        6 => { template: 'gold', rank: 3 },
-        7 => { template: 'emerald', rank: 1 },
-        8 => { template: 'emerald', rank: 2 },
-        9 => { template: 'emerald', rank: 3 },
-        10 => { template: 'sapphire', rank: 1 },
-        11 => { template: 'sapphire', rank: 2 },
-        12 => { template: 'sapphire', rank: 3 },
-        13 => { template: 'ruby', rank: 1 },
-        14 => { template: 'ruby', rank: 2 },
-        15 => { template: 'ruby', rank: 3 }
+        0 => { template: 'bronze', rank: 1 },
+        1 => { template: 'bronze', rank: 2 },
+        2 => { template: 'bronze', rank: 3 },
+        3 => { template: 'gold', rank: 1 },
+        4 => { template: 'gold', rank: 2 },
+        5 => { template: 'gold', rank: 3 },
+        6 => { template: 'emerald', rank: 1 },
+        7 => { template: 'emerald', rank: 2 },
+        8 => { template: 'emerald', rank: 3 },
+        9 => { template: 'sapphire', rank: 1 },
+        10 => { template: 'sapphire', rank: 2 },
+        11 => { template: 'sapphire', rank: 3 },
+        12 => { template: 'ruby', rank: 1 },
+        13 => { template: 'ruby', rank: 2 },
+        14 => { template: 'ruby', rank: 3 }
       }
       rank_mappings.default = {
         template: 'ruby',
@@ -84,18 +85,22 @@ module ImageGeneration
       draw.pointsize = 48
       draw.fill = 'black'
 
-      draw.pointsize = 35
-      draw.annotate(card_template, 0, 0, 24, 615, '╭─────────────────────────────────────────╮')
-      draw.annotate(card_template, 0, 0, 24, 650, table_title_value_builder(username: username, rank: "#{rank_mappings[games_won][:template].capitalize} #{rank_mappings[games_won][:rank]}"))
-      draw.annotate(card_template, 0, 0, 24, 685, "├────────────────────┬────────────────────┤")
-      draw.annotate(card_template, 0, 0, 24, 720, "│ Games Won:         │#{table_value_builder(value: games_won)}│")
-      draw.annotate(card_template, 0, 0, 24, 755, "│ Kills:             │#{table_value_builder(value: kills)}│")
-      draw.annotate(card_template, 0, 0, 24, 790, "│ Deaths:            │#{table_value_builder(value: deaths)}│")
-      draw.annotate(card_template, 0, 0, 24, 825, "│ Damage Done:       │#{table_value_builder(value: damage_done)}│")
-      draw.annotate(card_template, 0, 0, 24, 860, "│ Damage Received:   │#{table_value_builder(value: damage_received)}│")
-      draw.annotate(card_template, 0, 0, 24, 895, "│ First Bloods:      │#{table_value_builder(value: first_blood)}│")
-      draw.annotate(card_template, 0, 0, 24, 930, "│ First deaths:      │#{table_value_builder(value: first_death)}│")
-      draw.annotate(card_template, 0, 0, 24, 965, '╰────────────────────┴────────────────────╯')
+      win_percentage = (games_played.to_f / games_won.to_f) * 100
+      win_percentage = win_percentage.nan? ? 0 : win_percentage
+
+      draw.pointsize = 33
+      draw.annotate(card_template, 0, 0, 22, 615, '╭────────────────────────────────────────────╮')
+      draw.annotate(card_template, 0, 0, 22, 648, table_title_value_builder(username: username, rank: "#{rank_mappings[games_won][:template].capitalize} #{rank_mappings[games_won][:rank]}"))
+      draw.annotate(card_template, 0, 0, 22, 681, "├────────────────────────────────────────────┤")
+      draw.annotate(card_template, 0, 0, 22, 714, "│ Games Won:          #{table_value_builder(value: "#{games_won} (#{win_percentage}%)")}│")
+      draw.annotate(card_template, 0, 0, 22, 747, "│ Games Played:       #{table_value_builder(value: games_played)}│")
+      draw.annotate(card_template, 0, 0, 22, 780, "│ Kills:              #{table_value_builder(value: kills)}│")
+      draw.annotate(card_template, 0, 0, 22, 813, "│ Deaths:             #{table_value_builder(value: deaths)}│")
+      draw.annotate(card_template, 0, 0, 22, 846, "│ Damage Done:        #{table_value_builder(value: damage_done)}│")
+      draw.annotate(card_template, 0, 0, 22, 879, "│ Damage Received:    #{table_value_builder(value: damage_received)}│")
+      draw.annotate(card_template, 0, 0, 22, 912, "│ First Bloods:       #{table_value_builder(value: first_blood)}│")
+      draw.annotate(card_template, 0, 0, 22, 945, "│ First deaths:       #{table_value_builder(value: first_death)}│")
+      draw.annotate(card_template, 0, 0, 22, 978, '╰────────────────────────────────────────────╯')
 
       image_location = "#{game_data.image_location}/output.png"
       # Save the modified image
@@ -105,12 +110,12 @@ module ImageGeneration
 
     def table_title_value_builder(username:, rank:)
       text = "│ #{username} (#{rank})"
-      (37 - username.length - rank.length).times{ text << ' ' }
+      (40 - username.length - rank.length).times{ text << ' ' }
       text << '│'
     end
     def table_value_builder(value:)
       text = " #{value.to_s}"
-      (19 - value.to_s.length).times{ text << ' ' }
+      (22 - value.to_s.length).times{ text << ' ' }
       text
     end
 
