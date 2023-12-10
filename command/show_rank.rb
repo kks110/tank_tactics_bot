@@ -47,8 +47,8 @@ module Command
 
       event.respond(content: "Generating rank card...")
       event.channel.send_file File.new(card_template)
-    # rescue => e
-    #   ErrorLog.logger.error("An Error occurred: Command name: #{name}. Error #{e}")
+    rescue => e
+      ErrorLog.logger.error("An Error occurred: Command name: #{name}. Error #{e}")
     end
 
     def options
