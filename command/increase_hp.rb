@@ -38,7 +38,7 @@ module Command
       player.update(energy: player.energy - game_data.increase_hp_cost, hp: player.hp + 1)
       player.stats.update(energy_spent: player.stats.energy_spent + game_data.increase_hp_cost)
 
-      player_global_stats = GlobalStats.find_by(playeR_discord_id: player.discord_id)
+      player_global_stats = GlobalStats.find_by(player_discord_id: player.discord_id)
       player_global_stats.update(energy_spent: player_global_stats.energy_spent + game_data.increase_hp_cost)
 
       if player.hp > player.stats.highest_hp
