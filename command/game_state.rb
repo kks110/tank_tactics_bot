@@ -35,7 +35,7 @@ module Command
       response << "Player Count: #{Player.all.count}\n"
       response << "Players Alive: #{Player.all.select { |player| player.alive? }.count}\n"
 
-      response << "Max players for peace vote: #{allowed_vote_threshold}"
+      response << "Max players for peace vote: #{allowed_vote_threshold}\n"
 
       response << "City Count: #{City.all.count}\n"
       response << "Captures Cities: #{City.all.select { |city| city.player_id != nil }.count}"
