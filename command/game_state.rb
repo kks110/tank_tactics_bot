@@ -26,7 +26,7 @@ module Command
       event = context.event
       energy_cell = EnergyCell.find_by(collected: false)
 
-      full_player_count = players.count
+      full_player_count = Player.all.count
       allowed_vote_threshold = (full_player_count.to_f / 4.0).ceil
 
       response = ''
