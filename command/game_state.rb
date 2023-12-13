@@ -26,11 +26,16 @@ module Command
       event = context.event
       energy_cell = EnergyCell.find_by(collected: false)
 
+      full_player_count = players.count
+      allowed_vote_threshold = (full_player_count.to_f / 4.0).ceil
+
       response = ''
       response << "Energy Cell location: X:#{energy_cell.coords[:x]} Y:#{energy_cell.coords[:y]}\n" if energy_cell
 
       response << "Player Count: #{Player.all.count}\n"
       response << "Players Alive: #{Player.all.select { |player| player.alive? }.count}\n"
+
+      response << "Max players for peace vote: #{allowed_vote_threshold}"
 
       response << "City Count: #{City.all.count}\n"
       response << "Captures Cities: #{City.all.select { |city| city.player_id != nil }.count}"
