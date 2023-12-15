@@ -28,16 +28,16 @@ module Command
 
       high_and_low = Command::Helpers::HighestAndLowestStats.generate_for_global_stats
 
-      players_username = event.options['username']
-      players_username = event.user.username if players_username.nil?
+      user_id = event.options['user']
+      user_id = event.user.id if user_id.nil?
 
-      stats = GlobalStats.find_by(username: players_username.downcase)
+      stats = GlobalStats.find_by(player_discord_id: user_id)
 
       if stats.nil?
-        event.respond(content: "Cannot find stats for a player with the username #{players_username}", ephemeral: true)
+        event.respond(content: "Cannot find stats for that user", ephemeral: true)
       end
 
-      response = "```#{players_username}'s stats:\n"
+      response = "```#{stats.username}'s stats:\n"
 
       high_and_low.each do |command, high_low|
         next if command == 'id'
@@ -75,9 +75,9 @@ module Command
     def options
       [
         Command::Models::Options.new(
-          type: 'string',
-          name: 'username',
-          description: 'The username of the player you want the stats of (Default is yourself)',
+          type: 'user',
+          name: 'user',
+          description: 'The user you want the stats of. (Default is yourself)',
           required: false,
           )
       ]
