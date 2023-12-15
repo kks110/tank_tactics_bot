@@ -11,7 +11,7 @@ class Player < ActiveRecord::Base
 
 
   def alive?
-    hp > 0
+    hp.positive?
   end
 
   def disabled?

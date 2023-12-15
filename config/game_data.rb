@@ -69,6 +69,7 @@ module Config
     def starting_hp
       config['starting']['hp']
     end
+
     def starting_range
       config['starting']['range']
     end
@@ -78,7 +79,7 @@ module Config
     attr_reader :config
 
     def load_config
-      YAML.load_file(File.expand_path('..', __dir__) + '/config/game_data.yml')
+      YAML.load_file("#{File.expand_path('..', __dir__)}/config/game_data.yml")
     end
   end
 end
