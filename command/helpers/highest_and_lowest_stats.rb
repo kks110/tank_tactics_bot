@@ -1,4 +1,3 @@
-
 module Command
   module Helpers
     class HighestAndLowestStats
@@ -31,9 +30,7 @@ module Command
 
         key_to_move = "games_won"
         value_to_move = highest_and_lowest.delete(key_to_move)
-        highest_and_lowest = { key_to_move => value_to_move }.merge(highest_and_lowest)
-
-        highest_and_lowest
+        { key_to_move => value_to_move }.merge(highest_and_lowest)
       end
     end
   end

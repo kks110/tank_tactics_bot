@@ -1,4 +1,3 @@
-
 module Command
   module Helpers
     class DetermineRange
@@ -16,10 +15,10 @@ module Command
         end
 
         range_right_x = (x_position + range) > max_x ? (x_position + range) - max_x - 1 : (x_position + range)
-        range_left_x = (x_position - range) < 0 ? (x_position - range) + max_x + 1 : (x_position - range)
+        range_left_x = (x_position - range).negative? ? (x_position - range) + max_x + 1 : (x_position - range)
 
         range_down_y = (y_position + range) > max_y ? (y_position + range) - max_y - 1 : (y_position + range)
-        range_up_y = (y_position - range) < 0 ? (y_position - range) + max_y + 1 : (y_position - range)
+        range_up_y = (y_position - range).negative? ? (y_position - range) + max_y + 1 : (y_position - range)
 
         x_options = []
         if range_right_x < range_left_x

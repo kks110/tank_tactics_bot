@@ -4,7 +4,7 @@ module Command
       def self.run(event:, game_data:, peace_vote: false)
         game = Game.find_by(server_id: event.server_id)
 
-        winners = Player.all.select { |player| player.alive? }
+        winners = Player.all.select(&:alive?)
 
         response = ""
 
@@ -48,17 +48,11 @@ module Command
         event.channel.send_file File.new(log_location)
 
         peace_votes = PeaceVote.all
-        peace_votes.each do |vote|
-          vote.destroy
-        end
+        peace_votes.each(&:destroy)
 
-        stats.each do |stat|
-          stat.destroy
-        end
+        stats.each(&:destroy)
 
-        Shot.all.each do |shot|
-          shot.destroy
-        end
+        Shot.delete_all
 
         players.each do |player|
           player_global_stats = GlobalStats.find_by(player_discord_id: player.discord_id)
@@ -68,13 +62,9 @@ module Command
 
         Game.first.destroy
 
-        EnergyCell.all.each do |energy_cell|
-          energy_cell.destroy
-        end
+        EnergyCell.delete_all
 
-        City.all.each do |city|
-          city.destroy
-        end
+        City.delete_all
 
         BattleLog.logger.info("The game has ended!\n")
       end

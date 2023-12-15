@@ -56,6 +56,6 @@ module Command
       DeregisterInterest.new,
       ShowAllTimeStats.new,
       ShowRank.new
-    ]
+    ].freeze
   end
 end
