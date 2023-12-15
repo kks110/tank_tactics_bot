@@ -33,7 +33,10 @@ Command::Helpers::LIST.each do |command|
 
     game = Game.find_by(server_id: event.server_id)
 
-    event.respond(content: "The game hasn't started yet!", ephemeral: true) if command.requires_game? && ( game.nil? || !game.started ) && command.name != :start_game
+
+    if command.requires_game? && (game.nil? || !game.started) && command.name != :start_game
+      event.respond(content: "The game hasn't started yet!", ephemeral: true)
+    end
 
     player = Player.find_by(discord_id: event.user.id)
 
@@ -60,7 +63,7 @@ Command::Helpers::LIST.each do |command|
 
     commands_that_could_result_in_one_player_alive = [:ramming_speed, :shoot]
 
-    if commands_that_could_result_in_one_player_alive.include?(command.name) && Player.all.select { |player| player.alive? }.count <= 1
+    if commands_that_could_result_in_one_player_alive.include?(command.name) && Player.all.select(&:alive?).count <= 1
       BattleLog.logger.info("One or less players left alive!\n")
       Command::Helpers::CleanUp.run(event: event, game_data: game_data)
     end
