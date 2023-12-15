@@ -37,6 +37,14 @@ module Command
                   required: option.required
                 )
               end
+
+              if option.type == 'user'
+                cmd.user(
+                  option.name,
+                  option.description,
+                  required: option.required
+                )
+              end
             end
           end
         end
