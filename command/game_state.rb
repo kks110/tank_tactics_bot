@@ -38,7 +38,7 @@ module Command
       response << "Max players for peace vote: #{allowed_vote_threshold}\n"
 
       response << "City Count: #{City.all.count}\n"
-      response << "Captures Cities: #{City.all.select { |city| city.player_id != nil }.count}"
+      response << "Captured Cities: #{City.all.select { |city| city.player_id != nil }.count}"
 
       event.respond(content: response, ephemeral: true)
 
