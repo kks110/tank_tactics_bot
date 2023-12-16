@@ -49,7 +49,7 @@ module Command
         if city.player
           city.player.update(energy: city.player.energy + game_data.captured_city_reward) if city.player.alive?
           city.player.stats.update(daily_energy_received: city.player.stats.daily_energy_received + game_data.captured_city_reward) if city.player.alive?
-          player_global_stats = GlobalStats.find_by(player_discord_id: player.discord_id)
+          player_global_stats = GlobalStats.find_by(player_discord_id: city.player.discord_id)
           player_global_stats.update(daily_energy_received: player_global_stats.daily_energy_received + game_data.captured_city_reward) if city.player.alive?
 
           BattleLog.logger.info("#{city.player.username} has a city. Giving energy. New energy: #{city.player.energy}")
