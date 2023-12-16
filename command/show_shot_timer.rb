@@ -27,9 +27,10 @@ module Command
       player = context.player
       game_data = context.game_data
 
-      if player.shot.created_at + 1.day < Time.now
+      if player.shot.nil?
+        message = "Your next shot will cost #{game_data.shoot_base_cost}. You have no timer"
+      elsif player.shot.created_at + 1.day < Time.now
         player.shot.destroy
-        Shot.create!(player_id: player.id)
         message = "Your next shot will cost #{game_data.shoot_base_cost}. You have no timer"
       else
         cost_to_shoot = game_data.shoot_base_cost + (game_data.shoot_increment_cost * (player.shot.count))
