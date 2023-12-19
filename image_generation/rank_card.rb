@@ -89,9 +89,9 @@ module ImageGeneration
       win_percentage = win_percentage.nan? ? 0 : win_percentage
 
       draw.pointsize = 33
-      draw.annotate(card_template, 0, 0, 22, 615, '╭────────────────────────────────────────────╮')
+      draw.annotate(card_template, 0, 0, 22, 615, '╭──────────────────────────────────────────╮')
       draw.annotate(card_template, 0, 0, 22, 648, table_title_value_builder(username: username, rank: "#{rank_mappings[games_won][:template].capitalize} #{rank_mappings[games_won][:rank]}"))
-      draw.annotate(card_template, 0, 0, 22, 681, "├────────────────────────────────────────────┤")
+      draw.annotate(card_template, 0, 0, 22, 681, "├──────────────────────────────────────────┤")
       draw.annotate(card_template, 0, 0, 22, 714, "│ Games Won:          #{table_value_builder(value: "#{games_won} (#{win_percentage}%)")}│")
       draw.annotate(card_template, 0, 0, 22, 747, "│ Games Played:       #{table_value_builder(value: games_played)}│")
       draw.annotate(card_template, 0, 0, 22, 780, "│ Kills:              #{table_value_builder(value: kills)}│")
@@ -100,7 +100,7 @@ module ImageGeneration
       draw.annotate(card_template, 0, 0, 22, 879, "│ Damage Received:    #{table_value_builder(value: damage_received)}│")
       draw.annotate(card_template, 0, 0, 22, 912, "│ First Bloods:       #{table_value_builder(value: first_blood)}│")
       draw.annotate(card_template, 0, 0, 22, 945, "│ First deaths:       #{table_value_builder(value: first_death)}│")
-      draw.annotate(card_template, 0, 0, 22, 978, '╰────────────────────────────────────────────╯')
+      draw.annotate(card_template, 0, 0, 22, 978, '╰──────────────────────────────────────────╯')
 
       image_location = "#{game_data.image_location}/output.png"
       # Save the modified image
@@ -110,12 +110,12 @@ module ImageGeneration
 
     def table_title_value_builder(username:, rank:)
       text = "│ #{username} (#{rank})"
-      (40 - username.length - rank.length).times{ text << ' ' }
+      (38 - username.length - rank.length).times{ text << ' ' }
       text << '│'
     end
     def table_value_builder(value:)
       text = " #{value.to_s}"
-      (22 - value.to_s.length).times{ text << ' ' }
+      (20 - value.to_s.length).times{ text << ' ' }
       text
     end
 
