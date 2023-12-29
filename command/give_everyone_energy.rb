@@ -65,7 +65,7 @@ module Command
         player_global_stats = GlobalStats.find_by(player_discord_id: player.discord_id)
         player_global_stats.update(daily_energy_received: player_global_stats.daily_energy_received + game_data.daily_energy_amount) if player.alive?
         BattleLog.logger.info("Giving energy to #{player.username}. New energy: #{player.energy}")
-        mentions << "<@#{player.discord_id}> "
+        mentions << "<@#{player.discord_id}> " if player.alive?
       end
 
       response = "Energy successfully distributed! #{mentions}"
