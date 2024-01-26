@@ -25,6 +25,7 @@ require_relative '../create_game'
 require_relative '../deregister_interest'
 require_relative '../show_all_time_stats'
 require_relative '../show_rank'
+require_relative '../show_players'
 
 module Command
   module Helpers
@@ -55,7 +56,8 @@ module Command
       CreateGame.new,
       DeregisterInterest.new,
       ShowAllTimeStats.new,
-      ShowRank.new
+      ShowRank.new,
+      ShowPlayers.new
     ].freeze
   end
 end
