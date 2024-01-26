@@ -32,8 +32,18 @@ module Command
       game_data = context.game_data
       bot = context.bot
 
-      x = event.options['x']
-      y = event.options['y']
+      target_id = event.options['target'].to_i
+      target = Player.find_by(discord_id: target_id)
+
+      unless target
+        event.respond(content: "<@#{target_id}> isn't in this game. Valid players are:\n #{PlayerList.build}", allowed_mentions: { parse: [] }, ephemeral: true)
+        return
+      end
+
+      if player.discord_id == target_id
+        event.respond(content: "You can't shoot yourself!", ephemeral: true)
+        return
+      end
 
       yesterday = DateTime.now - 1
 
@@ -42,8 +52,6 @@ module Command
       else
         Shot.create!(player_id: player.id)
       end
-
-      player = Player.find_by(id: player.id)
 
       cost_to_shoot = game_data.shoot_base_cost + (game_data.shoot_increment_cost * (player.shot.count))
 
@@ -62,6 +70,9 @@ module Command
         max_y: game.max_y
       )
 
+      y = target.y_position
+      x = target.x_position
+
       unless range_list.include?([y,x])
         event.respond(content: "Not in range!", ephemeral: true)
         return
@@ -72,16 +83,23 @@ module Command
         return
       end
 
-      target = grid[y][x]
-
       unless target.alive?
         event.respond(content:"Tank is already dead!", ephemeral: true)
         return
       end
 
+      player.update(energy: player.energy - cost_to_shoot)
+      player.shot.update(count: player.shot.count + 1)
+      target.update(hp: target.hp - 1)
+
+      event.respond(content: "You shot #{target.username}! #{target.alive? ? '' : 'They are dead!'}, it cost #{cost_to_shoot}", ephemeral: true)
+      target_for_dm = bot.user(target.discord_id)
+      target_for_dm.pm("You were shot by #{player.username}")
+
+      event.channel.send_message "Someone was shot! #{target.alive? ? '' : 'They are dead!'}"
+
       player_global_stats = GlobalStats.find_by(player_discord_id: player.discord_id)
 
-      player.update(energy: player.energy - cost_to_shoot)
       player.stats.update(
         damage_done: player.stats.damage_done + 1,
         energy_spent: player.stats.energy_spent + cost_to_shoot
@@ -92,16 +110,10 @@ module Command
         energy_spent: player_global_stats.energy_spent + cost_to_shoot
       )
 
-      player.shot.update(count: player.shot.count + 1)
-
       target_global_stats = GlobalStats.find_by(player_discord_id: target.discord_id)
 
-      target.update(hp: target.hp - 1)
       target.stats.update(damage_received: target.stats.damage_received + 1)
       target_global_stats.update(damage_received: target_global_stats.damage_received + 1)
-
-      target_for_dm = bot.user(target.discord_id)
-      target_for_dm.pm("You were shot by #{player.username}")
 
       if target.hp <= 0
         unless game.first_blood
@@ -130,9 +142,6 @@ module Command
 
       BattleLog.logger.info("#{player.username} shot #{target.username}! It cost #{cost_to_shoot} energy. #{target.username}: HP: #{target.hp}")
 
-      event.channel.send_message "Someone was shot! #{target.alive? ? '' : 'They are dead!'}"
-      event.respond(content: "You shot #{target.username}! #{target.alive? ? '' : 'They are dead!'}, it cost #{cost_to_shoot}", ephemeral: true)
-
     rescue => e
       ErrorLog.logger.error("An Error occurred: Command name: #{name}. Error #{e}")
     end
@@ -140,16 +149,10 @@ module Command
     def options
       [
         Command::Models::Options.new(
-          type: 'integer',
-          name: 'x',
-          description: 'The X coordinate',
-          required: true,
-        ),
-        Command::Models::Options.new(
-          type: 'integer',
-          name: 'y',
-          description: 'The Y coordinate',
-          required: true,
+          type: 'user',
+          name: 'target',
+          description: 'The user you want to give a heart to',
+          required: true
         )
       ]
     end

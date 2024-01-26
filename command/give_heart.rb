@@ -1,6 +1,7 @@
 require_relative './base'
 require_relative './helpers/generate_grid'
 require_relative './helpers/determine_range'
+require_relative './helpers/player_list'
 
 module Command
   class GiveHeart < Command::Base
@@ -30,15 +31,25 @@ module Command
       player = context.player
       bot = context.bot
 
-      x = event.options['x']
-      y = event.options['y']
+      target_id = event.options['target'].to_i
+
       amount_to_give = event.options['amount']
       amount_to_give = 1 if amount_to_give.nil?
 
-      if [player.y_position, player.x_position] == [y,x]
+      target = Player.find_by(discord_id: target_id)
+
+      unless target
+        event.respond(content: "<@#{target_id}> isn't in this game. Valid players are:\n #{PlayerList.build}", allowed_mentions: { parse: [] }, ephemeral: true)
+        return
+      end
+
+      if player.discord_id == target_id
         event.respond(content: "You can't give yourself HP!", ephemeral: true)
         return
       end
+
+      y = target.y_position
+      x = target.x_position
 
       grid = Command::Helpers::GenerateGrid.new.run(server_id: event.server_id)
 
@@ -50,7 +61,7 @@ module Command
         max_y: game.max_y
       )
 
-      unless range_list.include?([y,x])
+      unless range_list.include?([y, x])
         event.respond(content: "Not in range!", ephemeral: true)
         return
       end
@@ -60,8 +71,6 @@ module Command
         return
       end
 
-      target = grid[y][x]
-
       if player.hp <= amount_to_give
         event.respond(content: "You can't do that, it will kill you!", ephemeral: true)
         return
@@ -70,33 +79,28 @@ module Command
       player.update(hp: player.hp - amount_to_give)
       player.stats.update(hp_given: player.stats.hp_given + amount_to_give)
 
-      player_global_stats = GlobalStats.find_by(player_discord_id: player.discord_id)
-      player_global_stats.update(hp_given: player_global_stats.hp_given + amount_to_give)
-
       target_was_dead = !target.alive?
-
       target.update(hp: target.hp + amount_to_give)
       target.stats.update(hp_received: target.stats.hp_received + amount_to_give)
 
+      event.respond(content: "#{target.username} was healed for #{amount_to_give}HP!", ephemeral: true)
+      target_for_dm = bot.user(target.discord_id)
+      target_for_dm.pm("You were given #{amount_to_give}HP by #{player.username}")
+      event.channel.send_message target_was_dead ? 'Someone has been revived!' : 'Someone was healed!'
+
+      BattleLog.logger.info("#{player.username} gave #{amount_to_give} HP to #{target.username}")
+
+      player_global_stats = GlobalStats.find_by(player_discord_id: player.discord_id)
+      player_global_stats.update(hp_given: player_global_stats.hp_given + amount_to_give)
       target_global_stats = GlobalStats.find_by(player_discord_id: target.discord_id)
       target_global_stats.update(hp_received: target_global_stats.hp_received + amount_to_give)
 
       if target.hp > target.stats.highest_hp
         target.stats.update(highest_hp: target.hp)
       end
-
       if target.hp > target_global_stats.highest_hp
         target_global_stats.update(highest_hp: target.hp)
       end
-
-      target_for_dm = bot.user(target.discord_id)
-      target_for_dm.pm("You were given #{amount_to_give}HP by #{player.username}")
-
-      BattleLog.logger.info("#{player.username} gave #{amount_to_give} HP to #{target.username}")
-
-      event.channel.send_message target_was_dead ? 'Someone has been revived!' : 'Someone was healed!'
-      event.respond(content: "#{target.username} was healed for #{amount_to_give}HP!", ephemeral: true)
-
     rescue => e
       ErrorLog.logger.error("An Error occurred: Command name: #{name}. Error #{e}")
     end
@@ -104,16 +108,10 @@ module Command
     def options
       [
         Command::Models::Options.new(
-          type: 'integer',
-          name: 'x',
-          description: 'The X coordinate',
-          required: true,
-          ),
-        Command::Models::Options.new(
-          type: 'integer',
-          name: 'y',
-          description: 'The Y coordinate',
-          required: true,
+          type: 'user',
+          name: 'target',
+          description: 'The user you want to give a heart to',
+          required: true
         ),
         Command::Models::Options.new(
           type: 'integer',
