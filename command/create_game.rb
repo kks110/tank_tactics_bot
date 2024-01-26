@@ -55,7 +55,7 @@ module Command
 
       interested_players = InterestedPlayer.all
 
-      response = "A game has been created. Register up! "
+      response = "A game has been created and you have been registered. Everybody else, Register up! "
 
       interested_players.each do |interested_player|
         response << "<@#{interested_player.discord_id}> "
