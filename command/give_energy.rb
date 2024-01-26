@@ -1,6 +1,7 @@
 require_relative './base'
 require_relative './helpers/generate_grid'
 require_relative './helpers/determine_range'
+require_relative './helpers/player_list'
 
 module Command
   class GiveEnergy < Command::Base
@@ -30,15 +31,25 @@ module Command
       player = context.player
       bot = context.bot
 
-      x = event.options['x']
-      y = event.options['y']
+      target_id = event.options['target'].to_i
+
       amount_to_give = event.options['amount']
       amount_to_give = 5 if amount_to_give.nil?
 
-      if [player.y_position, player.x_position] == [y,x]
+      target = Player.find_by(discord_id: target_id)
+
+      unless target
+        event.respond(content: "<@#{target_id}> isn't in this game. Valid players are:\n #{PlayerList.build}", allowed_mentions: { parse: [] }, ephemeral: true)
+        return
+      end
+
+      if player.discord_id == target_id
         event.respond(content: "You can't give yourself energy!", ephemeral: true)
         return
       end
+
+      y = target.y_position
+      x = target.x_position
 
       grid = Command::Helpers::GenerateGrid.new.run(server_id: event.server_id)
 
@@ -65,8 +76,6 @@ module Command
         return
       end
 
-      target = grid[y][x]
-
       unless target.alive?
         event.respond(content:"You can't give energy to a dead player!", ephemeral: true)
         return
@@ -75,11 +84,17 @@ module Command
       player.update(energy: player.energy - amount_to_give)
       player.stats.update(energy_given: player.stats.energy_given + amount_to_give)
 
-      player_global_stats = GlobalStats.find_by(player_discord_id: player.discord_id)
-      player_global_stats.update(energy_given: player_global_stats.energy_given + amount_to_give)
-
       target.update(energy: target.energy + amount_to_give)
       target.stats.update(energy_received: target.stats.energy_received + amount_to_give)
+
+      event.respond(content: "#{target.username} was given #{amount_to_give} energy by #{player.username}!", ephemeral: true)
+      target_for_dm = bot.user(target.discord_id)
+      target_for_dm.pm("You were given #{amount_to_give} energy by #{player.username}")
+
+      BattleLog.logger.info("#{player.username} gave #{amount_to_give} energy to #{target.username}")
+
+      player_global_stats = GlobalStats.find_by(player_discord_id: player.discord_id)
+      player_global_stats.update(energy_given: player_global_stats.energy_given + amount_to_give)
 
       target_global_stats = GlobalStats.find_by(player_discord_id: target.discord_id)
       target_global_stats.update(energy_given: target_global_stats.energy_given + amount_to_give)
@@ -91,13 +106,6 @@ module Command
       if target.energy > target_global_stats.highest_energy
         target_global_stats.update(highest_energy: target.energy)
       end
-
-      target_for_dm = bot.user(target.discord_id)
-      target_for_dm.pm("You were given #{amount_to_give} energy by #{player.username}")
-
-      BattleLog.logger.info("#{player.username} gave #{amount_to_give} energy to #{target.username}")
-      event.respond(content: "#{target.username} was given energy by #{player.username}!", ephemeral: true)
-
     rescue => e
       ErrorLog.logger.error("An Error occurred: Command name: #{name}. Error #{e}")
     end
@@ -105,16 +113,10 @@ module Command
     def options
       [
         Command::Models::Options.new(
-          type: 'integer',
-          name: 'x',
-          description: 'The X coordinate',
-          required: true,
-        ),
-        Command::Models::Options.new(
-          type: 'integer',
-          name: 'y',
-          description: 'The Y coordinate',
-          required: true,
+          type: 'user',
+          name: 'target',
+          description: 'The user you want to give a heart to',
+          required: true
         ),
         Command::Models::Options.new(
           type: 'integer',

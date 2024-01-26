@@ -2,6 +2,8 @@ require_relative './base'
 require_relative './helpers/generate_grid'
 require_relative './helpers/determine_range'
 require_relative './models/options'
+require_relative './helpers/player_list'
+
 
 module Command
   class RammingSpeed < Command::Base
@@ -32,10 +34,21 @@ module Command
       game_data = context.game_data
       bot = context.bot
 
-      x = event.options['x']
-      y = event.options['y']
+      target_id = event.options['target'].to_i
 
       cost_to_ram = game_data.ramming_speed_cost
+
+      target = Player.find_by(discord_id: target_id)
+
+      unless target
+        event.respond(content: "<@#{target_id}> isn't in this game. Valid players are:\n #{PlayerList.build}", allowed_mentions: { parse: [] }, ephemeral: true)
+        return
+      end
+
+      if player.discord_id == target_id
+        event.respond(content: "You can't ram yourself energy!", ephemeral: true)
+        return
+      end
 
       unless player.energy >= cost_to_ram
         event.respond(content: "Not enough energy! You need #{cost_to_ram} energy", ephemeral: true)
@@ -52,6 +65,9 @@ module Command
         max_y: game.max_y
       )
 
+      y = target.y_position
+      x = target.x_position
+
       unless range_list.include?([y,x])
         event.respond(content: "Not in range!", ephemeral: true)
         return
@@ -61,8 +77,6 @@ module Command
         event.respond(content:"No tank at that location!", ephemeral: true)
         return
       end
-
-      target = grid[y][x]
 
       unless target.alive?
         event.respond(content:"Tank is already dead!", ephemeral: true)
@@ -74,6 +88,12 @@ module Command
         disabled_until: DateTime.now + 1,
         hp: player.hp - 1
       )
+      target.update(hp: target.hp - 2)
+
+      event.respond(content: "You rammed #{target.username}! You are disabled for 24 hours. #{target.alive? ? '' : 'They are dead!'} #{player.alive? ? '' : 'You are dead!'}", ephemeral: true)
+
+      target_for_dm = bot.user(target.discord_id)
+      target_for_dm.pm("You were rammed by #{player.username}")
 
       global_player_stats = GlobalStats.find_by(player_discord_id: player.discord_id)
 
@@ -99,12 +119,8 @@ module Command
 
       global_target_stats = GlobalStats.find_by(player_discord_id: target.discord_id)
 
-      target.update(hp: target.hp - 2)
       target.stats.update(damage_received: target.stats.damage_received + 2)
       global_target_stats.update(damage_received: global_target_stats.damage_received + 2)
-
-      target_for_dm = bot.user(target.discord_id)
-      target_for_dm.pm("You were rammed by #{player.username}")
 
       if target.hp <= 0
         unless game.first_blood
@@ -133,7 +149,6 @@ module Command
 
       BattleLog.logger.info("#{player.username} rammed #{target.username}! #{player.username} has #{player.hp} HP. #{target.username}: HP: #{target.hp}")
 
-      event.respond(content: "You rammed #{target.username}! You are disabled for 24 hours. #{target.alive? ? '' : 'They are dead!'} #{player.alive? ? '' : 'You are dead!'}", ephemeral: true)
       event.channel.send_message "Someone was rammed! #{target.alive? ? '' : 'The target is dead!'} #{player.alive? ? '' : 'The aggressor is dead!'}"
 
     rescue => e
@@ -143,16 +158,10 @@ module Command
     def options
       [
         Command::Models::Options.new(
-          type: 'integer',
-          name: 'x',
-          description: 'The X coordinate',
-          required: true,
-        ),
-        Command::Models::Options.new(
-          type: 'integer',
-          name: 'y',
-          description: 'The Y coordinate',
-          required: true,
+          type: 'user',
+          name: 'target',
+          description: 'The user you want to give a heart to',
+          required: true
         )
       ]
     end
