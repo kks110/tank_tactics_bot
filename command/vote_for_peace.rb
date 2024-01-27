@@ -58,6 +58,8 @@ module Command
 
       vote_count = PeaceVote.all.count
 
+      Logging::BattleReport.logger.info(Logging::BattleReportBuilder.build(command_name: name, player_name: player.username))
+
       if vote_count == alive_player_count
         Command::Helpers::CleanUp.run(event: event, game_data: game_data, peace_vote: true)
       else
@@ -65,7 +67,6 @@ module Command
       end
 
       Logging::BattleLog.logger.info("#{player.username} voted for peace")
-
     rescue => e
       Logging::ErrorLog.logger.error("An Error occurred: Command name: #{name}. Error #{e}")
     end

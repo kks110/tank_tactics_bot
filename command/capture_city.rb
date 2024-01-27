@@ -110,6 +110,7 @@ module Command
         player_global_stats.update(most_cities_held: cities_owned_count)
       end
 
+      Logging::BattleReport.logger.info(Logging::BattleReportBuilder.build(command_name: name, player_name: player.username))
     rescue => e
       Logging::ErrorLog.logger.error("An Error occurred: Command name: #{name}. Error #{e}")
     end

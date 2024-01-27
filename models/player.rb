@@ -19,4 +19,18 @@ class Player < ActiveRecord::Base
 
     disabled_until > DateTime.now
   end
+
+  def to_hash
+    {
+      "name": username,
+      "x": x_position,
+      "y": y_position,
+      "energy": energy,
+      "hp": hp,
+      "range": range,
+      "disabled_until": disabled_until,
+      "shot_count": shot&.count,
+      "shot_created_at": shot&.created_at
+    }
+  end
 end

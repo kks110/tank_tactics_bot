@@ -80,6 +80,8 @@ module Command
         Logging::BattleLog.logger.info("City X: #{city.x_position} Y: #{city.y_position}")
       end
 
+      Logging::BattleReport.reset_log
+      Logging::BattleReport.logger.info(Logging::BattleReportBuilder.build(command_name: name, player_name: player.username))
     rescue => e
       Logging::ErrorLog.logger.error("An Error occurred: Command name: #{name}. Error #{e}")
     end

@@ -4,6 +4,7 @@
 battle_log.txt
 *.png
 error_log.txt
+battle_report.txt
 
 *.gem
 *.rbc

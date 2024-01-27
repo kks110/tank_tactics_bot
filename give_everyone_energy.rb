@@ -11,6 +11,8 @@ require_relative './models/stats'
 require_relative './models/global_stats'
 require_relative './models/energy_cell'
 require_relative './logging/battle_log'
+require_relative './logging/battle_report_builder'
+require_relative './logging/battle_report'
 require_relative './command/helpers/generate_grid'
 require_relative './config/game_data'
 
@@ -85,3 +87,5 @@ end
 bot = Discordrb::Bot.new(token: ENV.fetch('SLASH_COMMAND_BOT_TOKEN', nil), intents: [:server_messages])
 
 bot.send_message(ENV.fetch('BOT_CHANNEL', nil), response)
+
+Logging::BattleReport.logger.info(Logging::BattleReportBuilder.build(command_name: :give_everyone_energy, player_name: 'bot'))
