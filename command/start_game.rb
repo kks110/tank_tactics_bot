@@ -67,21 +67,21 @@ module Command
       event.respond(content: "The game has begun, what lurks beyond the clouds... #{mentions}")
 
       ImageGeneration::Grid.new.generate_game_start_board(grid_x: game.max_x, grid_y: game.max_y, game_data: game_data, server_id: game.server_id)
-      BattleLog.reset_log
-      BattleLog.logger.info("The game has begun!")
+      Logging::BattleLog.reset_log
+      Logging::BattleLog.logger.info("The game has begun!")
       players = Player.all
       cities = City.all
 
       players.each do |player|
-        BattleLog.logger.info("#{player.username} X: #{player.x_position} Y: #{player.y_position}")
+        Logging::BattleLog.logger.info("#{player.username} X: #{player.x_position} Y: #{player.y_position}")
       end
 
       cities.each do |city|
-        BattleLog.logger.info("City X: #{city.x_position} Y: #{city.y_position}")
+        Logging::BattleLog.logger.info("City X: #{city.x_position} Y: #{city.y_position}")
       end
 
     rescue => e
-      ErrorLog.logger.error("An Error occurred: Command name: #{name}. Error #{e}")
+      Logging::ErrorLog.logger.error("An Error occurred: Command name: #{name}. Error #{e}")
     end
   end
 end

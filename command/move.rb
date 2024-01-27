@@ -271,7 +271,7 @@ module Command
 
           event.channel.send_message 'Someone picked up the energy cell!'
 
-          BattleLog.logger.info("The energy cell was collected: #{player.username}: #{player.energy} energy")
+          Logging::BattleLog.logger.info("The energy cell was collected: #{player.username}: #{player.energy} energy")
         end
       end
 
@@ -292,11 +292,11 @@ module Command
       event.user.send_file File.new(image_location)
 
     rescue => e
-      ErrorLog.logger.error("An Error occurred: Command name: #{name}. Error #{e}")
+      Logging::ErrorLog.logger.error("An Error occurred: Command name: #{name}. Error #{e}")
     end
 
     def log(username:, old_x:, old_y:, new_x:, new_y:)
-      BattleLog.logger.info("#{username} moved. X:#{old_x} Y:#{old_y} -> X:#{new_x} Y:#{new_y}")
+      Logging::BattleLog.logger.info("#{username} moved. X:#{old_x} Y:#{old_y} -> X:#{new_x} Y:#{new_y}")
     end
 
     def options

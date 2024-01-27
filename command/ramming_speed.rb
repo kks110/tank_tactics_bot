@@ -147,12 +147,12 @@ module Command
         end
       end
 
-      BattleLog.logger.info("#{player.username} rammed #{target.username}! #{player.username} has #{player.hp} HP. #{target.username}: HP: #{target.hp}")
+      Logging::BattleLog.logger.info("#{player.username} rammed #{target.username}! #{player.username} has #{player.hp} HP. #{target.username}: HP: #{target.hp}")
 
       event.channel.send_message "Someone was rammed! #{target.alive? ? '' : 'The target is dead!'} #{player.alive? ? '' : 'The aggressor is dead!'}"
 
     rescue => e
-      ErrorLog.logger.error("An Error occurred: Command name: #{name}. Error #{e}")
+      Logging::ErrorLog.logger.error("An Error occurred: Command name: #{name}. Error #{e}")
     end
 
     def options

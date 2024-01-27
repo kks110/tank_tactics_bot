@@ -44,7 +44,7 @@ module Command
       event.user.send_file File.new(image_location)
 
     rescue => e
-      ErrorLog.logger.error("An Error occurred: Command name: #{name}. Error #{e}")
+      Logging::ErrorLog.logger.error("An Error occurred: Command name: #{name}. Error #{e}")
     end
   end
 end

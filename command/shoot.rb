@@ -140,10 +140,10 @@ module Command
         end
       end
 
-      BattleLog.logger.info("#{player.username} shot #{target.username}! It cost #{cost_to_shoot} energy. #{target.username}: HP: #{target.hp}")
+      Logging::BattleLog.logger.info("#{player.username} shot #{target.username}! It cost #{cost_to_shoot} energy. #{target.username}: HP: #{target.hp}")
 
     rescue => e
-      ErrorLog.logger.error("An Error occurred: Command name: #{name}. Error #{e}")
+      Logging::ErrorLog.logger.error("An Error occurred: Command name: #{name}. Error #{e}")
     end
 
     def options

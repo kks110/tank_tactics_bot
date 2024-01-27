@@ -91,7 +91,7 @@ module Command
       target_for_dm = bot.user(target.discord_id)
       target_for_dm.pm("You were given #{amount_to_give} energy by #{player.username}")
 
-      BattleLog.logger.info("#{player.username} gave #{amount_to_give} energy to #{target.username}")
+      Logging::BattleLog.logger.info("#{player.username} gave #{amount_to_give} energy to #{target.username}")
 
       player_global_stats = GlobalStats.find_by(player_discord_id: player.discord_id)
       player_global_stats.update(energy_given: player_global_stats.energy_given + amount_to_give)
@@ -107,7 +107,7 @@ module Command
         target_global_stats.update(highest_energy: target.energy)
       end
     rescue => e
-      ErrorLog.logger.error("An Error occurred: Command name: #{name}. Error #{e}")
+      Logging::ErrorLog.logger.error("An Error occurred: Command name: #{name}. Error #{e}")
     end
 
     def options

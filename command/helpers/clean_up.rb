@@ -44,7 +44,7 @@ module Command
 
         event.channel.send_file File.new(game_board_image_location)
 
-        log_location = BattleLog.log_path
+        log_location = Logging::BattleLog.log_path
         event.channel.send_file File.new(log_location)
 
         peace_votes = PeaceVote.all
@@ -66,7 +66,7 @@ module Command
 
         City.delete_all
 
-        BattleLog.logger.info("The game has ended!\n")
+        Logging::BattleLog.logger.info("The game has ended!\n")
       end
     end
   end

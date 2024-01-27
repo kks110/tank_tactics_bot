@@ -45,7 +45,7 @@ module Command
       event.respond(content: instructions, ephemeral: true)
 
     rescue => e
-      ErrorLog.logger.error("An Error occurred: Command name: #{name}. Error #{e}")
+      Logging::ErrorLog.logger.error("An Error occurred: Command name: #{name}. Error #{e}")
     end
   end
 end

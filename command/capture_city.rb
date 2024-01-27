@@ -90,7 +90,7 @@ module Command
 
       target.update(player_id: player.id)
 
-      BattleLog.logger.info("#{player.username} captures a city. City X:#{target.x_position} Y:#{target.y_position}")
+      Logging::BattleLog.logger.info("#{player.username} captures a city. City X:#{target.x_position} Y:#{target.y_position}")
 
       if previous_owner
         target_for_dm = bot.user(previous_owner.discord_id)
@@ -111,7 +111,7 @@ module Command
       end
 
     rescue => e
-      ErrorLog.logger.error("An Error occurred: Command name: #{name}. Error #{e}")
+      Logging::ErrorLog.logger.error("An Error occurred: Command name: #{name}. Error #{e}")
     end
 
     def options

@@ -55,7 +55,7 @@ module Command
       event.channel.send_message "#{user.username} has registered!"
       
     rescue => e
-      ErrorLog.logger.error("An Error occurred: Command name: #{name}. Error #{e}")
+      Logging::ErrorLog.logger.error("An Error occurred: Command name: #{name}. Error #{e}")
     end
   end
 end
