@@ -51,6 +51,7 @@ module Command
         player.shot.update(created_at: Time.now, count: 0) if player.shot.created_at < yesterday
       else
         Shot.create!(player_id: player.id)
+        player = Player.find_by(discord_id: event.user.id)
       end
 
       cost_to_shoot = game_data.shoot_base_cost + (game_data.shoot_increment_cost * (player.shot.count))
