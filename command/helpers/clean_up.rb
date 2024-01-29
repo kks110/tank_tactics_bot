@@ -49,7 +49,7 @@ module Command
         event.channel.send_file File.new(battle_log_location)
 
 
-        Logging::BattleReport.logger.info(Logging::BattleReportBuilder.build(command_name: 'game_end', player_name: 'bot'))
+        Logging::BattleReport.logger.info(Logging::BattleReportBuilder.build(command_name: 'game_end', player_name: 'Bot'))
         battle_report_location = Logging::BattleReport.log_path
         event.channel.send_file File.new(battle_report_location)
 
