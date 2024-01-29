@@ -47,6 +47,8 @@ module Command
 
       Stats.create!(player_id: player.id, highest_hp: player.hp, highest_range: player.range)
 
+      Shot.create!(player_id: player.id)
+
       if GlobalStats.find_by(player_discord_id: user.id).nil?
         GlobalStats.create!(player_discord_id: user.id, username: user.username, highest_hp: player.hp, highest_range: player.range)
       end
@@ -55,7 +57,7 @@ module Command
       event.channel.send_message "#{user.username} has registered!"
       
     rescue => e
-      ErrorLog.logger.error("An Error occurred: Command name: #{name}. Error #{e}")
+      Logging::ErrorLog.logger.error("An Error occurred: Command name: #{name}. Error #{e}")
     end
   end
 end

@@ -32,15 +32,10 @@ module Command
       game_data = context.game_data
       bot = context.bot
 
-      x = event.options['x']
-      y = event.options['y']
-
       unless player.energy >= game_data.capture_city_cost
         event.respond(content: "Not enough energy!", ephemeral: true)
         return
       end
-
-      grid = Command::Helpers::GenerateGrid.new.run(server_id: event.server_id)
 
       range_list = Command::Helpers::DetermineRange.new.build_range_list(
         x_position: player.x_position,
@@ -50,19 +45,20 @@ module Command
         max_y: game.max_y
       )
 
-      unless range_list.include?([y,x])
-        event.respond(content: "Not in range! You must be next to the city", ephemeral: true)
+      target = nil
+
+      City.all.each do |city|
+        if range_list.include?([city.y_position, city.x_position])
+          target = city
+        end
+      end
+
+      if target.nil?
+        event.respond(content: "There are no cities in range!", ephemeral: true)
         return
       end
 
-      unless grid[y][x].class == City
-        event.respond(content:"No city at that location!", ephemeral: true)
-        return
-      end
-
-      target = grid[y][x]
-
-      if grid[y][x].player_id == player.id
+      if target.player_id == player.id
         event.respond(content:"You already own this city!", ephemeral: true)
         return
       end
@@ -90,7 +86,7 @@ module Command
 
       target.update(player_id: player.id)
 
-      BattleLog.logger.info("#{player.username} captures a city. City X:#{target.x_position} Y:#{target.y_position}")
+      Logging::BattleLog.logger.info("#{player.username} captures a city. City X:#{target.x_position} Y:#{target.y_position}")
 
       if previous_owner
         target_for_dm = bot.user(previous_owner.discord_id)
@@ -110,25 +106,9 @@ module Command
         player_global_stats.update(most_cities_held: cities_owned_count)
       end
 
+      Logging::BattleReport.logger.info(Logging::BattleReportBuilder.build(command_name: name, player_name: player.username))
     rescue => e
-      ErrorLog.logger.error("An Error occurred: Command name: #{name}. Error #{e}")
-    end
-
-    def options
-      [
-        Command::Models::Options.new(
-          type: 'integer',
-          name: 'x',
-          description: 'The X coordinate',
-          required: true,
-        ),
-        Command::Models::Options.new(
-          type: 'integer',
-          name: 'y',
-          description: 'The Y coordinate',
-          required: true,
-        )
-      ]
+      Logging::ErrorLog.logger.error("An Error occurred: Command name: #{name}. Error #{e}")
     end
   end
 end

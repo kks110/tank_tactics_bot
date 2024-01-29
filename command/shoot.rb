@@ -1,5 +1,4 @@
 require_relative './base'
-require_relative './helpers/generate_grid'
 require_relative './helpers/determine_range'
 require_relative './models/options'
 
@@ -51,6 +50,7 @@ module Command
         player.shot.update(created_at: Time.now, count: 0) if player.shot.created_at < yesterday
       else
         Shot.create!(player_id: player.id)
+        player = Player.find_by(discord_id: event.user.id)
       end
 
       cost_to_shoot = game_data.shoot_base_cost + (game_data.shoot_increment_cost * (player.shot.count))
@@ -59,8 +59,6 @@ module Command
         event.respond(content: "Not enough energy! You need #{cost_to_shoot} for your next shot", ephemeral: true)
         return
       end
-
-      grid = Command::Helpers::GenerateGrid.new.run(server_id: event.server_id)
 
       range_list = Command::Helpers::DetermineRange.new.build_range_list(
         x_position: player.x_position,
@@ -75,11 +73,6 @@ module Command
 
       unless range_list.include?([y,x])
         event.respond(content: "Not in range!", ephemeral: true)
-        return
-      end
-
-      if grid[y][x].nil? || grid[y][x] == 'energy_cell'
-        event.respond(content:"No tank at that location!", ephemeral: true)
         return
       end
 
@@ -140,10 +133,11 @@ module Command
         end
       end
 
-      BattleLog.logger.info("#{player.username} shot #{target.username}! It cost #{cost_to_shoot} energy. #{target.username}: HP: #{target.hp}")
+      Logging::BattleLog.logger.info("#{player.username} shot #{target.username}! It cost #{cost_to_shoot} energy. #{target.username}: HP: #{target.hp}")
 
+      Logging::BattleReport.logger.info(Logging::BattleReportBuilder.build(command_name: name, player_name: player.username))
     rescue => e
-      ErrorLog.logger.error("An Error occurred: Command name: #{name}. Error #{e}")
+      Logging::ErrorLog.logger.error("An Error occurred: Command name: #{name}. Error #{e}")
     end
 
     def options

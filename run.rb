@@ -15,8 +15,10 @@ require_relative './models/shot'
 require_relative './models/global_stats'
 require_relative './command/helpers/list'
 require_relative './initialise'
-require_relative './battle_log'
-require_relative './error_log'
+require_relative './logging/battle_log'
+require_relative './logging/error_log'
+require_relative './logging/battle_report'
+require_relative './logging/battle_report_builder'
 require_relative './config/game_data'
 require_relative './command/models/execute_params'
 require_relative './config/initializers/inflections'
@@ -64,7 +66,7 @@ Command::Helpers::LIST.each do |command|
     commands_that_could_result_in_one_player_alive = [:ramming_speed, :shoot]
 
     if commands_that_could_result_in_one_player_alive.include?(command.name) && Player.all.select(&:alive?).count <= 1
-      BattleLog.logger.info("One or less players left alive!\n")
+      Logging::BattleLog.logger.info("One or less players left alive!\n")
       Command::Helpers::CleanUp.run(event: event, game_data: game_data)
     end
   end

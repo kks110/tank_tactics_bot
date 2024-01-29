@@ -6,4 +6,11 @@ class EnergyCell < ActiveRecord::Base
   def coords
     { x: x_position, y: y_position }
   end
+
+  def to_hash
+    {
+      "x": x_position,
+      "y": y_position,
+    }
+  end
 end

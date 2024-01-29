@@ -1,5 +1,4 @@
 require_relative './base'
-require_relative './helpers/generate_grid'
 require_relative './helpers/determine_range'
 require_relative './models/options'
 require_relative './helpers/player_list'
@@ -55,8 +54,6 @@ module Command
         return
       end
 
-      grid = Command::Helpers::GenerateGrid.new.run(server_id: event.server_id)
-
       range_list = Command::Helpers::DetermineRange.new.build_range_list(
         x_position: player.x_position,
         y_position: player.y_position,
@@ -70,11 +67,6 @@ module Command
 
       unless range_list.include?([y,x])
         event.respond(content: "Not in range!", ephemeral: true)
-        return
-      end
-
-      if grid[y][x].nil? || grid[y][x] == 'energy_cell'
-        event.respond(content:"No tank at that location!", ephemeral: true)
         return
       end
 
@@ -147,12 +139,13 @@ module Command
         end
       end
 
-      BattleLog.logger.info("#{player.username} rammed #{target.username}! #{player.username} has #{player.hp} HP. #{target.username}: HP: #{target.hp}")
-
       event.channel.send_message "Someone was rammed! #{target.alive? ? '' : 'The target is dead!'} #{player.alive? ? '' : 'The aggressor is dead!'}"
 
+      Logging::BattleLog.logger.info("#{player.username} rammed #{target.username}! #{player.username} has #{player.hp} HP. #{target.username}: HP: #{target.hp}")
+
+      Logging::BattleReport.logger.info(Logging::BattleReportBuilder.build(command_name: name, player_name: player.username))
     rescue => e
-      ErrorLog.logger.error("An Error occurred: Command name: #{name}. Error #{e}")
+      Logging::ErrorLog.logger.error("An Error occurred: Command name: #{name}. Error #{e}")
     end
 
     def options

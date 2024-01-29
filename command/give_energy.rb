@@ -1,5 +1,4 @@
 require_relative './base'
-require_relative './helpers/generate_grid'
 require_relative './helpers/determine_range'
 require_relative './helpers/player_list'
 
@@ -51,8 +50,6 @@ module Command
       y = target.y_position
       x = target.x_position
 
-      grid = Command::Helpers::GenerateGrid.new.run(server_id: event.server_id)
-
       range_list = Command::Helpers::DetermineRange.new.build_range_list(
         x_position: player.x_position,
         y_position: player.y_position,
@@ -71,11 +68,6 @@ module Command
         return
       end
 
-      if grid[y][x].nil? || grid[y][x] == 'energy_cell'
-        event.respond(content:"No tank at that location!", ephemeral: true)
-        return
-      end
-
       unless target.alive?
         event.respond(content:"You can't give energy to a dead player!", ephemeral: true)
         return
@@ -91,7 +83,7 @@ module Command
       target_for_dm = bot.user(target.discord_id)
       target_for_dm.pm("You were given #{amount_to_give} energy by #{player.username}")
 
-      BattleLog.logger.info("#{player.username} gave #{amount_to_give} energy to #{target.username}")
+      Logging::BattleLog.logger.info("#{player.username} gave #{amount_to_give} energy to #{target.username}")
 
       player_global_stats = GlobalStats.find_by(player_discord_id: player.discord_id)
       player_global_stats.update(energy_given: player_global_stats.energy_given + amount_to_give)
@@ -106,8 +98,10 @@ module Command
       if target.energy > target_global_stats.highest_energy
         target_global_stats.update(highest_energy: target.energy)
       end
+
+      Logging::BattleReport.logger.info(Logging::BattleReportBuilder.build(command_name: name, player_name: player.username))
     rescue => e
-      ErrorLog.logger.error("An Error occurred: Command name: #{name}. Error #{e}")
+      Logging::ErrorLog.logger.error("An Error occurred: Command name: #{name}. Error #{e}")
     end
 
     def options

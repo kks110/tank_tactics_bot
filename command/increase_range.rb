@@ -51,13 +51,14 @@ module Command
         player_global_stats.update(highest_range: player.range)
       end
 
-      BattleLog.logger.info("#{player.username} increased their range to #{player.range}")
+      Logging::BattleLog.logger.info("#{player.username} increased their range to #{player.range}")
 
       event.channel.send_message 'Someone increased their range!'
       event.respond(content: "Range increased, you now have #{player.range} range", ephemeral: true)
 
+      Logging::BattleReport.logger.info(Logging::BattleReportBuilder.build(command_name: name, player_name: player.username))
     rescue => e
-      ErrorLog.logger.error("An Error occurred: Command name: #{name}. Error #{e}")
+      Logging::ErrorLog.logger.error("An Error occurred: Command name: #{name}. Error #{e}")
     end
   end
 end
