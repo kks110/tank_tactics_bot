@@ -7,6 +7,7 @@ require_relative './initialise'
 namespace :db do
   desc 'Run database migrations'
   task :migrate do
-    ActiveRecord::MigrationContext.new('./db/migrations', ActiveRecord::SchemaMigration).migrate
+    migrations_path = './db/migrations'
+    ActiveRecord::MigrationContext.new(migrations_path, ActiveRecord::Base.connection.schema_migration).migrate
   end
 end
