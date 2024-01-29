@@ -1,5 +1,4 @@
 require_relative './base'
-require_relative './helpers/generate_grid'
 require_relative './helpers/determine_range'
 require_relative './models/options'
 
@@ -61,8 +60,6 @@ module Command
         return
       end
 
-      grid = Command::Helpers::GenerateGrid.new.run(server_id: event.server_id)
-
       range_list = Command::Helpers::DetermineRange.new.build_range_list(
         x_position: player.x_position,
         y_position: player.y_position,
@@ -76,11 +73,6 @@ module Command
 
       unless range_list.include?([y,x])
         event.respond(content: "Not in range!", ephemeral: true)
-        return
-      end
-
-      if grid[y][x].nil? || grid[y][x] == 'energy_cell'
-        event.respond(content:"No tank at that location!", ephemeral: true)
         return
       end
 
