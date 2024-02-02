@@ -88,4 +88,9 @@ bot = Discordrb::Bot.new(token: ENV.fetch('SLASH_COMMAND_BOT_TOKEN', nil), inten
 
 bot.send_message(ENV.fetch('BOT_CHANNEL', nil), response)
 
-Logging::BattleReport.logger.info(Logging::BattleReportBuilder.build(command_name: :give_everyone_energy, player_name: 'Bot'))
+Logging::BattleReport.logger.info(
+  Logging::BattleReportBuilder.build(
+    command_name: :give_everyone_energy,
+    player_name: 'Bot'
+  )
+)

@@ -81,7 +81,12 @@ module Command
       end
 
       Logging::BattleReport.reset_log
-      Logging::BattleReport.logger.info(Logging::BattleReportBuilder.build(command_name: name, player_name: 'Bot'))
+      Logging::BattleReport.logger.info(
+        Logging::BattleReportBuilder.build(
+          command_name: name,
+          player_name: 'Bot'
+        )
+      )
     rescue => e
       Logging::ErrorLog.logger.error("An Error occurred: Command name: #{name}. Error #{e}")
     end

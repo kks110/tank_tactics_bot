@@ -143,7 +143,13 @@ module Command
 
       Logging::BattleLog.logger.info("#{player.username} rammed #{target.username}! #{player.username} has #{player.hp} HP. #{target.username}: HP: #{target.hp}")
 
-      Logging::BattleReport.logger.info(Logging::BattleReportBuilder.build(command_name: name, player_name: player.username))
+      Logging::BattleReport.logger.info(
+        Logging::BattleReportBuilder.build(
+          command_name: name,
+          player_name: player.username,
+          target_name: target.username,
+        )
+      )
     rescue => e
       Logging::ErrorLog.logger.error("An Error occurred: Command name: #{name}. Error #{e}")
     end

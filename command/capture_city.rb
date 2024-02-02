@@ -79,6 +79,9 @@ module Command
       previous_owner = target.player
 
       if previous_owner
+        target_for_dm = bot.user(previous_owner.discord_id)
+        target_for_dm.pm("#{player.username} has captured your city at X:#{target.x_position} Y:#{target.y_position}")
+
         previous_owner.stats.update(cities_lost: previous_owner.stats.cities_lost + 1)
         previous_owner_global_stats = GlobalStats.find_by(player_discord_id: previous_owner.discord_id)
         previous_owner_global_stats.update(cities_lost: previous_owner_global_stats.cities_lost + 1)
@@ -88,14 +91,8 @@ module Command
 
       Logging::BattleLog.logger.info("#{player.username} captures a city. City X:#{target.x_position} Y:#{target.y_position}")
 
-      if previous_owner
-        target_for_dm = bot.user(previous_owner.discord_id)
-        target_for_dm.pm("#{player.username} has captured your city at X:#{target.x_position} Y:#{target.y_position}")
-      end
-
       event.channel.send_message 'Someone captured a city!'
       event.respond(content: "You have captured a city at X:#{target.x_position} Y:#{target.y_position}", ephemeral: true)
-
 
       cities_owned_count = player.city.count
       if cities_owned_count > player.stats.most_cities_held
@@ -106,7 +103,13 @@ module Command
         player_global_stats.update(most_cities_held: cities_owned_count)
       end
 
-      Logging::BattleReport.logger.info(Logging::BattleReportBuilder.build(command_name: name, player_name: player.username))
+      Logging::BattleReport.logger.info(
+        Logging::BattleReportBuilder.build(
+          command_name: name,
+          player_name: player.username,
+          target_name: previous_owner ? previous_owner.username : nil,
+        )
+      )
     rescue => e
       Logging::ErrorLog.logger.error("An Error occurred: Command name: #{name}. Error #{e}")
     end

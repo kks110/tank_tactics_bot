@@ -58,7 +58,12 @@ module Command
 
       vote_count = PeaceVote.all.count
 
-      Logging::BattleReport.logger.info(Logging::BattleReportBuilder.build(command_name: name, player_name: player.username))
+      Logging::BattleReport.logger.info(
+        Logging::BattleReportBuilder.build(
+          command_name: name,
+          player_name: player.username
+        )
+      )
 
       if vote_count == alive_player_count
         Command::Helpers::CleanUp.run(event: event, game_data: game_data, peace_vote: true)

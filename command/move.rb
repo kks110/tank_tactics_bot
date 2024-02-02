@@ -291,7 +291,12 @@ module Command
 
       event.user.send_file File.new(image_location)
 
-      Logging::BattleReport.logger.info(Logging::BattleReportBuilder.build(command_name: name, player_name: player.username))
+      Logging::BattleReport.logger.info(
+        Logging::BattleReportBuilder.build(
+          command_name: name,
+          player_name: player.username
+        )
+      )
     rescue => e
       Logging::ErrorLog.logger.error("An Error occurred: Command name: #{name}. Error #{e}")
     end

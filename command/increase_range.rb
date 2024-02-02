@@ -56,7 +56,12 @@ module Command
       event.channel.send_message 'Someone increased their range!'
       event.respond(content: "Range increased, you now have #{player.range} range", ephemeral: true)
 
-      Logging::BattleReport.logger.info(Logging::BattleReportBuilder.build(command_name: name, player_name: player.username))
+      Logging::BattleReport.logger.info(
+        Logging::BattleReportBuilder.build(
+          command_name: name,
+          player_name: player.username
+        )
+      )
     rescue => e
       Logging::ErrorLog.logger.error("An Error occurred: Command name: #{name}. Error #{e}")
     end

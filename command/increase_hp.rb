@@ -54,7 +54,12 @@ module Command
       event.channel.send_message "#{was_dead ? 'Someone has revived themselves!' : 'Someone increased their HP!'}"
       event.respond(content: "Health increased, you now have #{player.hp}HP", ephemeral: true)
 
-      Logging::BattleReport.logger.info(Logging::BattleReportBuilder.build(command_name: name, player_name: player.username))
+      Logging::BattleReport.logger.info(
+        Logging::BattleReportBuilder.build(
+          command_name: name,
+          player_name: player.username
+        )
+      )
     rescue => e
       Logging::ErrorLog.logger.error("An Error occurred: Command name: #{name}. Error #{e}")
     end
