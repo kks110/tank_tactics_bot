@@ -17,7 +17,7 @@ module Logging
         target_name: target_name,
         amount: amount,
         game: game.to_hash,
-        energy_cell: energy_cell.nil? ? [] : energy_cell.to_hash,
+        energy_cell: energy_cell.nil? ? nil : energy_cell.to_hash,
         cities: cities.map { |city| city.to_hash },
         peace_votes: peace_votes.nil? ? [] : peace_votes.map { |vote| vote.to_hash },
         players: players.map { |player| player.to_hash }
