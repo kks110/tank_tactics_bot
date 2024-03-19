@@ -86,7 +86,7 @@ module ImageGeneration
       draw.fill = 'black'
 
       win_percentage = (games_won.to_f / games_played.to_f) * 100
-      win_percentage = win_percentage.nan? || win_percentage.infinite? ? 0 : win_percentage
+      win_percentage = win_percentage.nan? || win_percentage.infinite? ? 0 : win_percentage.round
 
       draw.pointsize = 33
       draw.annotate(card_template, 0, 0, 22, 615, '╭──────────────────────────────────────────╮')
