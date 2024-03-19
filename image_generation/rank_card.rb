@@ -85,7 +85,7 @@ module ImageGeneration
       draw.pointsize = 48
       draw.fill = 'black'
 
-      win_percentage = (games_played.to_f / games_won.to_f) * 100
+      win_percentage = (games_won.to_f / games_played.to_f) * 100
       win_percentage = win_percentage.nan? || win_percentage.infinite? ? 0 : win_percentage
 
       draw.pointsize = 33
