@@ -86,6 +86,14 @@ module Config
       config['attacks']['shoot']['damage']
     end
 
+    def swap_hp_for_energy_cost
+      config['costs']['swap_hp_for_energy']
+    end
+
+    def energy_from_hp
+      config['rewards']['energy_from_hp']
+    end
+
     private
 
     attr_reader :config

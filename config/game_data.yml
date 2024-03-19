@@ -8,6 +8,7 @@ costs:
   move: 5
   capture_city: 10
   ramming_speed: 10
+  swap_hp_for_energy: 1
 
 daily_energy: 10
 
@@ -19,6 +20,7 @@ starting:
 rewards:
   energy_cell: 20
   captured_city: 5
+  energy_from_hp: 10
 
 attacks:
   ramming_speed:

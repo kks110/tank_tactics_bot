@@ -26,6 +26,7 @@ require_relative '../deregister_interest'
 require_relative '../show_all_time_stats'
 require_relative '../show_rank'
 require_relative '../show_players'
+require_relative '../swap_hp_for_energy'
 
 module Command
   module Helpers
@@ -57,7 +58,8 @@ module Command
       DeregisterInterest.new,
       ShowAllTimeStats.new,
       ShowRank.new,
-      ShowPlayers.new
+      ShowPlayers.new,
+      SwapHpForEnergy.new
     ].freeze
   end
 end

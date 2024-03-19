@@ -34,6 +34,7 @@ module Command
         "- move in any direction (#{game_data.move_cost} energy) The world is 'round' so going off the edge will put you the other side\n" +
         "- upgrade your range (#{game_data.increase_range_base_cost} energy + #{game_data.increase_range_per_level_cost})\n" +
         "- gain a HP (#{game_data.increase_hp_cost} energy). You can also do this whilst dead to revive yourself.\n\n" +
+        "You can swap HP for energy. #{game_data.swap_hp_for_energy_cost}HP gets you #{game_data.energy_from_hp} energy.\n" +
         "You can also give energy and HP to other players within your range.\n" +
         "Just because you are dead, does not mean you are out. Someone can give you HP to revive you. You will return with however much HP was given to you\n" +
         "And the energy you died with.\n" +
