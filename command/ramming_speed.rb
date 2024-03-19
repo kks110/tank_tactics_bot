@@ -78,9 +78,10 @@ module Command
       player.update(
         energy: player.energy - cost_to_ram,
         disabled_until: DateTime.now + 1,
-        hp: player.hp - 1
+        hp: player.hp - game_data.ramming_speed_self_damage
       )
-      target.update(hp: target.hp - 2)
+
+      target.update(hp: target.hp - game_data.ramming_speed_damage)
 
       event.respond(content: "You rammed #{target.username}! You are disabled for 24 hours. #{target.alive? ? '' : 'They are dead!'} #{player.alive? ? '' : 'You are dead!'}", ephemeral: true)
 
@@ -100,19 +101,21 @@ module Command
       end
 
       player.stats.update(
-        damage_done: player.stats.damage_done + 2,
-        energy_spent: player.stats.energy_spent + cost_to_ram
+        damage_done: player.stats.damage_done + game_data.ramming_speed_damage,
+        energy_spent: player.stats.energy_spent + cost_to_ram,
+        damage_received: player.stats.damage_received + game_data.ramming_speed_self_damage
       )
 
       global_player_stats.update(
-        damage_done: global_player_stats.damage_done + 2,
-        energy_spent: global_player_stats.energy_spent + cost_to_ram
+        damage_done: global_player_stats.damage_done + game_data.ramming_speed_damage,
+        energy_spent: global_player_stats.energy_spent + cost_to_ram,
+        damage_received: global_player_stats.stats.damage_received + game_data.ramming_speed_self_damage
       )
 
       global_target_stats = GlobalStats.find_by(player_discord_id: target.discord_id)
 
-      target.stats.update(damage_received: target.stats.damage_received + 2)
-      global_target_stats.update(damage_received: global_target_stats.damage_received + 2)
+      target.stats.update(damage_received: target.stats.damage_received + game_data.ramming_speed_damage)
+      global_target_stats.update(damage_received: global_target_stats.damage_received + game_data.ramming_speed_damage)
 
       if target.hp <= 0
         unless game.first_blood

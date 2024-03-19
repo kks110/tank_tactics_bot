@@ -20,6 +20,13 @@ rewards:
   energy_cell: 20
   captured_city: 5
 
+attacks:
+  ramming_speed:
+    damage: 2
+    self_damage: 1
+  shoot:
+    damage: 1
+
 # This is the max on the X and Y axis.
 # It calculated as number of players + this number
 # This is max X and Y and counting starts at 0 not 1

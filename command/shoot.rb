@@ -54,6 +54,7 @@ module Command
       end
 
       cost_to_shoot = game_data.shoot_base_cost + (game_data.shoot_increment_cost * (player.shot.count))
+      damage = game_data.shoot_damage
 
       unless player.energy >= cost_to_shoot
         event.respond(content: "Not enough energy! You need #{cost_to_shoot} for your next shot", ephemeral: true)
@@ -83,7 +84,7 @@ module Command
 
       player.update(energy: player.energy - cost_to_shoot)
       player.shot.update(count: player.shot.count + 1)
-      target.update(hp: target.hp - 1)
+      target.update(hp: target.hp - damage)
 
       event.respond(content: "You shot #{target.username}! #{target.alive? ? '' : 'They are dead!'}, it cost #{cost_to_shoot}", ephemeral: true)
       target_for_dm = bot.user(target.discord_id)
@@ -94,19 +95,19 @@ module Command
       player_global_stats = GlobalStats.find_by(player_discord_id: player.discord_id)
 
       player.stats.update(
-        damage_done: player.stats.damage_done + 1,
+        damage_done: player.stats.damage_done + damage,
         energy_spent: player.stats.energy_spent + cost_to_shoot
       )
 
       player_global_stats.update(
-        damage_done: player_global_stats.damage_done + 1,
+        damage_done: player_global_stats.damage_done + damage,
         energy_spent: player_global_stats.energy_spent + cost_to_shoot
       )
 
       target_global_stats = GlobalStats.find_by(player_discord_id: target.discord_id)
 
-      target.stats.update(damage_received: target.stats.damage_received + 1)
-      target_global_stats.update(damage_received: target_global_stats.damage_received + 1)
+      target.stats.update(damage_received: target.stats.damage_received + damage)
+      target_global_stats.update(damage_received: target_global_stats.damage_received + damage)
 
       if target.hp <= 0
         unless game.first_blood

@@ -74,6 +74,18 @@ module Config
       config['starting']['range']
     end
 
+    def ramming_speed_damage
+      config['attacks']['ramming_speed']['damage']
+    end
+
+    def ramming_speed_self_damage
+      config['attacks']['ramming_speed']['self_damage']
+    end
+
+    def shoot_damage
+      config['attacks']['shoot']['damage']
+    end
+
     private
 
     attr_reader :config
