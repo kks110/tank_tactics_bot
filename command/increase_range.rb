@@ -51,8 +51,6 @@ module Command
         player_global_stats.update(highest_range: player.range)
       end
 
-      Logging::BattleLog.logger.info("#{player.username} increased their range to #{player.range}")
-
       event.channel.send_message 'Someone increased their range!'
       event.respond(content: "Range increased, you now have #{player.range} range", ephemeral: true)
 

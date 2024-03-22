@@ -44,11 +44,6 @@ module Command
 
         event.channel.send_file File.new(game_board_image_location)
 
-        Logging::BattleLog.logger.info("The game has ended!\n")
-        battle_log_location = Logging::BattleLog.log_path
-        event.channel.send_file File.new(battle_log_location)
-
-
         Logging::BattleReport.logger.info(
           Logging::BattleReportBuilder.build(
             command_name: :game_end,

@@ -44,8 +44,6 @@ module Command
         player_global_stats.update(highest_energy: player.energy)
       end
 
-      Logging::BattleLog.logger.info("#{player.username} Traded HP for energy #{player.hp}HP #{player.energy}")
-
       event.respond(content: "Energy increased, you now have #{player.energy}", ephemeral: true)
 
       Logging::BattleReport.logger.info(

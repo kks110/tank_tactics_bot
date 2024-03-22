@@ -56,13 +56,6 @@ module Command
 
 
         player.update(y_position: new_y, energy: player.energy - game_data.move_cost)
-        log(
-          username: player.username,
-          old_x: x,
-          old_y: old_y,
-          new_x: x,
-          new_y: new_y
-        )
 
       when 'up_left'
         old_y = player.y_position
@@ -84,13 +77,6 @@ module Command
         end
 
         player.update(y_position: new_y, x_position: new_x, energy: player.energy - game_data.move_cost)
-        log(
-          username: player.username,
-          old_x: old_x,
-          old_y: old_y,
-          new_x: new_x,
-          new_y: new_y
-        )
 
       when 'up_right'
         old_y = player.y_position
@@ -112,13 +98,6 @@ module Command
         end
 
         player.update(y_position: new_y, x_position: new_x, energy: player.energy - game_data.move_cost)
-        log(
-          username: player.username,
-          old_x: old_x,
-          old_y: old_y,
-          new_x: new_x,
-          new_y: new_y
-        )
 
       when 'down_right'
         old_y = player.y_position
@@ -140,13 +119,6 @@ module Command
         end
 
         player.update(y_position: new_y, x_position: new_x, energy: player.energy - game_data.move_cost)
-        log(
-          username: player.username,
-          old_x: old_x,
-          old_y: old_y,
-          new_x: new_x,
-          new_y: new_y
-        )
 
       when 'down_left'
         old_y = player.y_position
@@ -168,13 +140,6 @@ module Command
         end
 
         player.update(y_position: new_y, x_position: new_x, energy: player.energy - game_data.move_cost)
-        log(
-          username: player.username,
-          old_x: old_x,
-          old_y: old_y,
-          new_x: new_x,
-          new_y: new_y
-        )
       when 'down'
         old_y = player.y_position
         new_y = player.y_position + 1
@@ -190,13 +155,6 @@ module Command
         end
 
         player.update(y_position: new_y, energy: player.energy - game_data.move_cost)
-        log(
-          username: player.username,
-          old_x: x,
-          old_y: old_y,
-          new_x: x,
-          new_y: new_y
-        )
 
       when 'left'
         old_x = player.x_position
@@ -213,13 +171,6 @@ module Command
         end
 
         player.update(x_position: new_x, energy: player.energy - game_data.move_cost)
-        log(
-          username: player.username,
-          old_x: old_x,
-          old_y: y,
-          new_x: new_x,
-          new_y: y
-        )
 
       when 'right'
         old_x = player.x_position
@@ -236,13 +187,6 @@ module Command
         end
 
         player.update(x_position: new_x, energy: player.energy - game_data.move_cost)
-        log(
-          username: player.username,
-          old_x: old_x,
-          old_y: y,
-          new_x: new_x,
-          new_y: y
-        )
       end
 
       global_player_stats = GlobalStats.find_by(player_discord_id: player.discord_id)
@@ -270,8 +214,6 @@ module Command
           response << " You picked up the energy cell!"
 
           event.channel.send_message 'Someone picked up the energy cell!'
-
-          Logging::BattleLog.logger.info("The energy cell was collected: #{player.username}: #{player.energy} energy")
         end
       end
 
@@ -299,10 +241,6 @@ module Command
       )
     rescue => e
       Logging::ErrorLog.logger.error("An Error occurred: Command name: #{name}. Error #{e}")
-    end
-
-    def log(username:, old_x:, old_y:, new_x:, new_y:)
-      Logging::BattleLog.logger.info("#{username} moved. X:#{old_x} Y:#{old_y} -> X:#{new_x} Y:#{new_y}")
     end
 
     def options

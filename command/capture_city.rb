@@ -89,8 +89,6 @@ module Command
 
       target.update(player_id: player.id)
 
-      Logging::BattleLog.logger.info("#{player.username} captures a city. City X:#{target.x_position} Y:#{target.y_position}")
-
       event.channel.send_message 'Someone captured a city!'
       event.respond(content: "You have captured a city at X:#{target.x_position} Y:#{target.y_position}", ephemeral: true)
 

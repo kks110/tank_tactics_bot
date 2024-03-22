@@ -134,8 +134,6 @@ module Command
         end
       end
 
-      Logging::BattleLog.logger.info("#{player.username} shot #{target.username}! It cost #{cost_to_shoot} energy. #{target.username}: HP: #{target.hp}")
-
       Logging::BattleReport.logger.info(
         Logging::BattleReportBuilder.build(
           command_name: name,

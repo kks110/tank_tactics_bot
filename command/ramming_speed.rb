@@ -144,8 +144,6 @@ module Command
 
       event.channel.send_message "Someone was rammed! #{target.alive? ? '' : 'The target is dead!'} #{player.alive? ? '' : 'The aggressor is dead!'}"
 
-      Logging::BattleLog.logger.info("#{player.username} rammed #{target.username}! #{player.username} has #{player.hp} HP. #{target.username}: HP: #{target.hp}")
-
       Logging::BattleReport.logger.info(
         Logging::BattleReportBuilder.build(
           command_name: name,

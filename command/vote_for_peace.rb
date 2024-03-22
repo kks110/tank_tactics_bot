@@ -70,8 +70,6 @@ module Command
       else
         event.respond(content: "A vote for peace has been registered")
       end
-
-      Logging::BattleLog.logger.info("#{player.username} voted for peace")
     rescue => e
       Logging::ErrorLog.logger.error("An Error occurred: Command name: #{name}. Error #{e}")
     end

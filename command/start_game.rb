@@ -67,18 +67,6 @@ module Command
       event.respond(content: "The game has begun, what lurks beyond the clouds... #{mentions}")
 
       ImageGeneration::Grid.new.generate_game_start_board(grid_x: game.max_x, grid_y: game.max_y, game_data: game_data, server_id: game.server_id)
-      Logging::BattleLog.reset_log
-      Logging::BattleLog.logger.info("The game has begun!")
-      players = Player.all
-      cities = City.all
-
-      players.each do |player|
-        Logging::BattleLog.logger.info("#{player.username} X: #{player.x_position} Y: #{player.y_position}")
-      end
-
-      cities.each do |city|
-        Logging::BattleLog.logger.info("City X: #{city.x_position} Y: #{city.y_position}")
-      end
 
       Logging::BattleReport.reset_log
       Logging::BattleReport.logger.info(
