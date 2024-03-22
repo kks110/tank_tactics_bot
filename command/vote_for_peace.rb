@@ -28,6 +28,7 @@ module Command
       event = context.event
       player = context.player
       game_data = context.game_data
+      game = context.game
 
       players = Player.all
 
@@ -66,7 +67,7 @@ module Command
       )
 
       if vote_count == alive_player_count
-        Command::Helpers::CleanUp.run(event: event, game_data: game_data, peace_vote: true)
+        Command::Helpers::CleanUp.run(event: event, game_data: game_data, game: game, peace_vote: true)
       else
         event.respond(content: "A vote for peace has been registered")
       end

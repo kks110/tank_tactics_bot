@@ -34,7 +34,6 @@ Command::Helpers::LIST.each do |command|
 
     game = Game.find_by(server_id: event.server_id)
 
-
     if command.requires_game? && (game.nil? || !game.started) && command.name != :start_game
       event.respond(content: "The game hasn't started yet!", ephemeral: true)
     end
@@ -65,7 +64,7 @@ Command::Helpers::LIST.each do |command|
     commands_that_could_result_in_one_player_alive = [:ramming_speed, :shoot]
 
     if commands_that_could_result_in_one_player_alive.include?(command.name) && Player.all.select(&:alive?).count <= 1
-      Command::Helpers::CleanUp.run(event: event, game_data: game_data)
+      Command::Helpers::CleanUp.run(event: event, game_data: game_data, game: game)
     end
   end
 end

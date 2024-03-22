@@ -23,7 +23,6 @@ module Command
     end
 
     def execute(context:)
-      game = context.game
       event = context.event
       player = context.player
       game_data = context.game_data

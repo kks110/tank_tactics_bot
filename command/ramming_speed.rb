@@ -45,7 +45,7 @@ module Command
       end
 
       if player.discord_id == target_id
-        event.respond(content: "You can't ram yourself energy!", ephemeral: true)
+        event.respond(content: "You can't ram yourself!", ephemeral: true)
         return
       end
 

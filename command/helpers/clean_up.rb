@@ -1,10 +1,9 @@
 module Command
   module Helpers
     class CleanUp
-      def self.run(event:, game_data:, peace_vote: false)
-        game = Game.find_by(server_id: event.server_id)
-
-        winners = Player.all.select(&:alive?)
+      def self.run(event:, game_data:, game:, peace_vote: false)
+        players = Player.all
+        winners = players.select(&:alive?)
 
         response = ""
 
@@ -34,8 +33,6 @@ module Command
         )
         event.channel.send_file File.new(leaderboard_image_location)
 
-        players = Player.all
-
         game_board_image_location = ImageGeneration::Grid.new.generate_spectator_game_board(
           players: players,
           game_data: game_data,
@@ -53,8 +50,7 @@ module Command
         battle_report_location = Logging::BattleReport.log_path
         event.channel.send_file File.new(battle_report_location)
 
-        peace_votes = PeaceVote.all
-        peace_votes.each(&:destroy)
+        PeaceVote.delete_all
 
         stats.each(&:destroy)
 
@@ -66,12 +62,11 @@ module Command
           player.destroy
         end
 
-        Game.first.destroy
+        game.destroy
 
         EnergyCell.delete_all
 
         City.delete_all
-
       end
     end
   end

@@ -41,7 +41,6 @@ module Command
 
       case direction
       when 'up'
-        old_y = player.y_position
         new_y = player.y_position - 1
         x = player.x_position
 
@@ -54,12 +53,9 @@ module Command
           return
         end
 
-
         player.update(y_position: new_y, energy: player.energy - game_data.move_cost)
 
       when 'up_left'
-        old_y = player.y_position
-        old_x = player.x_position
         new_y = player.y_position - 1
         new_x = player.x_position - 1
 
@@ -79,8 +75,6 @@ module Command
         player.update(y_position: new_y, x_position: new_x, energy: player.energy - game_data.move_cost)
 
       when 'up_right'
-        old_y = player.y_position
-        old_x = player.x_position
         new_y = player.y_position - 1
         new_x = player.x_position + 1
 
@@ -100,8 +94,6 @@ module Command
         player.update(y_position: new_y, x_position: new_x, energy: player.energy - game_data.move_cost)
 
       when 'down_right'
-        old_y = player.y_position
-        old_x = player.x_position
         new_y = player.y_position + 1
         new_x = player.x_position + 1
 
@@ -121,8 +113,6 @@ module Command
         player.update(y_position: new_y, x_position: new_x, energy: player.energy - game_data.move_cost)
 
       when 'down_left'
-        old_y = player.y_position
-        old_x = player.x_position
         new_y = player.y_position + 1
         new_x = player.x_position - 1
 
@@ -141,7 +131,6 @@ module Command
 
         player.update(y_position: new_y, x_position: new_x, energy: player.energy - game_data.move_cost)
       when 'down'
-        old_y = player.y_position
         new_y = player.y_position + 1
         x = player.x_position
 
@@ -157,7 +146,6 @@ module Command
         player.update(y_position: new_y, energy: player.energy - game_data.move_cost)
 
       when 'left'
-        old_x = player.x_position
         new_x = player.x_position - 1
         y = player.y_position
 
@@ -173,7 +161,6 @@ module Command
         player.update(x_position: new_x, energy: player.energy - game_data.move_cost)
 
       when 'right'
-        old_x = player.x_position
         new_x = player.x_position + 1
         y = player.y_position
 
