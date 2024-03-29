@@ -10,7 +10,8 @@ module Command
         :move,
         :ramming_speed,
         :shoot,
-        :swap_hp_for_energy
+        :swap_hp_for_energy,
+        :give_everyone_energy
       ]
 
       def self.update(game:, command_name:)

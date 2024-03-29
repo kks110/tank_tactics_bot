@@ -15,6 +15,7 @@ require_relative './logging/battle_report_builder'
 require_relative './logging/battle_report'
 require_relative './command/helpers/generate_grid'
 require_relative './config/game_data'
+require_relative './command/helpers/last_change'
 
 
 game = Game.first
@@ -53,6 +54,8 @@ end
 response = "Energy successfully distributed! #{mentions}"
 
 unless EnergyCell.find_by(collected: false)
+  Command::Helpers::LastChange.update(game: game, command_name: :give_everyone_energy)
+
   available_spawn_point = Command::Helpers::GenerateGrid.new.available_spawn_location(server_id: game.server_id)
   spawn_location = available_spawn_point.sample
 
