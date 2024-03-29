@@ -13,6 +13,7 @@ require_relative './models/stats'
 require_relative './models/interested_player'
 require_relative './models/shot'
 require_relative './models/global_stats'
+require_relative './models/board_image'
 require_relative './command/helpers/list'
 require_relative './initialise'
 require_relative './logging/error_log'
@@ -34,6 +35,7 @@ Command::Helpers::LIST.each do |command|
     puts "#{event.user.username} executed command: #{command.name}"
 
     game = Game.find_by(server_id: event.server_id)
+    Command::Helpers::LastChange.update(game: game, command_name: command.name)
 
     if command.requires_game? && (game.nil? || !game.started) && command.name != :start_game
       event.respond(content: "The game hasn't started yet!", ephemeral: true)
@@ -61,8 +63,6 @@ Command::Helpers::LIST.each do |command|
 
       command.execute(context: context)
     end
-
-    Command::Helpers::LastChange.update(game: game, command_name: command.name)
 
     commands_that_could_result_in_one_player_alive = [:ramming_speed, :shoot]
 

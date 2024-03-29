@@ -210,15 +210,31 @@ module Command
 
       players = Player.all
 
-      image_location = ImageGeneration::Grid.new.generate_player_board(
-        player: player,
-        players: players,
-        game: game,
-        server_id: event.server_id,
-        game_data: game_data
-      )
+      image = BoardImage.find_by(discord_id: player.discord_id)
 
-      event.user.send_file File.new(image_location)
+      if image.nil?
+        image_location = ImageGeneration::Grid.new.generate_player_board(
+          player: player,
+          players: players,
+          game: game,
+          server_id: event.server_id,
+          game_data: game_data
+        )
+
+        image = BoardImage.create!(discord_id: player.discord_id, image_file_path: image_location)
+      elsif image.created_at < game.last_change
+        image_location = ImageGeneration::Grid.new.generate_player_board(
+          player: player,
+          players: players,
+          game: game,
+          server_id: event.server_id,
+          game_data: game_data
+        )
+
+        image.update!(image_file_path: image_location, created_at: Time.now)
+      end
+
+      event.user.send_file File.new(image.image_file_path)
 
       Logging::BattleReport.logger.info(
         Logging::BattleReportBuilder.build(

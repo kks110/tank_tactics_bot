@@ -67,6 +67,8 @@ module Command
         EnergyCell.delete_all
 
         City.delete_all
+
+        BoardImage.delete_all
       end
     end
   end
