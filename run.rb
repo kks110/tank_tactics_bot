@@ -22,6 +22,7 @@ require_relative './config/game_data'
 require_relative './command/models/execute_params'
 require_relative './config/initializers/inflections'
 require_relative './command/helpers/time'
+require_relative './command/helpers/last_change'
 
 bot = Discordrb::Bot.new(token: ENV.fetch('SLASH_COMMAND_BOT_TOKEN', nil), intents: [:server_messages])
 Command::Helpers::RegisterCommands.run(bot: bot)
@@ -60,6 +61,8 @@ Command::Helpers::LIST.each do |command|
 
       command.execute(context: context)
     end
+
+    Command::Helpers::LastChange.update(game: game, command_name: command.name)
 
     commands_that_could_result_in_one_player_alive = [:ramming_speed, :shoot]
 
