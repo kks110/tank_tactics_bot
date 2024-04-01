@@ -109,7 +109,7 @@ module Command
       global_player_stats.update(
         damage_done: global_player_stats.damage_done + game_data.ramming_speed_damage,
         energy_spent: global_player_stats.energy_spent + cost_to_ram,
-        damage_received: global_player_stats.stats.damage_received + game_data.ramming_speed_self_damage
+        damage_received: global_player_stats.damage_received + game_data.ramming_speed_self_damage
       )
 
       global_target_stats = GlobalStats.find_by(player_discord_id: target.discord_id)
@@ -160,7 +160,7 @@ module Command
         Command::Models::Options.new(
           type: 'user',
           name: 'target',
-          description: 'The user you want to give a heart to',
+          description: 'The user you want to ram',
           required: true
         )
       ]

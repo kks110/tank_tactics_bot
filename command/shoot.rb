@@ -150,7 +150,7 @@ module Command
         Command::Models::Options.new(
           type: 'user',
           name: 'target',
-          description: 'The user you want to give a heart to',
+          description: 'The user you want to shoot',
           required: true
         )
       ]
