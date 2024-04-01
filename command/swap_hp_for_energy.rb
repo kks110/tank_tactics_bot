@@ -34,6 +34,10 @@ module Command
 
       player.update(energy: player.energy + game_data.energy_from_hp, hp: player.hp - swap_hp_for_energy_cost)
 
+      event.respond(content: "Energy increased, you now have #{player.energy}", ephemeral: true)
+
+      event.channel.send_message "Someone traded HP for energy!"
+
       if player.energy > player.stats.highest_energy
         player.stats.update(highest_energy: player.energy)
       end
@@ -43,8 +47,6 @@ module Command
       if player.energy > player_global_stats.highest_energy
         player_global_stats.update(highest_energy: player.energy)
       end
-
-      event.respond(content: "Energy increased, you now have #{player.energy}", ephemeral: true)
 
       Logging::BattleReport.logger.info(
         Logging::BattleReportBuilder.build(
