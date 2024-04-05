@@ -32,7 +32,7 @@ module Command
         return
       end
 
-      player.update(energy: player.energy + game_data.energy_from_hp, hp: player.hp - swap_hp_for_energy_cost)
+      player.update(energy: player.energy + game_data.energy_from_hp, hp: player.hp - game_data.swap_hp_for_energy_cost)
 
       event.respond(content: "Energy increased, you now have #{player.energy}", ephemeral: true)
 
